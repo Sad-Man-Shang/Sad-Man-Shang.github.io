@@ -1,0 +1,6 @@
+link = "https://sadman.example.com"
+email = "sadman@qq.com"
+name = "Sad man"
+[zh-cn]
+    name = "丧男"
+
