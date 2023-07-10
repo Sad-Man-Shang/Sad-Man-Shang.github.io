@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "https://sad-man-shang.github.io/"
 # [en, zh-cn, fr, ...] 设置默认的语言
 defaultContentLanguage = "zh-cn"
 # 网站语言, 仅在这里 CN 大写
@@ -131,7 +131,7 @@ theme = "DoIt"
     # DoIt 新增 | 0.2.1 搜索结果中高亮部分的 HTML 标签
     highlightTag = "em"
     # DoIt 新增 | 0.2.4 是否在搜索索引中使用基于 baseURL 的绝对路径
-    absoluteURL = false
+    absoluteURL = true
     [params.search.algolia]
       index = ""
       appID = ""
@@ -145,7 +145,7 @@ theme = "DoIt"
       threshold = 0.9
       distance = 0
       ignoreLocation = false
-      useExtendedSearch = true
+      useExtendedSearch = false
       ignoreFieldNorm = true
         
   # DoIt 更改 | 0.2.0 文章页面配置
