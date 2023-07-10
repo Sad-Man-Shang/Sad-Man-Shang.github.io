@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Series - 系列 - Sad man</title>
+        <link>http://example.org/series/</link>
+        <description>Series - 系列 - Sad man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 10 Jul 2023 05:57:57 &#43;1000</lastBuildDate><atom:link href="http://example.org/series/" rel="self" type="application/rss+xml" /><item>
+    <title>abc</title>
+    <link>http://example.org/series/abc/</link>
+    <pubDate>Mon, 10 Jul 2023 05:57:57 &#43;1000</pubDate><author>
+        <name>Sad man</name>
+    </author><guid>http://example.org/series/abc/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
+</rss>

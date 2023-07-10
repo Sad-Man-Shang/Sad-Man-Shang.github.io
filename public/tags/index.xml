@@ -1,7 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Tags - 标签 - 我的全新 Hugo 网站</title>
+        <title>Tags - 标签 - Sad man</title>
         <link>http://example.org/tags/</link>
-        <description>Tags - 标签 - 我的全新 Hugo 网站</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><atom:link href="http://example.org/tags/" rel="self" type="application/rss+xml" /></channel>
+        <description>Tags - 标签 - Sad man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 10 Jul 2023 05:57:57 &#43;1000</lastBuildDate><atom:link href="http://example.org/tags/" rel="self" type="application/rss+xml" /><item>
+    <title>baga</title>
+    <link>http://example.org/tags/baga/</link>
+    <pubDate>Mon, 10 Jul 2023 05:57:57 &#43;1000</pubDate><author>
+        <name>Sad man</name>
+    </author><guid>http://example.org/tags/baga/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
 </rss>
