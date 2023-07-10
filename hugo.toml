@@ -131,7 +131,7 @@ theme = "DoIt"
     # DoIt 新增 | 0.2.1 搜索结果中高亮部分的 HTML 标签
     highlightTag = "em"
     # DoIt 新增 | 0.2.4 是否在搜索索引中使用基于 baseURL 的绝对路径
-    absoluteURL = true
+    absoluteURL = false
     [params.search.algolia]
       index = ""
       appID = ""
@@ -342,3 +342,14 @@ series = "series"
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+
+# 网站地图配置
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+# Permalinks 配置
+[Permalinks]
+  # posts = ":year/:month/:filename"
+  posts = ":filename"
