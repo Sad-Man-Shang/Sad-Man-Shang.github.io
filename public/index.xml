@@ -1,23 +1,23 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Sad man</title>
-        <link>https://sad-man-shang.github.io/sadman/</link>
+        <link>https://sad-man-shang.github.io/</link>
         <description>Sad man</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 11 Jul 2023 01:26:49 &#43;1000</lastBuildDate>
-            <atom:link href="https://sad-man-shang.github.io/sadman/index.xml" rel="self" type="application/rss+xml" />
+            <atom:link href="https://sad-man-shang.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
     <title>计算机网络</title>
-    <link>https://sad-man-shang.github.io/sadman/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+    <link>https://sad-man-shang.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
     <pubDate>Tue, 11 Jul 2023 01:26:49 &#43;1000</pubDate><author>
         <name>Sad man</name>
-    </author><guid>https://sad-man-shang.github.io/sadman/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
+    </author><guid>https://sad-man-shang.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>操作系统</title>
-    <link>https://sad-man-shang.github.io/sadman/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+    <link>https://sad-man-shang.github.io/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
     <pubDate>Mon, 10 Jul 2023 05:57:57 &#43;1000</pubDate><author>
                     <name>Sad_man</name>
-                </author><guid>https://sad-man-shang.github.io/sadman/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
+                </author><guid>https://sad-man-shang.github.io/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
     <description><![CDATA[haha ha abcdefg haha]]></description>
 </item></channel>
 </rss>
