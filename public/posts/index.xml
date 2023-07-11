@@ -3,12 +3,19 @@
         <title>所有文章 - Sad man</title>
         <link>https://sad-man-shang.github.io/posts/</link>
         <description>所有文章 | Sad man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 11 Jul 2023 01:26:49 &#43;1000</lastBuildDate><atom:link href="https://sad-man-shang.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 11 Jul 2023 02:03:11 &#43;1000</lastBuildDate><atom:link href="https://sad-man-shang.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>LeetCode 热题 HOT 100</title>
+    <link>https://sad-man-shang.github.io/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/</link>
+    <pubDate>Tue, 11 Jul 2023 02:03:11 &#43;1000</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/</guid>
+    <description><![CDATA[本系列题库链接 1. 两数之和思路1. 先排序，然后双指针，时间复杂度为O(nlogn), 空间复杂度O(1). 思路2. 使用HashMap保存访问过的]]></description>
+</item><item>
     <title>计算机网络</title>
     <link>https://sad-man-shang.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
     <pubDate>Tue, 11 Jul 2023 01:26:49 &#43;1000</pubDate><author>
-        <name>Sad man</name>
-    </author><guid>https://sad-man-shang.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
     <description><![CDATA[]]></description>
 </item><item>
     <title>操作系统</title>
