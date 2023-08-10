@@ -1,0 +1,1105 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>Mysql - Sad man</title><meta name="Description" content=""><meta property="og:title" content="Mysql" />
+<meta property="og:description" content="关于innodb 存储引擎以及mysql45讲，CMU的笔记 零、基本用法判断等= 使用&#39;&#39; desc 降序（大的在前） Limit N offset M 第N-1开始M个即Limit" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sad-man-shang.github.io/mysql/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-21T16:40:24+10:00" />
+<meta property="article:modified_time" content="2020-07-21T16:40:24+10:00" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mysql"/>
+<meta name="twitter:description" content="关于innodb 存储引擎以及mysql45讲，CMU的笔记 零、基本用法判断等= 使用&#39;&#39; desc 降序（大的在前） Limit N offset M 第N-1开始M个即Limit"/>
+<meta name="application-name" content="Sad man">
+<meta name="apple-mobile-web-app-title" content="Sad man">
+
+<meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://sad-man-shang.github.io/mysql/" /><link rel="prev" href="https://sad-man-shang.github.io/inlong/" /><link rel="next" href="https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/" />
+<link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Mysql",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/sad-man-shang.github.io\/mysql\/"
+        },"genre": "posts","keywords": "面试","wordcount":  27469 ,
+        "url": "https:\/\/sad-man-shang.github.io\/mysql\/","datePublished": "2023-07-21T16:40:24+10:00","dateModified": "2020-07-21T16:40:24+10:00","publisher": {
+            "@type": "Organization",
+            "name": "Sad man"},"authors": [{
+                        "@type": "Person",
+                        "name": "Sad_man"                    
+                    }],"description": ""
+    }
+    </script><script src="//instant.page/5.2.0" defer type="module" integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
+</head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark'); window.theme = theme;   window.isDark = window.theme !== 'light' }
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('auto' === 'light' || 'auto' === 'dark' || 'auto' === 'black') setTheme('auto'), saveTheme('auto'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+        window.switchThemeEventSet = new Set()
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Sad man">Sad man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/series/"> 系列 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-select" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                    <select class="color-theme-select" id="theme-select-desktop" title="切换主题">
+                        <option value="light">浅色</option>
+                        <option value="dark">深色</option>
+                        <option value="black">黑色</option>
+                        <option value="auto">跟随系统</option>
+                    </select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Sad man">Sad man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/series/" title="">系列</a><a href="javascript:void(0);" class="menu-item theme-select" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+                <select class="color-theme-select" id="theme-select-mobile" title="切换主题">
+                    <option value="light">浅色</option>
+                    <option value="dark">深色</option>
+                    <option value="black">黑色</option>
+                    <option value="auto">跟随系统</option>
+                </select>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Mysql</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='https://sad-man-shang.github.io/authors/sad_man'>Sad_man</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="far fa-folder fa-fw"></i>数据库</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/24%E5%B1%8A%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%88%B0%E6%89%BE%E5%88%B0%E5%B7%A5%E4%BD%9C/"><i class="far fa-list-alt fa-fw"></i>24届从零开始到找到工作</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-07-21">2023-07-21</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2020-07-21">2020-07-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 27469 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 55 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - 24届从零开始到找到工作</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/parkmate/">Parkmate</a></li>
+                                                    <li><a href="/grpc/">GRPC</a></li>
+                                                    <li><a href="/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/">笔试真题</a></li><li><span class="active">Mysql</span></li>
+                                                    <li><a href="/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/">LeetCode 热题 HOT 100</a></li>
+                                                    <li><a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+                                                    <li><a href="/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="content" id="content"><div class="details admonition warning open">
+                <div class="details-summary admonition-title">
+                    <i class="icon fas fa-exclamation-triangle fa-fwwarning"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2020-07-21T16:40:24" title="July 21, 2020">2020-07-21</span>，文中内容可能已过时。</div>
+                </div>
+            </div><p>关于<strong>innodb 存储引擎</strong>以及<strong>mysql45讲</strong>，<a href="https://15445.courses.cs.cmu.edu/fall2022/schedule.html" target="_blank" rel="noopener noreferrer">CMU</a>的笔记</p>
+<h1 id="零基本用法" class="headerLink">
+    <a href="#%e9%9b%b6%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95" class="header-mark"></a>零、基本用法</h1><p>判断等<code>=</code></p>
+<p>使用<code>''</code></p>
+<p>desc 降序（大的在前）</p>
+<p><code>Limit N offset M</code> 第N-1开始M个即<code>Limit N, M</code></p>
+<p>解决空的问题，<code>select () as xx</code>对原语句进行包裹，作为临时表，或者使用 <code>select ifnull ( (sentence), null) as xx</code></p>
+<h1 id="一数据库整体框架" class="headerLink">
+    <a href="#%e4%b8%80%e6%95%b0%e6%8d%ae%e5%ba%93%e6%95%b4%e4%bd%93%e6%a1%86%e6%9e%b6" class="header-mark"></a>一、数据库整体框架</h1><p>WALogging</p>
+<p>查询优化：优化树（拆分条件，条件下拉，使用join，排序最严格的条件，下拉列选择）选择索引（有索引用索引，没索引用有序，无序遍历），loop算法</p>
+<p>h</p>
+<p>引擎层与服务层的交界：引擎层向服务层提供读写数据的接口</p>
+<p>##A. 数据库存储</p>
+<p>![image-20221123202452860](/Users/shengquan/Library/Application Support/typora-user-images/image-20221123202452860.png)</p>
+<p>Disk manage goals：</p>
+<p>使用超过内存的空间</p>
+<p>有序存储在稳定的工具上</p>
+<p>减少IO</p>
+<p>必要性：为什么不直接交给OS来做？因为需要针对内存进行优化。</p>
+<p>使用OS的缺点：</p>
+<p><a href="https://blog.toadworld.com/author/juan-carlos-olamendy" target="_blank" rel="noopener noreferrer">https://blog.toadworld.com/author/juan-carlos-olamendy</a></p>
+<p><a href="https://blog.toadworld.com/2017/10/19/data-flushing-mechanisms-in-innodb" target="_blank" rel="noopener noreferrer">https://blog.toadworld.com/2017/10/19/data-flushing-mechanisms-in-innodb</a></p>
+<p>事务安全：OS可以随时刷新脏页，被别的书屋读取，而BPM可以把握什么时候写入</p>
+<p>I/O 停顿：不是随时可以获得的,要等数据被加载，而优化可以预读，</p>
+<p>错误处理：每次访问page都要进行checksum，而BPM只需要读如内存的时候进行一次checksum就好了</p>
+<p>性能：OS 的page淘汰机制不具备很好的扩展性，尤其是SSD这种bandwidth很高的情况下，</p>
+<ol>
+<li>
+<p>page table上的多线程竞争</p>
+</li>
+<li>
+<p>page cache的单线程淘汰机制</p>
+</li>
+<li>
+<p>TLB shootdown</p>
+</li>
+</ol>
+<p>BPM可以管理：
+正确的刷新脏页</p>
+<p>预读取</p>
+<p>缓冲置换方法</p>
+<p>线程/进程 安排</p>
+<h3 id="1-file-storage" class="headerLink">
+    <a href="#1-file-storage" class="header-mark"></a>1. File storage</h3><p><strong>Storage manager</strong></p>
+<p>用于维护文件，制定scheduling来读写，以提定位页的时间和空间。文件以页的集合的形式存在。要管理数据读写，以及可用空间。</p>
+<p><strong>Pages</strong></p>
+<p>一定大小的block，基本不会混存，meta-data，log records，index，tuples。</p>
+<p><strong>Page ID</strong> -&gt;<strong>indirection layer</strong> -&gt;  <strong>physical loaction</strong></p>
+<p>DB page 16KBMySQL</p>
+<p>OS page 4KB</p>
+<p>Hardware page 4KB</p>
+<p><strong>页的存储结构</strong></p>
+<p>堆：无序，CRUD，支持迭代，offset=page size* page #，需要meta-data来维持page在哪些页中以及哪些有剩余空间。</p>
+<p>directory pages来记录data page位置（因此要求同步），同时记录free space以及free page</p>
+<p>树：</p>
+<p>有序文件</p>
+<p>hash文件</p>
+<h3 id="2-page-layout" class="headerLink">
+    <a href="#2-page-layout" class="header-mark"></a>2. Page Layout</h3><p><strong>page header</strong></p>
+<p>记录meta-data，页大小，checksum，DBMS版本，事务能见度，鸭锁信息</p>
+<p>如何存储tuple？</p>
+<p>面向tuple——slotted pages</p>
+<p>header 维护了# used slots以及最后一个slot的起始位置</p>
+<p>![image-20221124014353146](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124014353146.png)</p>
+<p>Record ID page_id + offset/slot</p>
+<p>log-structured</p>
+<h3 id="3-tuple-layout" class="headerLink">
+    <a href="#3-tuple-layout" class="header-mark"></a>3. Tuple Layout</h3><p><strong>Tuple header</strong>： Visibility info (concurrency control)  &amp; Bit Map for <strong>NULL</strong> values.</p>
+<p>physically <strong>denormalize</strong>, 将tuple和相关的tuple（外键联系的）存在一个page上，可以减少IO，</p>
+<h3 id="4-disk--oriented-架构" class="headerLink">
+    <a href="#4-disk--oriented-%e6%9e%b6%e6%9e%84" class="header-mark"></a>4. disk- oriented 架构</h3><p>主要存储位置在磁盘上。</p>
+<p>组件管理非易失性和易失性存储之间的数据移动。</p>
+<h3 id="5-面向页的架构" class="headerLink">
+    <a href="#5-%e9%9d%a2%e5%90%91%e9%a1%b5%e7%9a%84%e6%9e%b6%e6%9e%84" class="header-mark"></a>5. 面向页的架构</h3><p><strong>插入数据</strong>（mysql插入索引，插入叶子结点为目的。）</p>
+<ol>
+<li>查看page directory 找到页中的free slot（）</li>
+<li>读取到内存中</li>
+<li>从slot array中找到empty space来放置（mysql，1/16的xx空间）</li>
+</ol>
+<p><strong>更新存在的数据</strong></p>
+<ol>
+<li>根据page directory找到页</li>
+<li>取回到内存</li>
+<li>使用slot array找到偏移量</li>
+<li>覆盖</li>
+</ol>
+<h3 id="6-log-structured-storage" class="headerLink">
+    <a href="#6-log-structured-storage" class="header-mark"></a>6. LOG-STRUCTURED STORAGE</h3><p>面向页存储的选择</p>
+<p>存储日志记录来包含改变。</p>
+<p>记录包括了：</p>
+<p>record id（=page_id + offset/slot）</p>
+<p>操作：删除则mark删除，添加则记录加入数据。</p>
+<p>当日志页满了的时候，写入磁盘。日志有序且不可变。</p>
+<p>读取：track，record id的最近更新位置。</p>
+<p>日志压缩：保留最新纪录，维持顺序</p>
+<p>存储日志的方式的问题：写频率较高，压缩困难</p>
+<h3 id="7-数据表示" class="headerLink">
+    <a href="#7-%e6%95%b0%e6%8d%ae%e8%a1%a8%e7%a4%ba" class="header-mark"></a>7. 数据表示</h3><p>DATA REPRESENTATION</p>
+<p><strong>INTEGER</strong>/<strong>BIGINT</strong>/<strong>SMALLINT</strong>/<strong>TINYINT</strong> → C/C++ Representation</p>
+<p><strong>float/real vs. numeric/decimal</strong></p>
+<p>IEEE-754 Standard / Fixed-point Decimals</p>
+<p><strong>VARCHAR</strong>/<strong>VARBINARY</strong>/<strong>TEXT</strong>/**BLOB</p>
+<p>** → Header with length, followed by data bytes. → Need to worry about collations / sorting.</p>
+<p><strong>TIME</strong>/<strong>DATE</strong>/**TIMESTAMP</p>
+<p>** → 32/64-bit integer of (micro)seconds since Unix epoch</p>
+<p><a href="https://github.com/mysql/mysql-server/blob/8.0/strings/decimal.cc#L1828" target="_blank" rel="noopener noreferrer">MySQL源码</a></p>
+<p>![image-20221125005326870](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125005326870.png)</p>
+<p><strong>Large Value</strong></p>
+<p>不允许存超过一个页的tuple，这个时候引入 overflow storage pages（BLOB page）虽然不保证持久化和事务。</p>
+<h3 id="8-系统目录" class="headerLink">
+    <a href="#8-%e7%b3%bb%e7%bb%9f%e7%9b%ae%e5%bd%95" class="header-mark"></a>8. 系统目录</h3><p>在内部目录中，存了表，列，索引，视图</p>
+<p>用户与权限</p>
+<p>内部统计</p>
+<p>可以通过SELECT *
+FROM information_schema.tables;查看</p>
+<h2 id="b-存储模型与压缩" class="headerLink">
+    <a href="#b-%e5%ad%98%e5%82%a8%e6%a8%a1%e5%9e%8b%e4%b8%8e%e5%8e%8b%e7%bc%a9" class="header-mark"></a>B. 存储模型与压缩</h2><p>OLTP，一次少量read/update</p>
+<p>OLAP，大量复杂数据计算聚合</p>
+<p>HTAP，混合OLTP和OLTP在一个数据库实例上</p>
+<h2 id="c-内存管理" class="headerLink">
+    <a href="#c-%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86" class="header-mark"></a>C. 内存管理</h2><p>##D. Hash Table</p>
+<h2 id="5-tree-index" class="headerLink">
+    <a href="#5-tree-index" class="header-mark"></a>5. Tree index</h2><h2 id="6-index-concurrency-control" class="headerLink">
+    <a href="#6-index-concurrency-control" class="header-mark"></a>6. Index Concurrency Control；</h2><h2 id="7-sorting--aggreation-algorithms" class="headerLink">
+    <a href="#7-sorting--aggreation-algorithms" class="header-mark"></a>7. Sorting &amp; Aggreation Algorithms</h2><h2 id="8-joins-algorithms" class="headerLink">
+    <a href="#8-joins-algorithms" class="header-mark"></a>8. Joins Algorithms</h2><h2 id="9-query-execution" class="headerLink">
+    <a href="#9-query-execution" class="header-mark"></a>9. Query Execution</h2><h2 id="10-query-planning--optimization" class="headerLink">
+    <a href="#10-query-planning--optimization" class="header-mark"></a>10. Query Planning &amp; Optimization</h2><h2 id="11-concurrency-control-theory" class="headerLink">
+    <a href="#11-concurrency-control-theory" class="header-mark"></a>11. Concurrency Control Theory</h2><h2 id="12-two-phase-locking-concurrency-control" class="headerLink">
+    <a href="#12-two-phase-locking-concurrency-control" class="header-mark"></a>12. Two-phase locking Concurrency Control</h2><h2 id="13-timestamp-ordering-concurrency-control" class="headerLink">
+    <a href="#13-timestamp-ordering-concurrency-control" class="header-mark"></a>13. Timestamp Ordering Concurrency COntrol</h2><h2 id="14-multi-version-concurrency-control" class="headerLink">
+    <a href="#14-multi-version-concurrency-control" class="header-mark"></a>14. Multi-Version Concurrency Control</h2><h2 id="15-database-logging" class="headerLink">
+    <a href="#15-database-logging" class="header-mark"></a>15. Database Logging</h2><h2 id="16-database-recovery" class="headerLink">
+    <a href="#16-database-recovery" class="header-mark"></a>16. Database Recovery</h2><h2 id="17-distributed-database" class="headerLink">
+    <a href="#17-distributed-database" class="header-mark"></a>17. Distributed Database</h2><h1 id="二innodb存储引擎体系架构" class="headerLink">
+    <a href="#%e4%ba%8cinnodb%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e%e4%bd%93%e7%b3%bb%e6%9e%b6%e6%9e%84" class="header-mark"></a>二、innodb存储引擎体系架构</h1><h2 id="a-mysql整体结构" class="headerLink">
+    <a href="#a-mysql%e6%95%b4%e4%bd%93%e7%bb%93%e6%9e%84" class="header-mark"></a>A. MySQL整体结构</h2><p>连接池、管理服务和工具、SQL接口、解析器、优化器、执行器和缓冲池、可插拔引擎、文件系统、文件日志索引等</p>
+<p>![image-20221117171612627](/Users/shengquan/Library/Application Support/typora-user-images/image-20221117171612627.png)</p>
+<h2 id="b-innodb体系架构" class="headerLink">
+    <a href="#b-innodb%e4%bd%93%e7%b3%bb%e6%9e%b6%e6%9e%84" class="header-mark"></a>B. InnoDB体系架构</h2><p>5.5后作为默认的表存储引擎</p>
+<p>支持ACID事务，行锁，MVCC，外键</p>
+<p>有效使用内存（缓存）和CPU（多线程）</p>
+<p>![image-20221117172908449](/Users/shengquan/Library/Application Support/typora-user-images/image-20221117172908449.png)</p>
+<p>![image-20221118004046432](/Users/shengquan/Library/Application Support/typora-user-images/image-20221118004046432.png)</p>
+<h3 id="内存-缓冲池" class="headerLink">
+    <a href="#%e5%86%85%e5%ad%98-%e7%bc%93%e5%86%b2%e6%b1%a0" class="header-mark"></a>内存-缓冲池</h3><p>innodb存储引擎是基于磁盘存储的，且按照页的方式进行管理。</p>
+<p>那么就需要引入缓冲池，提高效率</p>
+<p>使用了checkpoint机制刷新回磁盘。	commit与checkpoint的关系</p>
+<p>设置参数：innodb_buffer_pool_size,默认128MB</p>
+<p>高并发访问下的性能问题。</p>
+<p>可以缓存热点数据（不可控）也可以放在第三方介质（可控）</p>
+<p><strong>缓冲池</strong>包括：数据页，undo页，索引页，插入缓冲，自适应哈斯索引，lock信息，数据字典信息，锁信息。</p>
+<p>redo页在缓冲池外面。</p>
+<ul>
+<li>可以有多个缓冲池实例，每个page根据hash value平均分配到不同的缓冲池里，减少数据库内部的数据竞争。</li>
+</ul>
+<p>innodb_buffer_pool_instances</p>
+<p>pool size小于1G的时候，pool_instances不生效</p>
+<p>5.6版本开始，还可以通过information_schema架构下的表INNODB_BUFFER_POOL_STATS查看</p>
+<p><strong>缓冲池管理</strong></p>
+<p><strong>LRU算法</strong></p>
+<p>缓冲池中页的大小默认为16KB</p>
+<p>midpoint insertion strategy，读取后放在LRU列表的midpoint，innodb_old_blocks_pct默认值为37，即从尾短开始37%的位置</p>
+<p>innodb_old_blocks_time，value默认是1000，即1000后放置到热端。</p>
+<p>midpoint之前是new，之后是old</p>
+<p><strong>free 列表</strong></p>
+<p>数据库刚启动时，lru列表是空的。页存放在free list中，当需要从缓冲池中分页的时候，首先从free list查找是否有空闲页，如果有责将其从free list中删除，并加入到lru list中。否则，根据LRU算法，淘汰末尾的页，分配给新的page。</p>
+<p>从old到new的过程是page made young，没有进入new的过程是page not made young</p>
+<p>free buffers是free列表的page数量，即空闲的数量。</p>
+<p>database pages就是LRU列表中页的数量。</p>
+<p>free buffers+database pages 不等于buffer pool size，因为缓冲池中的页还可以被分配给锁信息，自适应哈希索引，插入缓存，数据字典信息等，不需要LRU维护。</p>
+<p>buffer pool hit rate，越高越好，不应当小于95%，如果发生全表扫描，可能会污染LRU</p>
+<p>LRU包含了unzip_LRU，用于存放非16kb内存页，即1，2，4，8kb内存页</p>
+<p>LRU数量包含了unzip_LRU数量</p>
+<p><strong>unzip_LRU</strong>：对于不同大小的页分别管理，如对需要从缓冲池中申请页为4KB的大小，其过程如下：</p>
+<p>1）检查4KB的unzip_LRU列表，检查是否有可用的空闲页；</p>
+<p>2）若有，则直接使用；</p>
+<p>3）否则，检查8KB的unzip_LRU列表；</p>
+<p>4）若能够得到空闲页，将页分成2个4KB页，存放到4KB的unzip_LRU列表；</p>
+<p>5）若不能得到空闲页，从LRU列表中申请一个16KB的页，将页分为1个8KB的页、2个4KB的页，分别存放到对应的unzip_LRU列表中。</p>
+<p>当LRU list中数据被修改后，page变成了dirty page，即缓冲池和磁盘的数据不一致。通过checkpoint机制来刷新回磁盘。Flush list里面都是dirty page。</p>
+<p>LRU用来管理缓冲池中page的可用性，而flush list用来管理刷新到磁盘，不影响。</p>
+<h3 id="redo-log-缓冲" class="headerLink">
+    <a href="#redo-log-%e7%bc%93%e5%86%b2" class="header-mark"></a>redo log 缓冲</h3><p>innodb_log_buffer_size 默认8MB</p>
+<p>每秒都会从buffer到redo log，所以只要保证大小够1秒的就好</p>
+<p>何时刷出到外部磁盘？</p>
+<p>1.Master Thread每一秒将重做日志缓冲刷新到重做日志文件；</p>
+<p>2.每个事务提交时前，会将重做日志缓冲刷新到重做日志文件；</p>
+<p>3.当重做日志缓冲池剩余空间小于1/2时，重做日志缓冲刷新到重做日志文件。</p>
+<h3 id="额外的内存池" class="headerLink">
+    <a href="#%e9%a2%9d%e5%a4%96%e7%9a%84%e5%86%85%e5%ad%98%e6%b1%a0" class="header-mark"></a>额外的内存池</h3><p>用于存放帧缓冲，缓冲控制对象，这些对象记录了如LRU，锁，等待等信息，</p>
+<h3 id="后台线程-innodb的多线程模型" class="headerLink">
+    <a href="#%e5%90%8e%e5%8f%b0%e7%ba%bf%e7%a8%8b-innodb%e7%9a%84%e5%a4%9a%e7%ba%bf%e7%a8%8b%e6%a8%a1%e5%9e%8b" class="header-mark"></a>后台线程-Innodb的多线程模型</h3><p>master thread</p>
+<p>核心线程，主要负责将缓冲池中的数据异步刷新到磁盘，保证数据的一致性，包括脏页的刷新、合并插入缓冲（INSERT BUFFER）、UNDO页的回收等</p>
+<h4 id="master-thread" class="headerLink">
+    <a href="#master-thread" class="header-mark"></a>Master thread</h4><h4 id="loop10x" class="headerLink">
+    <a href="#loop10x" class="header-mark"></a>loop(1.0.x)</h4><p>Master Thread具有最高的线程优先级别。</p>
+<p>由多个循环（loop）组成</p>
+<p>​	1. 主循环（loop)</p>
+<p>​	2. 后台循环（backgroup loop）</p>
+<p>​	3. 刷新循环（flush loop）</p>
+<p>​	4. 暂停循环（suspend loop）。</p>
+<p>Master Thread会根据数据库运行的状态在loop、background loop、flush loop和suspendloop中进行切换。Loop被称为主循环，因为大多数的操作是在这个循环中，其中有两大部分的操作——每秒钟的操作和每10秒的操作。</p>
+<p>![image-20221120232524042](/Users/shengquan/Library/Application Support/typora-user-images/image-20221120232524042.png)</p>
+<h4 id="每秒操作" class="headerLink">
+    <a href="#%e6%af%8f%e7%a7%92%e6%93%8d%e4%bd%9c" class="header-mark"></a>每秒操作</h4><p>❑日志缓冲刷新到磁盘，即使这个事务还没有提交（总是）；</p>
+<p>❑合并插入缓冲 if IO 次数小于5；</p>
+<p>❑至多刷新100个InnoDB的缓冲池中的脏页到磁盘 if innodb_max_dirty_pages_pct &gt; 90；</p>
+<p>❑如果当前没有用户活动，则切换到background loop（可能）。</p>
+<h4 id="每10秒的操作" class="headerLink">
+    <a href="#%e6%af%8f10%e7%a7%92%e7%9a%84%e6%93%8d%e4%bd%9c" class="header-mark"></a>每10秒的操作</h4><p>❑合并至多5个插入缓冲（总是）</p>
+<p>❑将日志缓冲刷新到磁盘（总是）；</p>
+<p>❑删除无用的Undo页（总是）至多20条；1.2.x后，交给page cleaner thread</p>
+<p>❑刷新100个或者10个脏页到磁盘（总是）。if buf_get_modified_ratio_pct &gt; 70, 刷新100哥 else if IO times &lt; 200 刷新100, else 刷新10</p>
+<h4 id="background-loopflush-loopsuspend-loop" class="headerLink">
+    <a href="#background-loopflush-loopsuspend-loop" class="header-mark"></a>background loop，flush loop，suspend loop</h4><p>若当前没有用户活动（数据库空闲时）或者数据库关闭（shutdown），就会切换到这个循环。</p>
+<p>执行以下操作：</p>
+<p>❑删除无用的Undo页（总是）；</p>
+<p>❑合并20个插入缓冲（总是）；</p>
+<p>❑跳回到主循环（总是）；</p>
+<p>不断刷新100个页直到符合条件（可能，跳转到flush loop中完成）。</p>
+<p>若flush loop中也没有什么事情可以做了，InnoDB存储引擎会切换到suspend__loop，将Master Thread挂起，等待事件的发生。</p>
+<p><strong>InnoDB1.2.x</strong> <strong>版本之前</strong>的Master ThreadInnoDB Plugin（从InnoDB1.0.x版本开始）提供了参数innodb_io_capacity，用来表示磁盘IO的吞吐量，默认值为200。对于刷新到磁盘页的数量，会按照innodb_io_capacity的百分比来进行控制。规则如下：❑在合并插入缓冲时，合并插入缓冲的数量为innodb_io_capacity值的5%；❑在从缓冲区刷新脏页时，刷新脏页的数量为innodb_io_capacity。若用户使用了SSD类的磁盘，或者将几块磁盘做了RAID，当存储设备拥有更高的IO速度时，完全可以将innodb_io_capacity的值调得再高点，直到符合磁盘IO的吞吐量为止。</p>
+<p>还有一个改变是：之前每次进行full purge操作时，最多回收20个Undo页，从InnoDB 1.0.x版本开始引入了参数innodb_purge_batch_size，该参数可以控制每次full purge回收的Undo页的数量。该参数的默认值为20，并可以动态地对其进行修改InnoDB 1.0.x版本在性能方面取得了极大的提高，其实这和前面提到的Master Thread的改动是密不可分的，因为InnoDB存储引擎的核心操作大部分都集中在Master Thread后台线程中。</p>
+<ol start="3">
+<li>InnoDB 1.2.x版本的Master Thread在InnoDB 1.2.x版本中再次对Master Thread进行了优化，由此也可以看出Master Thread对性能所起到的关键作用。在InnoDB 1.2.x版本中，Master Thread的伪代码如下：if InnoDB is idlesrv_master_do_idle_tasks();elsesrv_master_do_active_tasks();其中srv_master_do_idle_tasks()就是之前版本中每10秒的操作，srv_master_do_active_tasks()处理的是之前每秒中的操作。同时对于刷新脏页的操作，从Master Thread线程分离到一个单独的Page Cleaner Thread，从而减轻了Master Thread的工作，同时进一步提高了系统的并发性。</li>
+</ol>
+<h4 id="io-thread" class="headerLink">
+    <a href="#io-thread" class="header-mark"></a>IO Thread</h4><p>在InnoDB存储引擎中大量使用了AIO（Async IO）来处理写IO请求，这样可以极大提高数据库的性能。而IO Thread的工作主要是负责这些IO请求的回调（call back）处理。InnoDB 1.0版本之前共有4个IO Thread，分别是write、read、insert buffer和log IO thread。在Linux平台下，IO Thread的数量不能进行调整，但是在Windows平台下可以通过参数innodb_file_io_threads来增大IO Thread。从InnoDB 1.0.x版本开始，read thread和write thread分别增大到了4个，并且不再使用innodb_file_io_threads参数，而是分别使用innodb_read_io_threads和innodb_write_io_threads参数进行设置。  可以看到IO Thread 0为insert buffer thread。IO Thread 1为log thread。之后就是根据参数innodb_read_io_threads及innodb_write_io_threads来设置的读写线程，并且读线程的ID总是小于写线程。</p>
+<pre><code>SHOW VARIABLES LIKE'innodb_%io_threads';
+SHOW ENGINE INNODB STATUS;
+SHOW VARIABLES LIKE'innodb_purge_threads';
+</code></pre>
+<p>`</p>
+<p>Purge Thread</p>
+<p>事务被提交后不需要undolog，那么需要PurgeThread来回收undo页</p>
+<p>1.0 1.1 1.2</p>
+<p>在master中，单独的，多个</p>
+<p>Page cleaner 1.2.x</p>
+<p>作用是将之前版本中脏页的刷新操作都放入到单独的线程中来完成。而其目的是为了减轻原Master Thread的工作及对于用户查询线程的阻塞，进一步提高InnoDB存储引擎的性能。</p>
+<h2 id="c-checkpoint" class="headerLink">
+    <a href="#c-checkpoint" class="header-mark"></a>C. checkpoint</h2><p><strong>Write Ahead Log</strong>策略，即先写日志，再改数据。先写BFIM再写AFIM。先AFIM，再提交。</p>
+<p><strong>作用</strong>：缩短恢复时间；缓冲池不够用时，将脏页刷新到磁盘；重做日志不可用时，刷新脏页，以减少redo log。</p>
+<p><strong>LSN</strong>，log sequence number，8btyes，页，checkpoint和redo log都有LSN</p>
+<p>innodb支持两种checkpoint：</p>
+<p>sharp checkpoint，发生在数据库关闭时；</p>
+<p>fuzzy checkpoint：上述中作用的三种情况，以及</p>
+<p>![image-20221118010424074](/Users/shengquan/Library/Application Support/typora-user-images/image-20221118010424074.png)</p>
+<p><strong>master thread checkpoint</strong>：每秒或每10秒</p>
+<p><strong>FLUSH_LRU_LIST checkpoint</strong>：释放LRU空间，1.12 版本开始， page cleaner thread负责，innodb_lru_sacn_depth，默认保证有1024个page可用</p>
+<p>page cleaner thread</p>
+<p><strong>Async/Sync Flush Checkpoint</strong>:用于减少redo log。将写入redo log的LSN记为redo_LSN, 已经刷新回磁盘最新页的LSN记为checkpoint_LSN</p>
+<p>于是可以知道从redo_lsn 到checkpoint_lsn的范围是没有写入到redo log的，如果其小于日志总文件大小的75%，则无所谓，75-90，触发异步刷新，90以上同步刷新。刷新到小于75</p>
+<p>page cleaner thread</p>
+<p><strong>Dirty page too much checkpoint</strong>： 保证缓冲池可用页，innodb_dirty_pages_pct 默认75</p>
+<h2 id="d-innodb五个关键特性" class="headerLink">
+    <a href="#d-innodb%e4%ba%94%e4%b8%aa%e5%85%b3%e9%94%ae%e7%89%b9%e6%80%a7" class="header-mark"></a>D. innodb五个关键特性</h2><p>❑插入缓冲（Insert Buffer）（减少IO次数，只对不唯一插入生效）</p>
+<p>❑两次写（Double Write）（保证写入成功）</p>
+<p>❑自适应哈希索引（Adaptive Hash Index）</p>
+<p>❑异步IO（Async IO）（减少IO次数，连续多页读）</p>
+<p>❑刷新邻接页（Flush Neighbor Page）（减少IO次数，连续多页写）</p>
+<h3 id="插入缓冲" class="headerLink">
+    <a href="#%e6%8f%92%e5%85%a5%e7%bc%93%e5%86%b2" class="header-mark"></a>插入缓冲</h3><p>对于非唯一非聚集索引的插入或更新操作</p>
+<p>查看索引页是否在缓冲池中，如果在则直接插入，如果不在，先放在insert buffer对象中。然后在merge</p>
+<p>缺点：如果发生宕机，不在缓冲池且至少在10s内发生了高并发，根据WAL，则需要根据log需要大量的时间回复。占用大量缓冲池内存，最多可以到50%</p>
+<p>innodb1.0.x开始引入change buffer，可以对插入，删除，修改都进行缓冲，即insert buffer，delete buffer，purge buffer。</p>
+<h4 id="实现细节" class="headerLink">
+    <a href="#%e5%ae%9e%e7%8e%b0%e7%bb%86%e8%8a%82" class="header-mark"></a>实现细节</h4><p>insert buffer 是b+树，</p>
+<p><strong>非叶子结点：</strong>![image-20221123150933088](/Users/shengquan/Library/Application Support/typora-user-images/image-20221123150933088.png)</p>
+<p>space 表空间ID 4byte</p>
+<p>marker 兼容性位置 1byte</p>
+<p>offset 偏移量 4byte</p>
+<p><strong>叶子结点：</strong></p>
+<p>![image-20221123151141201](/Users/shengquan/Library/Application Support/typora-user-images/image-20221123151141201.png)</p>
+<p>metadata：4 bytes</p>
+<p>IBUF_REC_OFFSET_COUNT：进入Insert Buffer的顺序</p>
+<p>IBUF_REC_OFFSET_TYPE：</p>
+<p>IBUF_REC_OFFSET_FLAGS：</p>
+<p>为了保证每次Merge Insert Buffer页必须成功，还需要有一个特殊的页用来标记每个辅助索引页（space，page_no）的可用空间。这个页的类型为Insert Buffer Bitmap。</p>
+<p>![image-20221123151803075](/Users/shengquan/Library/Application Support/typora-user-images/image-20221123151803075.png)</p>
+<p>什么时候Merge？</p>
+<p>辅助索引页被读取到缓冲池时</p>
+<p>Insert Buffer Bitmap页追踪到该辅助索引页已无可用空间时；Insert Buffer Bitmap页用来追踪每个辅助索引页的可用空间，并至少有1/32页的空间</p>
+<p>Master Thread。之前在分析Master Thread时曾讲到，在Master Thread线程中每秒或每10秒会进行一次Merge Insert Buffer的操作，不同之处在于每次进行merge操作的页的数量不同。</p>
+<p>merge 页选择：随机选择，更公平，如果页已经被删除，则直接丢弃。</p>
+<h3 id="两次写" class="headerLink">
+    <a href="#%e4%b8%a4%e6%ac%a1%e5%86%99" class="header-mark"></a>两次写</h3><p>先通过memcopy函数复制到内存的doublewrite buffer 2MB, 然后 分两次复制到共享表空间的共享物理磁盘上，然后调用fsync函数同步磁盘，避免缓冲写带来的问题。</p>
+<p>双写其实是备份了一个完整的page。如果直接写入数据文件，则可能写到一半宕机，则页被破坏。无法通过redolog恢复，因为redolog记录的是在页的某一个片段的数据，而如果整个页的部份发生损毁，那么即使记录了部份页的数据也不能恢复整个页</p>
+<h3 id="自适应哈希索引" class="headerLink">
+    <a href="#%e8%87%aa%e9%80%82%e5%ba%94%e5%93%88%e5%b8%8c%e7%b4%a2%e5%bc%95" class="header-mark"></a>自适应哈希索引</h3><p>速度快</p>
+<p>统计访问频率</p>
+<p>访问了N次，访问了N=页中记录数量的/16</p>
+<h3 id="异步io" class="headerLink">
+    <a href="#%e5%bc%82%e6%ad%a5io" class="header-mark"></a>异步IO</h3><p>1.速度快</p>
+<p>2.判断访问页是否可以连续读取， 比如连续的三个页，一次读取48kb，减少IO次数</p>
+<h3 id="刷新邻接页" class="headerLink">
+    <a href="#%e5%88%b7%e6%96%b0%e9%82%bb%e6%8e%a5%e9%a1%b5" class="header-mark"></a>刷新邻接页</h3><p>刷新脏页的时候，这个页所在区的所有page，如果有脏页，一块刷新，好处是合并IO次数</p>
+<h2 id="e-innodb关闭启动与恢复" class="headerLink">
+    <a href="#e-innodb%e5%85%b3%e9%97%ad%e5%90%af%e5%8a%a8%e4%b8%8e%e6%81%a2%e5%a4%8d" class="header-mark"></a>E. Innodb关闭启动与恢复</h2><h4 id="关闭" class="headerLink">
+    <a href="#%e5%85%b3%e9%97%ad" class="header-mark"></a>关闭：</h4><p>innodb_fast_shutdown:0,1,2	默认1</p>
+<p>❑0表示在MySQL数据库关闭时，InnoDB需要完成所有的full purge和merge insert buffer，并且将所有的脏页刷新回磁盘。这需要一些时间，有时甚至需要几个小时来完成。如果在进行InnoDB升级时，必须将这个参数调为0，然后再关闭数据库。</p>
+<p>❑1是参数innodb_fast_shutdown的默认值，表示不需要完成上述的full purge和merge insert buffer操作，但是在缓冲池中的一些数据脏页还是会刷新回磁盘。</p>
+<p>❑2表示不完成full purge和merge insert buffer操作，也不将缓冲池中的数据脏页写回磁盘，而是将日志都写入日志文件。这样不会有任何事务的丢失，但是下次MySQL数据库启动时，会进行恢复操作（recovery）。</p>
+<h1 id="三文件" class="headerLink">
+    <a href="#%e4%b8%89%e6%96%87%e4%bb%b6" class="header-mark"></a>三、文件</h1><h2 id="参数文件" class="headerLink">
+    <a href="#%e5%8f%82%e6%95%b0%e6%96%87%e4%bb%b6" class="header-mark"></a>参数文件</h2><p>启动时先读取参数文件，可以看成key - value pair</p>
+<p>有的是只读，有的是可以改</p>
+<h2 id="日志文件-错误日志实用性" class="headerLink">
+    <a href="#%e6%97%a5%e5%bf%97%e6%96%87%e4%bb%b6-%e9%94%99%e8%af%af%e6%97%a5%e5%bf%97%e5%ae%9e%e7%94%a8%e6%80%a7" class="header-mark"></a>日志文件-错误日志（实用性</h2><p>辅助定位错误，log_error</p>
+<h2 id="日志文件-慢查询日志调优重要" class="headerLink">
+    <a href="#%e6%97%a5%e5%bf%97%e6%96%87%e4%bb%b6-%e6%85%a2%e6%9f%a5%e8%af%a2%e6%97%a5%e5%bf%97%e8%b0%83%e4%bc%98%e9%87%8d%e8%a6%81" class="header-mark"></a>日志文件-慢查询日志（调优重要</h2><p>slow_query_log 默认不开启</p>
+<p><strong>按时间划分</strong></p>
+<p>long_query_time精确到微秒，大于该时间的会被记录</p>
+<p><strong>按是否使用索引划分</strong></p>
+<p>log_queries_not_using_indexes</p>
+<p>这种情况下可能造成频繁的记录，导致slow log不断增大，可通过log_throttle_queries_not_using_indexes来进行限制每分钟可记录条数</p>
+<h2 id="日志文件-查询日志了解" class="headerLink">
+    <a href="#%e6%97%a5%e5%bf%97%e6%96%87%e4%bb%b6-%e6%9f%a5%e8%af%a2%e6%97%a5%e5%bf%97%e4%ba%86%e8%a7%a3" class="header-mark"></a>日志文件-查询日志（了解</h2><p>所有请求信息。</p>
+<p>默认名为主机名.log</p>
+<p>general.log</p>
+<h2 id="日志文件-二进制文件最重要" class="headerLink">
+    <a href="#%e6%97%a5%e5%bf%97%e6%96%87%e4%bb%b6-%e4%ba%8c%e8%bf%9b%e5%88%b6%e6%96%87%e4%bb%b6%e6%9c%80%e9%87%8d%e8%a6%81" class="header-mark"></a>日志文件-二进制文件（最重要</h2><p>记录了所有修改操作（不包括show 和 select</p>
+<h3 id="作用" class="headerLink">
+    <a href="#%e4%bd%9c%e7%94%a8" class="header-mark"></a>作用</h3><p>恢复（recovery）：某些数据的恢复需要二进制日志，例如，在一个数据库全备文件恢复后，用户可以通过二进制日志进行point-in-time的恢复。</p>
+<p>复制（replication）：其原理与恢复类似，通过复制和执行二进制日志使一台远程的MySQL数据库（一般称为slave或standby）与一台MySQL数据库（一般称为master或primary）进行实时同步。</p>
+<p>审计（audit）：用户可以通过二进制日志中的信息来进行审计，判断是否有对数据库进行注入的攻击。</p>
+<p>默认关闭：since 恢复可以用redo，如果是单机，不需要审计</p>
+<p>log_bin = off OR log_bin = 文件名</p>
+<p>分为log_name.index 和log_name.000001</p>
+<p><strong>参数</strong></p>
+<p>max_binlog_size 默认1GB</p>
+<p>binlog_cache_size 默认32KB，基于会话。存储uncommitted log record，大于该值时，写入临时文件，</p>
+<p>sync_binlog 每写多少次缓冲就同步到磁盘，如果为1则不使用缓冲，0则没有限制。</p>
+<p>binlog_do_db 哪些需要二进制文件</p>
+<p>binlog_ignore_db 忽略哪些库的日志</p>
+<p>log_slave_update 从主服务器获取二进制文件并且入自己的二进制文件中去，</p>
+<p>默认off，依然可以同步，但是只用不存，ON则会存入自己的二进制文件。</p>
+<p>所以，当a-&gt;b-&gt;c的时候，b off，则c无法读取到a</p>
+<p>binlog_format 存储形式。statement，row，mixed。如果设置为ROW可以重复读，获得更高的并发性。</p>
+<p>MIXED：默认采用STATEMENT格式进行二进制日志文件的记录，但是在一些情况下会使用ROW格式：	1）表的存储引擎为NDB，这时对表的DML操作都会以ROW格式记录。	2）使用了UUID()、USER()、CURRENT_USER()、FOUND_ROWS()、ROW_COUNT()等不确定函数。	3）使用了INSERT DELAY语句。	4）使用了用户定义函数（UDF）。	5）使用了临时表（temporary table）。</p>
+<h2 id="socket文件了解" class="headerLink">
+    <a href="#socket%e6%96%87%e4%bb%b6%e4%ba%86%e8%a7%a3" class="header-mark"></a>Socket文件（了解</h2><p>UNIX系统下，用UNIX域套接字方式。需要一个套接字文件，一般在/tmp目录下，名为mysql.sock。</p>
+<h2 id="pid文件了解" class="headerLink">
+    <a href="#pid%e6%96%87%e4%bb%b6%e4%ba%86%e8%a7%a3" class="header-mark"></a>pid文件（了解</h2><p>当MySQL实例启动时，会将自己的进程ID写入一个文件中——该文件即为pid文件。该文件可由参数pid_file控制，默认位于数据库目录下，文件名为主机名.pid</p>
+<h2 id="mysql表结构文件" class="headerLink">
+    <a href="#mysql%e8%a1%a8%e7%bb%93%e6%9e%84%e6%96%87%e4%bb%b6" class="header-mark"></a>MySQL表结构文件</h2><p>每个表都会有与之对应的表结构文件。frm为后缀。不需要修改，了解即可</p>
+<p>![image-20221124144520427](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124144520427.png)</p>
+<h2 id="存储引擎文件-表空间文件" class="headerLink">
+    <a href="#%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e%e6%96%87%e4%bb%b6-%e8%a1%a8%e7%a9%ba%e9%97%b4%e6%96%87%e4%bb%b6" class="header-mark"></a>存储引擎文件-表空间文件</h2><p>默认12MB，自动扩展，ibdata1文件，默认表空间</p>
+<p>innodb_data_file_path，设置了之后，所有表都存在这里，可以用两个文件组成表空间，通过放在不同的磁盘上，磁盘的负载被平均，提高性能。</p>
+<p>innodb_file_per_table ，默认开启每个表都有独立表空间，.ibd，这里仅存data， index，插入缓冲BITMAP，其余信息依旧存在于ibdata1</p>
+<h2 id="存储引擎文件-重做日志文件" class="headerLink">
+    <a href="#%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e%e6%96%87%e4%bb%b6-%e9%87%8d%e5%81%9a%e6%97%a5%e5%bf%97%e6%96%87%e4%bb%b6" class="header-mark"></a>存储引擎文件-重做日志文件</h2><p>in_logfile0 和in_logfile1，innodb至少有一个group，每个group至少有2个重做日志文件。</p>
+<p>innodb_log_file_size，1.2之前4G，1.2扩大到512G</p>
+<p>innodb_log_files_in_group</p>
+<p>innodb_mirrored_log_groups</p>
+<p>innodb_log_group_home_dir</p>
+<p>大小设置很关键，太大则恢复时间长，太小可能导致一个事物的日志需要多次切换重做日志文件，或者进而导致async checkpoint频繁发生，导致性能抖动</p>
+<p><strong>为什么不用redolog进行主从复制？</strong></p>
+<p>二进制文件会记录所有日志记录，各种引擎的都会记录。而重做日志只记录innodb引擎的。</p>
+<p>二进制文件关于事务的具体操作内容。而重做日志是记录了每个页的物理情况。</p>
+<p>写入时间不同，二进制文件只在commit前写一次，重做日志不断写入。</p>
+<p>![image-20221124150740852](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124150740852.png)</p>
+<p>先写入redo log  buffer，再写入redo log文件。写入磁盘时，512bytes一组，一个扇区，原子性，因此不需要有double write</p>
+<h1 id="四innodb存储引擎的表" class="headerLink">
+    <a href="#%e5%9b%9binnodb%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e%e7%9a%84%e8%a1%a8" class="header-mark"></a>四、InnoDB存储引擎的表</h1><h2 id="a-innodb-逻辑存储结构" class="headerLink">
+    <a href="#a-innodb-%e9%80%bb%e8%be%91%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84" class="header-mark"></a>A. innodb 逻辑存储结构</h2><p>根据主键顺序，称之为index organized table。如果没有主键，则选择非空唯一<strong>索引</strong>，不然，则自动创建6bytes pointer，_rowid</p>
+<h3 id="表空间结构" class="headerLink">
+    <a href="#%e8%a1%a8%e7%a9%ba%e9%97%b4%e7%bb%93%e6%9e%84" class="header-mark"></a>表空间结构</h3><p>![image-20221124152721303](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124152721303.png)</p>
+<p>如果启用了innodb_file_per_table的参数，需要注意的是每张表的表空间内存放的只是数据、索引和插入缓冲Bitmap页，其他类的数据，如回滚（undo）信息，插入缓冲索引页、系统事务信息，二次写缓冲（Double write buffer）等还是存放在原来的共享表空间ibdata1内。</p>
+<p>共享表空间的undo不会被回收，但是会被标记为可用。</p>
+<h3 id="段" class="headerLink">
+    <a href="#%e6%ae%b5" class="header-mark"></a>段</h3><p>数据段（叶子结点）、索引段（非叶子结点）、回滚段。</p>
+<h3 id="区" class="headerLink">
+    <a href="#%e5%8c%ba" class="header-mark"></a>区</h3><p>1MB，连续页组成，每次申请4～5个区保证页的连续。</p>
+<p>16KB一个页，64页/区</p>
+<p>1.0.x	key_block_size，压缩页，设置为2，4，8KB</p>
+<p>1.2.x	innodb_page_size，修改默认大小4，8KB</p>
+<p>开启inndob_file_per_table 后，表默认大小96KB，为什么不是1MB？不会在一开始就使用连续的页，而是先使用32个页大小的碎片页，即数据来到0.5MB后，第二次申请区才会连续。</p>
+<h2 id="页" class="headerLink">
+    <a href="#%e9%a1%b5" class="header-mark"></a>页</h2><p>innodb磁盘管理最小单位。</p>
+<p>页的类型</p>
+<p>❑数据页（B-tree Node）</p>
+<p>❑undo页（undo Log Page）</p>
+<p>❑系统页（System Page）</p>
+<p>❑事务数据页（Transaction system Page）</p>
+<p>❑插入缓冲位图页（Insert Buffer Bitmap）</p>
+<p>❑插入缓冲空闲列表页（Insert Buffer Free List）</p>
+<p>❑未压缩的二进制大对象页（Uncompressed BLOB Page）</p>
+<p>❑压缩的二进制大对象页（compressed BLOB Page）</p>
+<h2 id="行-compact格式默认" class="headerLink">
+    <a href="#%e8%a1%8c-compact%e6%a0%bc%e5%bc%8f%e9%bb%98%e8%ae%a4" class="header-mark"></a>行-compact格式（默认</h2><p>innodb按照行存储，与列存储区别？</p>
+<p>每页最多存放16KB/2 - 200，即2～7992行</p>
+<p>![image-20221124155147215](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124155147215.png)</p>
+<p>Compact行记录格式的首部是一个非NULL变长字段长度列表，并且其是按照列的顺序逆序放置的，其长度为：</p>
+<p>❑若列的长度小于255字节，用1字节表示；</p>
+<p>❑若大于255个字节，用2字节表示。变长字段的长度最大不可以超过2字节，这是因在MySQL数据库中VARCHAR类型的最大长度限制为65535bytes,实际为65532，且是一列中所有变长字符串之和。对于大对象或者长字符串，<em>如果一个page只能存放一个对象，为了使用B+树</em>，则把大对象放在BLOB PAGE</p>
+<p>NULL标志位，行中有NULL值，则1。</p>
+<p>记录头信息（record header），固定占用5字节（40位），每位的含义见表</p>
+<p>![image-20221124160026756](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124160026756.png)</p>
+<p>最后的部分就是实际存储每个列的数据。需要特别注意的是，NULL不占该部分任何空间，即NULL除了占有NULL标志位，实际存储不占有任何空间。另外有一点需要注意的是，每行数据除了用户定义的列外，还有两个隐藏列，事务ID列和回滚指针列，分别为6字节和7字节的大小。若InnoDB表没有定义主键，每行还会增加一个6字节的rowid列。</p>
+<p>行compact格式下，char要用20补齐</p>
+<h2 id="行--redundant50之前的默认被淘汰了" class="headerLink">
+    <a href="#%e8%a1%8c--redundant50%e4%b9%8b%e5%89%8d%e7%9a%84%e9%bb%98%e8%ae%a4%e8%a2%ab%e6%b7%98%e6%b1%b0%e4%ba%86" class="header-mark"></a>行- redundant（5.0之前的默认，被淘汰了。</h2><p>字段长度偏移列表，同样是按照列的顺序逆序放置的。若列的长度小于255字节，用1字节表示；若大于255字节，用2字节表示。</p>
+<p>记录头信息（record header），不同于Compact行记录格式，Redundant行记录格式的记录头占用6字节（48位）</p>
+<p>![image-20221124161235388](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124161235388.png)</p>
+<p>![image-20221124161346603](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124161346603.png)</p>
+<h2 id="数据页结构了解" class="headerLink">
+    <a href="#%e6%95%b0%e6%8d%ae%e9%a1%b5%e7%bb%93%e6%9e%84%e4%ba%86%e8%a7%a3" class="header-mark"></a>数据页结构（了解</h2><p>![image-20221124162257772](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124162257772.png)</p>
+<p>InnoDB数据页由以下7个部分组成，如图：</p>
+<p>File Header（文件头）</p>
+<p>Page Header（页头）</p>
+<p>Infimun和Supremum Records</p>
+<p>User Records（用户记录，即行记录）</p>
+<p>Free Space（空闲空间）</p>
+<p>Page Directory（页目录）</p>
+<p>File Trailer（文件结尾信息）</p>
+<p>其中File Header、Page Header、File Trailer的大小是固定的，分别为38、56、8字节，这些空间用来标记该页的一些信息，如Checksum，数据页所在B+树索引的层数等。User Records、Free Space、Page Directory这些部分为实际的行记录存储空间，因此大小是动态的。</p>
+<p><strong>File Header</strong>用来记录页的一些头信息，由表中8个部分组成，共占用38字节。</p>
+<p>![image-20221124162530496](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124162530496.png)</p>
+<p>![image-20221124162507691](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124162507691.png)</p>
+<p><strong>Page Header</strong>，该部分用来记录数据页的状态信息，由14个部分组成，共占用56字节，</p>
+<p>![image-20221124162553841](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124162553841.png)</p>
+<p><strong>Infimum和Supremum Record</strong></p>
+<p>在InnoDB存储引擎中，每个数据页中有两个虚拟的行记录，用来限定记录的边界。Infimum记录是比该页中任何主键值都要小的值，Supremum指比任何可能大的值还要大的值。这两个值在页创建时被建立，并且在任何情况下不会被删除。</p>
+<p>![image-20221124162709352](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124162709352.png)</p>
+<p><strong>User Record,Free Space,Page Directory和File Trailer</strong></p>
+<p>User Record即实际存储行记录的内容。</p>
+<p>Free Space很明显指的就是空闲空间，同样也是个链表数据结构。在一条记录被删除后，该空间会被加入到空闲链表中。</p>
+<p>Page Directory（页目录）中存放了记录的相对位置（注意，这里存放的是页相对位置，而不是偏移量），有些时候这些记录指针称为Slots（槽）或目录槽（Directory Slots）。与其他数据库系统不同的是，在InnoDB中并不是每个记录拥有一个槽，而是一个槽中可能包含多个记录。B+树索引本身并不能找到具体的一条记录，能找到只是该记录所在的页。数据库把页载入到内存，然后通过Page Directory再进行二叉查找。只不过二叉查找的时间复杂度很低，同时在内存中的查找很快，因此通常忽略这部分查找所用的时间。</p>
+<p>File Trailer只有一个FIL_PAGE_END_LSN部分，占用8字节。前4字节代表该页的checksum值，最后4字节和File Header中的FIL_PAGE_LSN相同。将这两个值与File Header中的FIL_PAGE_SPACE_OR_CHKSUM和FIL_PAGE_LSN值进行比较，看是否一致（checksum的比较需要通过InnoDB的checksum函数来进行比较，不是简单的等值比较），以此来保证页的完整性（not corrupted）。为了检测页是否已经完整地写入磁盘（如可能发生的写入过程中磁盘损坏、机器关机等）</p>
+<p><strong>Named File Formates 机制，保证兼容性</strong></p>
+<p>InnoDB存储引擎将1.0.x版本之前的文件格式（file format）定义为Antelope，将之后版本支持的文件格式定义为Barracuda。新的文件格式总是包含于之前的版本的页格式。下图显示了Barracuda文件格式和Antelope文件格式之间的关系，Antelope文件格式有Compact和Redudant的行格式，Barracuda文件格式既包括了Antelope所有的文件格式，另外新加入了之前已经提到过的Compressed和Dynamic行格式。</p>
+<p>compressed可以使用zlib算法压缩，对于BLOB，text，varchar进行有效存储</p>
+<p>![image-20221124164830330](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124164830330.png)</p>
+<p><strong>行溢出</strong></p>
+<p>一个页要至少存储两条记录（不然链表了），不然大数据存到BLOB Page。</p>
+<p>varchar一行总和理论存储65535bytes，实际上65532.</p>
+<h2 id="视图" class="headerLink">
+    <a href="#%e8%a7%86%e5%9b%be" class="header-mark"></a>视图</h2><p>一条SQL记录。</p>
+<p>可以通过view来修改数据。对于一个10列的表，可以选中想展示的3条，来进行数据封装。</p>
+<p>不支持物化视图，但是可以提前定时查询，插入一张<strong>聚合表</strong>。</p>
+<h2 id="分区" class="headerLink">
+    <a href="#%e5%88%86%e5%8c%ba" class="header-mark"></a>分区</h2><p>表容量较大的时候，分区后<strong>查询</strong>速度较快。插入效率可能影响。不在引擎层完成。</p>
+<p>如MyISAM，INNODB</p>
+<p>5.1版本后可以分区！！！</p>
+<p><strong>水平分区</strong>：一台服务器上（同行不同物理文件）</p>
+<p><strong>垂直分区</strong>：（同列不同物理文件）不太好用，如果选择了两个列在不同分区。</p>
+<p>mysql调优的水平拆分</p>
+<p>一个表变两个表，10条数据，5个在表1，5个在表2</p>
+<p>垂直拆分：字段拆分，ID，name，age编程ID，name和ID，age。如果查询是分开查询，则拆分。如果需要join，考虑水平拆分。</p>
+<p><strong>分区类型</strong>：</p>
+<p>假删除，删除标记，不真删。</p>
+<p>需要整形或者转化为整形</p>
+<p>range分区，主键范围，指定列的保存分区。null小于任何非null</p>
+<p>list分区，奇数一部分，偶数一部分。指定列的保存分区。</p>
+<p>hash分区，均匀分布，指定hash列和hash表达式。null-&gt;0</p>
+<p>key分区，不用自己指定表达式</p>
+<p>5.5之后可以不转成整形。</p>
+<p>常见：</p>
+<p>![image-20221124172126458](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124172126458.png)</p>
+<p>子分区维护成本很大。复合分区。可以使用拆分+分区。</p>
+<p>![image-20221124172243405](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124172243405.png)</p>
+<h2 id="约束" class="headerLink">
+    <a href="#%e7%ba%a6%e6%9d%9f" class="header-mark"></a>约束</h2><p>表建立时就进行约束定义，如：</p>
+<p>利用ALTER TABLE命令来进行创建约束，对Unique Key（唯一索引）的约束</p>
+<p>通过命令CREATE UNIQUE INDEX来建立。</p>
+<p>对于主键约束而言，其默认约束名为PRIMARY。</p>
+<p>而对于Unique Key约束而言，默认约束名和列名一样，当然也可以人为指定Unique Key约束的名字。</p>
+<p>Foreign Key约束也是如此。</p>
+<p>NOT NULL 字段的约束。</p>
+<p>ENUM 和 SET 字段的约束。</p>
+<p>触发器约束。 创建触发器的命令是CREATE TRIGGER，只有具备Super权限的MySQL数据库用户才可以执行这条命令。</p>
+<h1 id="五索引重点" class="headerLink">
+    <a href="#%e4%ba%94%e7%b4%a2%e5%bc%95%e9%87%8d%e7%82%b9" class="header-mark"></a>五、索引｜重点</h1><p>数据结构：B+树，hash table，Auxiliary table，R-tree index</p>
+<p><strong>Oracle</strong>：</p>
+<p>![image-20221124182518552](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124182518552.png)</p>
+<h2 id="a-b树" class="headerLink">
+    <a href="#a-b%e6%a0%91" class="header-mark"></a>A. B+树</h2><p>索引太多，需要维护，创建，时间空间，修改，</p>
+<p>太少则查询效率低。</p>
+<p>不能直接找到记录，可以找到记录所在页，读入内存后，通过page_directory进行二分查找。</p>
+<p>高扇出性。一般2～4层。机械磁盘100 I/O per second</p>
+<p>聚集索引、辅助索引都是B+树</p>
+<h3 id="使用经验" class="headerLink">
+    <a href="#%e4%bd%bf%e7%94%a8%e7%bb%8f%e9%aa%8c" class="header-mark"></a>使用经验</h3><p>已经知道数据库中存在两种类型的应用，OLTP和OLAP应用。在OLTP应用中，查询操作只从数据库中取得一小部分数据，一般可能都在10条记录以下，甚至在很多时候只取1条记录，如根据主键值来取得用户信息，根据订单号取得订单的详细信息，这都是典型OLTP应用的查询语句。在这种情况下，B+树索引建立后，对该索引的使用应该只是通过该索引取得表中少部分的数据。这时建立B+树索引才是有意义的，否则即使建立了，优化器也可能选择不使用索引。</p>
+<p>对于OLAP应用，情况可能就稍显复杂了。不过概括来说，在OLAP应用中，都需要访问表中大量的数据，根据这些数据来产生查询的结果，这些查询多是面向分析的查询，目的是为决策者提供支持。如这个月每个用户的消费情况，销售额同比、环比增长的情况。因此在OLAP中索引的添加根据的应该是宏观的信息，而不是微观，因为最终要得到的结果是提供给决策者的。例如不需要在OLAP中对姓名字段进行索引，因为很少需要对单个用户进行查询。但是对于OLAP中的复杂查询，要涉及多张表之间的联接操作，因此索引的添加依然是有意义的。但是，如果联接操作使用的是Hash Join，那么索引可能又变得不是非常重要了，所以这需要DBA或开发人员认真并仔细地研究自己的应用。不过在OLAP应用中，通常会需要对时间字段进行索引，这是因为大多数统计需要根据时间维度来进行数据的筛选。</p>
+<h2 id="b-聚集索引" class="headerLink">
+    <a href="#b-%e8%81%9a%e9%9b%86%e7%b4%a2%e5%bc%95" class="header-mark"></a>B. 聚集索引</h2><p>主键构造b+树</p>
+<p>叶子结点是整行数据。</p>
+<p>查询倾向采用聚集索引。因为可以在叶子结点直接找到数据。</p>
+<p>对于范围查找a～d，先找到a，依次找到b，c，d</p>
+<p>通过Recorder Header中最后的两个字节来判断下一条记录的位置，读取键值可得80 00 00 01，这就是主键为1的键值，80 00 00 01后的值00 00 00 04代表指向数据页的页号。同样的方式可以找到80 00 00 02和80 00 00 04这两个键值以及它们指向的数据页。通过以上对非数据页节点的分析，可以发现数据页上存放的是完整的每行的记录，而在非数据页的索引页中，存放的仅仅是键值及指向数据页的偏移量，而不是一个完整的行记录。因此这棵聚集索引树的构造大致如图：聚集索引的存储并不是物理上连续的，而是逻辑上连续的。这其中有两点：一是前面说过的页通过双向链表链接，页按照主键的顺序排序；另一点是每个页中的记录也是通过双向链表进行维护的，物理存储上可以同样不按照主键存储。</p>
+<p>![image-20221124175051715](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124175051715.png)</p>
+<h2 id="c-辅助索引" class="headerLink">
+    <a href="#c-%e8%be%85%e5%8a%a9%e7%b4%a2%e5%bc%95" class="header-mark"></a>C. 辅助索引</h2><p>key index_name(cloum_name)</p>
+<p>叶子结点：索引列value，和主键（为什么不直接存储位置？数据移动不需要修改辅助索引）。通过主键再去primary index查找。</p>
+<p>那么重复的是什么数据结构？？？</p>
+<h2 id="d-索引管理" class="headerLink">
+    <a href="#d-%e7%b4%a2%e5%bc%95%e7%ae%a1%e7%90%86" class="header-mark"></a>D. 索引管理</h2><p>通过SHOW INDEX FROM table_name</p>
+<p>![image-20221124191018694](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124191018694.png)</p>
+<p>❑Table：索引所在的表名。</p>
+<p>❑Non_unique：非唯一的索引，可以看到primary key是0，因为必须是唯一的</p>
+<p>❑Key_name：索引的名字，用户可以通过这个名字来执行DROP INDEX</p>
+<p>❑Seq_in_index：索引中该列的位置，如果看联合索引idx_a_c就比较直观了。</p>
+<p>❑Column_name：索引列的名称。</p>
+<p>❑Collation：列以什么方式存储在索引中。可以是NULL。B+树索引总是A，即排序的。如果使用了Heap存储引擎，并且建立了Hash索引，这里就会显示NULL了。因为Hash根据Hash桶存放索引数据，而不是对数据进行排序。</p>
+<p>❑Cardinality：非常关键的值，表示索引中唯一值（即多少个不同的值）的数目的估计值。Cardinality表的行数应尽可能接近1，如果非常小，那么用户需要考虑是否可以删除此索引。</p>
+<p>❑Sub_part：是否是列的部分被索引。如果看idx_b这个索引，这里显示100，表示只对b列的前100字符进行索引。如果索引整个列，则该字段为NULL。</p>
+<p>❑Packed：关键字如何被压缩。如果没有被压缩，则为NULL。</p>
+<p>❑Null：是否索引的列含有NULL值。可以看到idx_b这里为Yes，因为定义的列b允许NULL值。</p>
+<p>❑Index_type：索引的类型。InnoDB存储引擎只支持B+树索引，所以这里显示的都是BTREE。Comment：注释。</p>
+<h3 id="1-fic-快速索引创建" class="headerLink">
+    <a href="#1-fic-%e5%bf%ab%e9%80%9f%e7%b4%a2%e5%bc%95%e5%88%9b%e5%bb%ba" class="header-mark"></a>1. FIC 快速索引创建</h3><p>MySQL 5.5版本之前（不包括5.5）存在的一个普遍被人诟病的问题是MySQL数据库对于索引的添加或者删除的这类DDL操作，MySQL数据库的操作过程为：</p>
+<p>❑首先创建一张新的临时表，表结构为通过命令ALTER TABLE新定义的结构（创建索引）。</p>
+<p>❑然后把原表中数据导入到临时表。</p>
+<p>❑接着删除原表。</p>
+<p>❑最后把临时表重名为原来的表名。</p>
+<p>可以发现，若用户对于一张大表进行索引的添加和删除操作，那么这会需要很长的时间。更关键的是，若有大量事务需要访问正在被修改的表，这意味着数据库服务不可用。</p>
+<p>FIC优化了辅助索引的创建、删除</p>
+<p>创建：表加上s锁，</p>
+<p>删除：辅助索引操作就更简单了，InnoDB存储引擎只需更新内部视图，并将辅助索引的空间（内存）标记为可用（你随时使用这块空间，我现在这块空间没人使用了），同时删除MySQL数据库内部视图上对该表的索引定义即可。</p>
+<h3 id="2-osconline-schema-change了解" class="headerLink">
+    <a href="#2-osconline-schema-change%e4%ba%86%e8%a7%a3" class="header-mark"></a>2. OSC（online schema change）了解</h3><p>Online Schema Change（在线架构改变，简称OSC）最早是由Facebook实现的一种在线执行DDL的方式，并广泛地应用于Facebook的MySQL数据库。所谓“在线”是指在事务的创建过程中，可以有读写事务对表进行操作，这提高了原有MySQL数据库在DDL操作时的并发性。Facebook采用PHP脚本来现实OSC，而并不是通过修改InnoDB存储引擎源码的方式。</p>
+<p>实现OSC步骤如下：</p>
+<p>❑init，即初始化阶段，会对创建的表做一些验证工作，如检查表是否有主键，是否存在触发器或者外键等。</p>
+<p>❑createCopyTable，创建和原始表结构一样的新表。</p>
+<p>❑alterCopyTable：对创建的新表进行ALTER TABLE操作，如添加索引或列等。</p>
+<p>❑createDeltasTable，创建deltas表，该表的作用是为下一步创建的触发器所使用。之后对原表的所有DML操作会被记录到createDeltasTable中。</p>
+<p>❑createTriggers，对原表创建INSERT、UPDATE、DELETE操作的触发器。触发操作产生的记录被写入到deltas表。</p>
+<p>❑startSnpshotXact，开始OSC操作的事务。</p>
+<p>❑selectTableIntoOutfile，将原表中的数据写入到新表。为了减少对原表的锁定时间，这里通过分片（chunked）将数据输出到多个外部文件，然后将外部文件的数据导入到copy表中。分片的大小可以指定，默认值是500 000。</p>
+<p>❑dropNCIndexs，在导入到新表前，删除新表中所有的辅助索引。</p>
+<p>❑loadCopyTable，将导出的分片文件导入到新表。</p>
+<p>❑replayChanges，将OSC过程中原表DML操作的记录应用到新表中，这些记录被保存在deltas表中。</p>
+<p>❑recreateNCIndexes，重新创建辅助索引。</p>
+<p>❑replayChanges，再次进行DML日志的回放操作，这些日志是在上述创建辅助索引中过程中新产生的日志。</p>
+<p>❑swapTables，将原表和新表交换名字，整个操作需要锁定2张表，不允许新的数据产生。由于改名是一个很快的操作，因此阻塞的时间非常短。上述只是简单介绍了OSC的实现过程，实际脚本非常复杂。由于OSC只是一个PHP脚本，因此其有一定的局限性。</p>
+<h3 id="3-online-ddl" class="headerLink">
+    <a href="#3-online-ddl" class="header-mark"></a>3. online ddl</h3><p>5.6开始</p>
+<p><strong>实现原理</strong></p>
+<p>InnoDB存储引擎实现Online DDL的原理是在执行创建或者删除操作的同时，将INSERT、UPDATE、DELETE这类DML操作日志写入到一个缓存中。待完成索引创建后再将重做应用到表上，以此达到数据的一致性。这个缓存的大小由参数innodb_online_alter_log_max_size控制，默认的大小为128MB。</p>
+<p>允许辅助索引创建的同时，还允许其他诸如INSERT、UPDATE、DELETE这类DML操作</p>
+<p>以下这几类DDL操作都可以通过“在线”的方式进行操作：</p>
+<p>❑辅助索引的创建与删除</p>
+<p>❑改变自增长值</p>
+<p>❑添加或删除外键约束</p>
+<p>❑列的重命名通过新的ALTER TABLE语法，</p>
+<p>用户可以选择索引的创建方式：</p>
+<p>![image-20221124203803356](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124203803356.png)</p>
+<p>算法:</p>
+<p>COPY表示按照MySQL 5.1版本之前的工作模式，即创建临时表的方式。</p>
+<p>INPLACE表示索引创建或删除操作不需要创建临时表。</p>
+<p>DEFAULT表示根据参数old_alter_table来判断是通过INPLACE还是COPY的算法，该参数的默认值为OFF，表示采用INPLACE的方式</p>
+<p>LOCK</p>
+<p>（1）NONE  执行索引创建或者删除操作时，对目标表不添加任何的锁，即事务仍然可以进行读写操作，不会收到阻塞。因此这种模式可以获得最大的并发度。</p>
+<p>（2）SHARE  这和之前的FIC类似，执行索引创建或删除操作时，对目标表加上一个S锁。对于并发地读事务，依然可以执行，但是遇到写事务，就会发生等待操作。如果存储引擎不支持SHARE模式，会返回一个错误信息。</p>
+<p>（3）EXCLUSIVE  在EXCLUSIVE模式下，执行索引创建或删除操作时，对目标表加上一个X锁。读写事务都不能进行，因此会阻塞所有的线程，这和COPY方式运行得到的状态类似，但是不需要像COPY方式那样创建一张临时表。</p>
+<p>（4）DEFAULT  DEFAULT模式首先会判断当前操作是否可以使用NONE模式，若不能，则判断是否可以使用SHARE模式，最后判断是否可以使用EXCLUSIVE模式。也就是说DEFAULT会通过判断事务的最大并发性来判断执行DDL的模式。</p>
+<p>操作日志写入缓存，待完成索引创建后再将重做应用到表上。这个缓存的大小由参数innodb_online_alter_log_max_size控制，默认的大小为128MB。</p>
+<p>用户更新的表比较大，并且在创建过程中伴有大量的写事务，如遇到innodb_online_alter_log_max_size的空间不能存放日志时，会抛出类似如下的错误：Error:1799SQLSTATE:HY000(ER_INNODB_ONLINE_LOG_TOO_BIG)Message:Creating index&rsquo;idx_aaa&rsquo;required more than&rsquo;innodb_online_alter_log_max_size&rsquo;bytes of modification log.Please try again.对于这个错误，用户可以调大参数innodb_online_alter_log_max_size，以此获得更大的日志缓存空间。</p>
+<p>此外，还可以设置ALTER TABLE的模式为SHARE，这样在执行过程中不会有写事务发生，因此不需要进行DML日志的记录。需要特别注意的是，由于Online DDL在创建索引完成后再通过重做日志达到数据库的最终一致性，这意味着在索引创建过程中，<strong>SQL优化器不会选择正在创建中的索引</strong>。</p>
+<h3 id="cardnality" class="headerLink">
+    <a href="#cardnality" class="header-mark"></a>Cardnality</h3><p>抽样估计列中多少种不同的value</p>
+<p>Cardnality/row # 尽可能等于1</p>
+<p>更新：表中有1/16的数据发生变化 <strong>OR</strong> 修改次数stat_modified_counter</p>
+<p>对8个叶子结点采样。</p>
+<p>取得叶子结点总数量 A，随机取8个叶子结点，记录8个页中不同value 的个数 P</p>
+<p>Cardnality～P*A/8</p>
+<p>当执行SQL语句ANALYZE TABLE、SHOW TABLE STATUS、SHOW INDEX以及访问INFORMATION_SCHEMA架 构下的表TABLES和STATISTICS时会导致InnoDB存储引擎去重新计算索引的Cardinality值。若表中的数据量非 常大，并且表中存在多个辅助索引时，执行上述这些操作可能会非常慢。虽然用户可能并不希望去更新 Cardinality值。</p>
+<p>些情况下可能会发生索引建立了却没有用到的情况，可能会出现Cardinality为NULL，致使优化器不选择 使用索引。这时最好的解决办法就是做一次ANALYZE TABLE的操作。因此在场景允许的情况下，建议在一个 非高峰时间，对应用程序下的几张核心表做ANALYZE TABLE操作，这能使优化器和索引更好地为你工作。</p>
+<p>![image-20221125135429402](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125135429402.png)</p>
+<h2 id="e-联合索引" class="headerLink">
+    <a href="#e-%e8%81%94%e5%90%88%e7%b4%a2%e5%bc%95" class="header-mark"></a>E. 联合索引</h2><p>多列索引</p>
+<p>对于(a, b)的联合索引，支持a，支持ab，不支持b</p>
+<p>对于b，正逆排序都无需重新排序。</p>
+<h2 id="f-覆盖索引" class="headerLink">
+    <a href="#f-%e8%a6%86%e7%9b%96%e7%b4%a2%e5%bc%95" class="header-mark"></a>F. 覆盖索引</h2><p>其实是覆盖了所有projection的列。</p>
+<h2 id="g-multi-range-read-mrr" class="headerLink">
+    <a href="#g-multi-range-read-mrr" class="header-mark"></a>G. Multi-Range Read (MRR)</h2><p>5.6开始</p>
+<p><strong>目的</strong>：减少磁盘随机访问，将随机访问转化成顺序访问</p>
+<p>对于range，ref，eq_ref的查询类型，则可以优化。</p>
+<p><strong>优势</strong>：</p>
+<p>顺序访问。使用辅助索引时候，得到查询结果set，对主键排序，回到聚簇索引搜索，减少IO。</p>
+<p>减少缓冲页被替换的次数</p>
+<p>批量处理</p>
+<p><strong>工作原理</strong></p>
+<p>对于select和join操作</p>
+<p>辅助索引键值放到缓存中，此时是按照辅助索引键值排序</p>
+<p>按照主键排序</p>
+<p>根据主键访问。</p>
+<p><strong>参数</strong></p>
+<p>启用通过参数optimizer_switch中的标记（flag）来控制。当mrr为on时，表示启用Multi-Range Read优化。</p>
+<p>mrr_cost_based标记表示是否通过cost based的方式来选择是否启用mrr。若将mrr设为on，mrr_cost_based设为off，则总是启用Multi-Range Read优化。</p>
+<p>例如，下述语句可以将Multi-Range Read优化总是设为开启状态：mysql＞SET@@optimizer_switch=&lsquo;mrr=on,mrr_cost_based=off&rsquo;;</p>
+<h2 id="h-icp-优化-index-condition-pushdown" class="headerLink">
+    <a href="#h-icp-%e4%bc%98%e5%8c%96-index-condition-pushdown" class="header-mark"></a>H. ICP 优化 index condition pushdown</h2><p>5.6开始</p>
+<p>作用于condition上。将where操作放在了存储引擎层。</p>
+<p>减少了上层sql对于记录的索取</p>
+<p>支持range、ref、eq_ref、ref_or_null类型的查询，当前支持MyISAM和InnoDB存储引擎。当优化器选择Index Condition Pushdown优化时，可在执行计划的列Extra看到Using index condition提示</p>
+<p><strong>example</strong></p>
+<p>![image-20221125142936791](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125142936791.png)</p>
+<h2 id="i-hash算法" class="headerLink">
+    <a href="#i-hash%e7%ae%97%e6%b3%95" class="header-mark"></a>I. Hash算法</h2><p>通过时间复杂度为O(1)来找到指定内存页。</p>
+<p>对字典进行查找。</p>
+<p>缓冲池的hash 表来说，池中每个page都有一个chain指针指向相同hash value的页。m应略大于2* pages # in buffer pool的质数</p>
+<p>K = 表空间space_id &laquo; 20 + offset+space_id</p>
+<p>k%m</p>
+<p>自适应哈希索引是数据库自身创建并且使用的，dba不能干预。</p>
+<h2 id="j-全文检索-12x" class="headerLink">
+    <a href="#j-%e5%85%a8%e6%96%87%e6%a3%80%e7%b4%a2-12x" class="header-mark"></a>J. 全文检索 1.2.x</h2><p>倒排索引（inverted index）</p>
+<p>它在辅助表（auxiliary table）中存储了单词与单词自身在一个或多个文档中所在位置之间的映射。这通常利用关联数组实现，其拥有两种表现形式：</p>
+<p>❑inverted file index，其表现形式为{单词，单词所在文档的ID}</p>
+<p>❑full inverted index，<strong>MySQL</strong>，其表现形式为{单词，(单词所在文档的ID，在具体文档中的位置)}</p>
+<p>![image-20221125144602913](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125144602913.png)</p>
+<p>事务提交-&gt;分词写入FTS Index Cache（红黑树）-&gt;类似插入缓冲原理，到Auxiliary Table</p>
+<p>如果宕机，下次全文检索的时候重新读取文档，分词</p>
+<p>删除时候，只删除chach记录，不删除磁盘记录。将删除记录的FTS Document ID存在DELETED auxiliary table</p>
+<p>OPTIMIZE TABLE 会优化很多，比如cardinality统计</p>
+<p>“mysql＞SET GLOBAL innodb_optimize_fulltext_only=1;</p>
+<p>mysql＞OPTIMIZE TABLEfts_a;”</p>
+<p><figure><a class="lightgallery" href="/Users/shengquan/Downloads/IMG_1002.jpg" title="IMG_1002" data-thumbnail="/Users/shengquan/Downloads/IMG_1002.jpg">
+        <img
+            
+            loading="lazy"
+            src="/Users/shengquan/Downloads/IMG_1002.jpg"
+            srcset="/Users/shengquan/Downloads/IMG_1002.jpg, /Users/shengquan/Downloads/IMG_1002.jpg 1.5x, /Users/shengquan/Downloads/IMG_1002.jpg 2x"
+            sizes="auto"
+            alt="IMG_1002">
+    </a></figure></p>
+<h1 id="六锁重点" class="headerLink">
+    <a href="#%e5%85%ad%e9%94%81%e9%87%8d%e7%82%b9" class="header-mark"></a>六、锁｜重点</h1><p>表锁行锁</p>
+<p>LRU锁-&gt;线程锁｜主键ID自增-&gt;共享资源，上锁</p>
+<p>latch，针对线程，时间短，分为mutex（互斥量）和rwlock（读写锁），无死锁检测</p>
+<p>lock，对表，行，数据，有死锁检测</p>
+<p>![image-20221125153623406](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125153623406.png)</p>
+<h2 id="innodb存储引擎中的锁" class="headerLink">
+    <a href="#innodb%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e%e4%b8%ad%e7%9a%84%e9%94%81" class="header-mark"></a>Innodb存储引擎中的锁</h2><p>行级锁：</p>
+<p>❑共享锁（S Lock），允许事务读一行数据。</p>
+<p>❑排他锁（X Lock），允许事务删除或更新一行数据。</p>
+<p>意向锁，表级锁，先意向锁，再行级锁。不会阻塞除全表扫描意外的任何请求</p>
+<p>意义：当select * from table, 确保所有的行都没有被加x锁，但是为了快速确定，是否存在行级锁，可以直接查看IX lock</p>
+<p>多粒度锁定，支持行级锁和表级锁同时存在。</p>
+<p>在INFORMATION_SCHEMA架构下添加了表INNODB_TRX、INNODB_LOCKS、INNODB_LOCK_WAITS</p>
+<h2 id="mvcc" class="headerLink">
+    <a href="#mvcc" class="header-mark"></a>MVCC</h2><p>为什么？并发</p>
+<p>非锁定读：读快照，即从undo日志完成。</p>
+<p>在事务隔离级别READ COMMITTED和REPEATABLE READ（InnoDB存储引擎的默认事务隔离级别）下，InnoDB存储引擎使用非锁定的一致性读。然而，对于快照数据的定义却不相同。在READ COMMITTED事务隔离级别下，对于快照数据，非一致性读总是读取被锁定行的最新一份快照数据。而在REPEATABLE READ事务隔离级别下，对于快照数据，非一致性读总是读取事务开始时的行数据版本。</p>
+<p>锁定读</p>
+<p>❑SELECT…FOR UPDATE</p>
+<p>❑SELECT…LOCK IN SHARE MODE</p>
+<h2 id="自增长与锁" class="headerLink">
+    <a href="#%e8%87%aa%e5%a2%9e%e9%95%bf%e4%b8%8e%e9%94%81" class="header-mark"></a>自增长与锁</h2><p><a href="https://www.cnblogs.com/mengxinJ/p/14352038.html#_label1" target="_blank" rel="noopener noreferrer">https://www.cnblogs.com/mengxinJ/p/14352038.html#_label1</a></p>
+<p>AUTO-INC Locking，表锁机制，完成自增长value插入释放。</p>
+<p>5.1.22提供latch，提供轻量级互斥量mutex，提高性能</p>
+<p>innodb_autoinc_lock_mode：</p>
+<p>0-&gt; AUTO-INC Locking</p>
+<p>1-&gt; simple insert 则0， bulk insert（知道插入数量） 则用mutex，对内存中的计数器做累加操作，使用statement-based 复制。</p>
+<p>2-&gt; 只用互斥量mutex，但是可能产生不连续的情况，，主从复制过程中出现id不一致，所以要使用row-based 复制</p>
+<h2 id="锁算法" class="headerLink">
+    <a href="#%e9%94%81%e7%ae%97%e6%b3%95" class="header-mark"></a>锁算法</h2><p>InnoDB存储引擎有3种行锁的算法，其分别是：</p>
+<p>❑Record Lock：单个行记录上的锁</p>
+<p>❑Gap Lock：间隙锁，锁定一个范围，但不包含记录本身</p>
+<p>❑Next-Key Lock∶Gap Lock+Record Lock，锁定一个范围，并且锁定记录本身。其设计的目的是为了支持一些不需要使用幻读和不可重复读的场景。</p>
+<p>Next-Key Lock-&gt;record lock,索引value唯一的时候进行降级</p>
+<p><strong>example</strong></p>
+<p>![image-20221125163928225](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125163928225.png)</p>
+<h2 id="四种读" class="headerLink">
+    <a href="#%e5%9b%9b%e7%a7%8d%e8%af%bb" class="header-mark"></a>四种读</h2><h3 id="脏读" class="headerLink">
+    <a href="#%e8%84%8f%e8%af%bb" class="header-mark"></a>脏读</h3><p>只在读未提交下，读到了未提交的数据。</p>
+<h3 id="幻读" class="headerLink">
+    <a href="#%e5%b9%bb%e8%af%bb" class="header-mark"></a>幻读</h3><p>只在读提交，读到了新的tuple，结果数量不一致。</p>
+<p>可以接受</p>
+<p>Innodb 中通过next key lock来解决</p>
+<h3 id="不可重复读" class="headerLink">
+    <a href="#%e4%b8%8d%e5%8f%af%e9%87%8d%e5%a4%8d%e8%af%bb" class="header-mark"></a>不可重复读</h3><p>只在读提交，读到了新的colum，结果value不一致。</p>
+<p>可以接受</p>
+<p>Innodb 中通过next key lock来解决</p>
+<h2 id="死锁" class="headerLink">
+    <a href="#%e6%ad%bb%e9%94%81" class="header-mark"></a>死锁</h2><p>两种机制检测：</p>
+<p>超时检测</p>
+<p>时间过长则导致死锁存在时间较长，但是判断精准</p>
+<p>时间短则死锁存在时间短，但是可能错杀。</p>
+<p>timeout本身也是有等待的</p>
+<p>且要考虑</p>
+<p>The cost of aborting a transaction o All updates must be undone (recall the “A” in ACID)</p>
+<p>How long a transaction has been running?</p>
+<p>How long it will take a transaction to finish?</p>
+<p>How many deadlocks will be resolved if a particular transaction is aborted o Is the transaction in more than one cycle?</p>
+<p>How many times this transaction was already aborted due to deadlocks?</p>
+<p>innodb_lock_wait_timeout用来控制等待的时间（默认是50秒），innodb_rollback_on_timeout用来设定是否在等待超时时对进行中的事务进行回滚操作（默认是OFF</p>
+<p>死锁检测：</p>
+<p>WFG</p>
+<p>锁信息链表</p>
+<p>事务等待链表</p>
+<p>检测到后，选择回滚undo量最小的事务。</p>
+<h1 id="七事务重点" class="headerLink">
+    <a href="#%e4%b8%83%e4%ba%8b%e5%8a%a1%e9%87%8d%e7%82%b9" class="header-mark"></a>七、事务｜重点</h1><p>事务特性ACID</p>
+<p>redo log称为重做日志，用来保证事务的原子性和持久性。</p>
+<p>undo log用来保证事务的一致性。（还有mvcc和回滚）</p>
+<p>锁用来保证事物的隔离性。</p>
+<h2 id="a-redo-log与bin-log" class="headerLink">
+    <a href="#a-redo-log%e4%b8%8ebin-log" class="header-mark"></a>A. redo log与bin log</h2><p>redo重做</p>
+<p>innodb，redo log buffer + redo log file</p>
+<p>通过force log at commit，</p>
+<p>事务提交前保证刷入磁盘（顺序写，无序读，fsync操作）-&gt;事务提交</p>
+<p>innodb_flush_log_at_trx_commit，默认1，fsync per commit</p>
+<p>0-&gt;master thread 的每秒操作</p>
+<p>2-&gt;仅写入文件系统的缓存，不调用fsync。dbs宕机，os不宕机，则可以恢复。</p>
+<p>可以批量提交减少fsync次数</p>
+<p>redo innodb|bin log MySQL上层</p>
+<p>redo log 物理页信息，</p>
+<p>binlog，POINT-IN-TIME恢复，主从复制</p>
+<p>redo log 物理页变化，对页的修改｜事务进行中不断的被写入</p>
+<p>binlog 逻辑日志，sql|提交后写入</p>
+<h2 id="b-redo-log-结构" class="headerLink">
+    <a href="#b-redo-log-%e7%bb%93%e6%9e%84" class="header-mark"></a>B. redo log 结构</h2><p>log block 512bytes per block</p>
+<p>磁盘扇区大小 512 bytes 原子写，不需要double write</p>
+<p>log block header  12bytes</p>
+<p>log body 				492bytes</p>
+<p>log block tailer 	 8bytes</p>
+<p>log buffer管理log block，</p>
+<p>![image-20221125175912175](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125175912175.png)</p>
+<p>InnoDB 1.2版本之前，重做日志文件的总大小要小于4GB（不能等于4GB）</p>
+<p>InnoDB 1.2版本开始重做日志文件总大小的限制提高为了512GB。</p>
+<p>重做日志格式</p>
+<p>![image-20221125180431518](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125180431518.png)</p>
+<p><strong>LSN</strong></p>
+<p>LSN，写入日志的字节数，标记了重做日志写入总量，checkpoint位置，页的版本。</p>
+<p><strong>恢复</strong></p>
+<p>无论是否正常，都尝试进行恢复。因为是物理日志，所以比binlog快。以及顺序读和并行重做。从checkpoint后开始恢复</p>
+<h2 id="c-undo-log" class="headerLink">
+    <a href="#c-undo-log" class="header-mark"></a>C. undo log</h2><p>回滚/MVCC</p>
+<p>请求回滚 OR 事务失败</p>
+<p>purge thread</p>
+<p>redo存放在重做日志文件中，与redo不同，undo存放在数据库内部的一个特殊段（segment）中，这个段称为undo段（undo segment）。undo段位于共享表空间内。</p>
+<p>逻辑日志。没办法物理日志，因为页的其他内容发生了变化。</p>
+<p>增删改：undo log与redo log同时产生，回滚了之后，rodo log 也要记录回滚</p>
+<h2 id="d-undo-log-结构" class="headerLink">
+    <a href="#d-undo-log-%e7%bb%93%e6%9e%84" class="header-mark"></a>D. undo log 结构</h2><p>InnoDB存储引擎有rollback segment，每个回滚段种记录了1024个undo log segment，而在每个undo log segment段中进行undo页的申请。</p>
+<p>undo log结构在InnoDB存储引擎中，undo log分为：</p>
+<p>❑insert undo log 指在insert操作中产生的undo log。</p>
+<p>❑update undo log 记录的是对delete和update操作产生的undo log。该undo log可能需要提供MVCC机制，因此不能在事务提交时就进行删除。</p>
+<h2 id="e-purge" class="headerLink">
+    <a href="#e-purge" class="header-mark"></a>E. Purge</h2><p>用于最终完成update 和delete操作</p>
+<p>因为支持mvcc，所以如果删除了一个数据，则对于快照版本不复存在。</p>
+<p>至于是否可以删除则通过Purge删除，如果没有被其他事物引用，则删除。</p>
+<p>InnoDB存储引擎有一个history列表，它根据事务提交的顺序，将undo log进行链接</p>
+<p>![image-20221125183622836](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125183622836.png)</p>
+<p>通过检索需要删除的undo log 的所在页的其他内容，可以减少IO次数</p>
+<h2 id="f-group-commit" class="headerLink">
+    <a href="#f-group-commit" class="header-mark"></a>F. Group commit</h2><p>不同于批量提交，一次提交100个插入记录，通过用户语言。</p>
+<p>而group commit是指一次fsync刷新确保多个事务被刷新</p>
+<p>InnoDB存储引擎来说，事务提交时会进行两个阶段的操作：</p>
+<p>1）修改内存中事务对应的信息，并且将日志写入重做日志缓冲。</p>
+<p>2）调用fsync将确保日志都从重做日志缓冲写入磁盘。</p>
+<p>1.2之前，开启binlog后group commit失效</p>
+<p>1）当事务提交时InnoDB存储引擎进行prepare操作。</p>
+<p>2）MySQL数据库上层写入二进制日志。（当前可以确保事务提交）</p>
+<p>3）InnoDB存储引擎层将日志写入重做日志文件。</p>
+<p>​	a）修改内存中事务对应的信息，并且将日志写入重做日志缓冲。</p>
+<p>​	b）调用fsync将确保日志都从重做日志缓冲写入磁盘。</p>
+<p>MySQL数据库内部使用了prepare_commit_mutex这个锁。但是在启用这个锁之后，步骤3）a）步不可以在其他事务执行步骤b）时进行，从而导致了group commit失效。</p>
+<p>换而言之，Group commit只针对redo log，而binlog没有group commit</p>
+<p>5.6 BLGC（bin log GC）</p>
+<p>![image-20221125184808846](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125184808846.png)</p>
+<p>在MySQL数据库上层进行提交时首先按顺序将其放入一个队列中，队列中的第一个事务称为leader，其他事务称为follower，leader控制着follower的行为。</p>
+<p>❑Flush阶段，将每个事务的二进制日志写入内存中。</p>
+<p>❑Sync阶段，将内存中的二进制日志刷新到磁盘，若队列中有多个事务，那么仅一次fsync操作就完成了二进制日志的写入，这就是BLGC。</p>
+<p>❑Commit阶段，leader根据顺序调用存储引擎层事务的提交，InnoDB存储引擎本就支持group commit，因此修复了原先由于锁prepare_commit_mutex导致group commit失效的问题。</p>
+<h2 id="g-事务的隔离级别" class="headerLink">
+    <a href="#g-%e4%ba%8b%e5%8a%a1%e7%9a%84%e9%9a%94%e7%a6%bb%e7%ba%a7%e5%88%ab" class="header-mark"></a>G. 事务的隔离级别</h2><p>SQL标准定义的四个隔离级别为：</p>
+<p>❑READ UNCOMMITTED</p>
+<p>❑READ COMMITTED</p>
+<p>❑REPEATABLE READ</p>
+<p>❑SERIALIZABLE</p>
+<p>隔离级别越低，事务请求的锁越少或保持锁的时间就越短。</p>
+<p>❑在SERIALIABLE的事务隔离级别，InnoDB存储引擎会对每个SELECT语句后自动加上LOCK IN SHARE MODE，即为每个读取操作加一个共享锁。因此在这个事务隔离级别下，读占用了锁，对一致性的非锁定读不再予以支持。</p>
+<p>❑InnoDB存储引擎默认支持的隔离级别是REPEATABLE READ，但是与标准SQL不同的是，InnoDB存储引擎在REPEATABLE READ事务隔离级别下，使用Next-Key Lock锁的算法，读事务开始前的版本</p>
+<p>❑在READ COMMITTED的事务隔离级别下，除了唯一性的约束检查及外键约束的检查需要gap lock，InnoDB存储引擎不会使用gap lock的锁算法。MVCC 控制读取最新版本快照</p>
+<h2 id="h-分布式事务" class="headerLink">
+    <a href="#h-%e5%88%86%e5%b8%83%e5%bc%8f%e4%ba%8b%e5%8a%a1" class="header-mark"></a>H. 分布式事务</h2><p>分布式事就是要在分布式系统中实现事务，InnoDB存储引擎提供了对XA事务的支持，并通过XA事务来支持分布式事务的实现。</p>
+<p>分布式事务指的是允许多个独立的事务资源（transactional resources）参与到一个全局的事务中。全局事务要求在其中的所有参与的事务要么都提交，要么都回滚，这对于事务原有的ACID要求又有了提高。</p>
+<p>XA事务</p>
+<p>一个或多个资源管理器（Resource Managers）</p>
+<p>一个事务管理器（Transaction Manager）</p>
+<p>一个应用程序（Application Program）组成。</p>
+<p>❑资源管理器：提供访问事务资源的方法。通常一个数据库就是一个资源管理器。</p>
+<p>❑事务管理器：协调参与全局事务中的各个事务。需要和参与全局事务的所有资源管理器进行通信。</p>
+<p>❑应用程序：定义事务的边界，指定全局事务中的操作。在MySQL数据库的分布式事务中，资源管理器就是MySQL数据库，事务管理器为连接MySQL服务器的客户端。</p>
+<p>2PC使用两段式提交（two-phase commit）的方式。</p>
+<p>在第一阶段，所有参与全局事务的节点都开始准备（PREPARE），告诉事务管理器它们准备好提交了。</p>
+<p>在第二阶段，事务管理器告诉资源管理器执行ROLLBACK还是COMMIT。如果任何一个节点显示不能提交，则所有的节点都被告知需要回滚。</p>
+<p>TCC
+TCC 是 Try、Confirm、Cancel 三个词语的缩写，TCC 要求每个分支事务实现三个操作：预处理 Try、确认 Confirm、撤销 Cancel。Try 操作做业务检查及资源预留，Confirm 做业务确认操作，Cancel 实现一个与 Try 相反的操作即回滚操作。</p>
+<h2 id="i-内部事务" class="headerLink">
+    <a href="#i-%e5%86%85%e9%83%a8%e4%ba%8b%e5%8a%a1" class="header-mark"></a>I. 内部事务</h2><p>最为常见的内部XA事务存在于binlog与InnoDB存储引擎之间。由于复制的需要，因此目前绝大多数的数据库都开启了binlog功能。在事务提交时，先写二进制日志，再写InnoDB存储引擎的重做日志。对上述两个操作的要求也是原子的，即二进制日志和重做日志必须同时写入。若二进制日志先写了，而在写入InnoDB存储引擎时发生了宕机，那么slave可能会接收到master传过去的二进制日志并执行，最终导致了主从不一致的情况。</p>
+<p>为了解决这个问题，MySQL数据库在binlog与InnoDB存储引擎之间采用XA事务。当事务提交时，InnoDB存储引擎会先做一个PREPARE操作，将事务的xid写入，接着进行二进制日志的写入。如果在InnoDB存储引擎提交前，MySQL数据库宕机了，那么MySQL数据库在重启后会先检查准备的UXID事务是否已经提交，若没有，则在存储引擎层再进行一次提交操作。</p>
+<h1 id="八数据备份" class="headerLink">
+    <a href="#%e5%85%ab%e6%95%b0%e6%8d%ae%e5%a4%87%e4%bb%bd" class="header-mark"></a>八、数据备份</h1><p><strong>备份方法划分</strong></p>
+<p>热备份</p>
+<p>数据库运行中直接备份，</p>
+<p>ibbackup，官方提供。</p>
+<p>1）记录备份开始时，InnoDB存储引擎重做日志文件检查点的LSN。</p>
+<p>2）复制共享表空间文件以及独立表空间文件。</p>
+<p>3）记录复制完表空间文件后，InnoDB存储引擎重做日志文件检查点的LSN。</p>
+<p>4）复制在备份时产生的重做日志。</p>
+<p>优点：</p>
+<p>❑在线备份，不阻塞任何的SQL语句。</p>
+<p>❑备份性能好，备份的实质是复制数据库文件和重做日志文件。</p>
+<p>❑支持压缩备份，通过选项，可以支持不同级别的压缩。</p>
+<p>❑跨平台支持，ibbackup可以运行在Linux、Windows以及主流的UNIX系统平台上。</p>
+<p>ibbackup对InnoDB存储引擎表的恢复步骤为：</p>
+<p>❑恢复表空间文件。</p>
+<p>❑应用重做日志文件。</p>
+<p>ibbackup提供了一种高性能的热备方式，是InnoDB存储引擎备份的首选方式。不过它是收费软件，并非免费的软件。</p>
+<p>xtrabackup</p>
+<p>MySQL数据库本身提供的工具并不支持真正的增量备份，更准确地说，二进制日志的恢复应该是point-in-time的恢复而不是增量备份。而XtraBackup工具支持对于InnoDB存储引擎的增量备份，其工作原理如下：1）首选完成一个全备，并记录下此时检查点的LSN。2）在进行增量备份时，比较表空间中每个页的LSN是否大于上次备份时的LSN，如果是，则备份该页，同时记录当前检查点的LSN。</p>
+<p>冷备份</p>
+<p>数据库停止的情况下，复制物理文件即可</p>
+<p>温备份</p>
+<p>加读锁进行备份</p>
+<p>备份MySQL数据库的frm文件，共享表空间文件，独立表空间文件（*.ibd），重做日志文件。另外建议定期备份MySQL数据库的配置文件my.cnf，这样有利于恢复的操作。</p>
+<p>冷备的优点是：</p>
+<p>❑备份简单，只要复制相关文件即可。</p>
+<p>❑备份文件易于在不同操作系统，不同MySQL版本上进行恢复。</p>
+<p>❑恢复相当简单，只需要把文件恢复到指定位置即可。</p>
+<p>❑恢复速度快，不需要执行任何SQL语句，也不需要重建索引。</p>
+<p>冷备的缺点是：</p>
+<p>❑InnoDB存储引擎冷备的文件通常比逻辑文件大很多，因为表空间中存放着很多其他的数据，如undo段，插入缓冲等信息。</p>
+<p>❑冷备也不总是可以轻易地跨平台。操作系统、MySQL的版本、文件大小写敏感和浮点数格式都会成为问题。</p>
+<p><strong>备份内容</strong></p>
+<p>逻辑备份</p>
+<p>备份文件可读，一般由sql语句组成或者是表内实际数据组成</p>
+<p>裸文件备份（热备份）直接复制物理文件，即可在运行中复制，也可以在停止时复制（用ibbackup、xtrabackup）。恢复时间比逻辑备份短</p>
+<p>mysqldumpmysqldump的语法如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">shell</span><span class="err">＞</span><span class="n">mysqldump</span><span class="p">[</span><span class="n">arguments</span><span class="p">]</span><span class="err">＞</span><span class="n">fle_name</span><span class="err">如果想要备份所有的数据库，可以使用</span><span class="c1">--all-databases选项：shell＞mysqldump--all-databases＞dump.sql如果想要备份指定的数据库，可以使用--databases选项:shell＞mysqldump--databases db1 db2 db3＞dump.sql2. 　SELECT...INTO OUTFILESELECT...INTO语句也是一种逻辑备份的方法，更准确地说是导出一张表中的数据。SELECT...INTO的语法如下：SELECT[column 1],[column 2]...INTOOUTFILE&#39;file_name&#39;[{FIELDS|COLUMNS}[TERMINATED BY&#39;string&#39;][[OPTIONALLY]ENCLOSED BY&#39;char&#39;][ESCAPED BY&#39;char&#39;]][LINES[STARTING BY&#39;string&#39;][TERMINATED BY&#39;string&#39;]]FROM TABLE WHERE......
+</span></span></span></code></pre></div><p>数据库内容</p>
+<p>完全备份</p>
+<p>增量备份</p>
+<p>日志备份</p>
+<h2 id="mysql主从同步" class="headerLink">
+    <a href="#mysql%e4%b8%bb%e4%bb%8e%e5%90%8c%e6%ad%a5" class="header-mark"></a>MySQL主从同步</h2><h2 id="复制过程" class="headerLink">
+    <a href="#%e5%a4%8d%e5%88%b6%e8%bf%87%e7%a8%8b" class="header-mark"></a>复制过程</h2><p>复制（replication）是MySQL数据库提供的一种高可用高性能的解决方案，一般用来建立大型的应用。总体来说，replication的工作原理分为以下3个步骤：</p>
+<p>1）主服务器（master）把数据更改记录到二进制日志（binlog）中。</p>
+<p>2）从服务器（slave）把主服务器的二进制日志复制到自己的中继日志（relay log）中。</p>
+<p>3）从服务器重做中继日志中的日志，把更改应用到自己的数据库上，以达到数据的最终一致性。</p>
+<p>复制的工作原理并不复杂，其实就是一个完全备份加上二进制日志备份的还原。从服务器有2个线程，一个是I/O线程，负责读取主服务器的二进制日志，并将其保存为中继日志；另一个是SQL线程，复制执行中继日志。</p>
+<p>![image-20221128153639534](/Users/shengquan/Library/Application Support/typora-user-images/image-20221128153639534.png)</p>
+<p>![image-20221128153702815](/Users/shengquan/Library/Application Support/typora-user-images/image-20221128153702815.png)</p>
+<h1 id="九性能调优重点" class="headerLink">
+    <a href="#%e4%b9%9d%e6%80%a7%e8%83%bd%e8%b0%83%e4%bc%98%e9%87%8d%e7%82%b9" class="header-mark"></a>九、性能调优｜重点</h1><p>上游调优：添加代理层，数据库连接池，如hikari druid c3p0 dbcp jdbc</p>
+<p><strong>单表调优。</strong></p>
+<p>索引特性，存储结构，什么情况下使用，cardinility，使用explain，（extre可以展示MRR）</p>
+<p>一个页至少放2条，高度，</p>
+<p>多插入的调优。（批量插入；id自增； group commit）</p>
+<p>多查询调优。索引，explain（），B+树（覆盖索引特性多理解，回表），严格约束字段的长度，能用数字就用数字，尤其是tinyint。（男女，0,1）（like，join）尽量用timestamp不要用data</p>
+<p>不用*，无法避免走primary index，一定要用的话，用5.6，提供离散读和icp</p>
+<p>覆盖索引，</p>
+<p>查看执行计划</p>
+<p>分区 ，更快的<strong>查询速度</strong>。</p>
+<p>拆分表（水平拆分 ，需要带id进行查询、 垂直拆分=减少单表的字段量，单独业务查询）</p>
+<p><strong>版本调优</strong></p>
+<p>MRR（5.5-&gt;5.6，需要开启）</p>
+<p>ICP</p>
+<p><strong>服务器层面调优</strong></p>
+<p>测试（非压测环境，非预生产环境）环境开启慢查询日志。进行日常 、 上线前的测试。分析慢查询sql。</p>
+<p>CPU / 磁盘 / 内存 / RAID</p>
+<p><strong>分布式调优</strong></p>
+<p><strong>通过外置中间件调优</strong></p>
+<p>缓存（减少访问） 、 queue（削峰）、分布式、读写分离</p>
+<p>表设计-&gt;内存页大小相关-&gt;b+树</p>
+<p>索引设计</p>
+<p>分区1024个分区和拆分。</p>
+<p>拆分到不同的服务器，一致性hash。一个查询要多个mysql。用哪一个key来避免查询多个数据库。</p>
+<p>时间判断：set profiling = 1;</p>
+<p>show profiles</p>
+<p>show profile for query #；</p>
+<p>show processlist</p>
+<h3 id="sql调优单机" class="headerLink">
+    <a href="#sql%e8%b0%83%e4%bc%98%e5%8d%95%e6%9c%ba" class="header-mark"></a><strong>SQL调优（单机）</strong></h3><p>这是最常用、每一个技术人员都应该掌握基本的SQL调优手段（包括方法、工具、辅助系统等）。这里以MySQL为例，最常见的方式是，由自带的慢查询日志或者开源的慢查询系统定位到具体的出问题的SQL，然后使用explain、profile等工具来逐步调优，最后经过测试达到效果后上线。这方面的细节，可以参考<a href="http://tech.meituan.com/mysql-index.html" target="_blank" rel="noopener noreferrer">MySQL索引原理及慢查询优化</a>。</p>
+<h3 id="heading" class="headerLink">
+    <a href="#heading" class="header-mark"></a></h3><h3 id="架构层面的调优分布式" class="headerLink">
+    <a href="#%e6%9e%b6%e6%9e%84%e5%b1%82%e9%9d%a2%e7%9a%84%e8%b0%83%e4%bc%98%e5%88%86%e5%b8%83%e5%bc%8f" class="header-mark"></a><strong>架构层面的调优（分布式）</strong></h3><p>这一类调优包括读写分离、多从库负载均衡、水平和垂直分库分表等方面，一般需要的改动较大，但是频率没有SQL调优高，而且一般需要DBA来配合参与。那么什么时候需要做这些事情？我们可以通过内部监控报警系统（比如Zabbix），定期跟踪一些指标数据是否达到瓶颈，一旦达到瓶颈或者警戒值，就需要考虑这些事情。通常，DBA也会定期监控这些指标值。</p>
+<h3 id="heading-1" class="headerLink">
+    <a href="#heading-1" class="header-mark"></a></h3><h3 id="连接池调优" class="headerLink">
+    <a href="#%e8%bf%9e%e6%8e%a5%e6%b1%a0%e8%b0%83%e4%bc%98" class="header-mark"></a><strong>连接池调优</strong></h3><p>我们的应用为了实现数据库连接的高效获取、对数据库连接的限流等目的，通常会采用连接池类的方案，即每一个应用节点都管理了一个到各个数据库的连接池。随着业务访问量或者数据量的增长，原有的连接池参数可能不能很好地满足需求，这个时候就需要结合当前使用连接池的原理、具体的连接池监控数据和当前的业务量作一个综合的判断，通过反复的几次调试得到最终的调优参数。</p>
+<p>![image-20221201161209569](/Users/shengquan/Library/Application Support/typora-user-images/image-20221201161209569.png)</p>
+<p>![image-20221201160736312](/Users/shengquan/Library/Application Support/typora-user-images/image-20221201160736312.png)</p>
+<p>如果存在内存上是可以用btree的，PMEM，断电保存</p>
+<p>druid</p>
+<h1 id="十链接资源" class="headerLink">
+    <a href="#%e5%8d%81%e9%93%be%e6%8e%a5%e8%b5%84%e6%ba%90" class="header-mark"></a>十、链接资源</h1><p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NjQ5MTI5OA==&amp;action=getalbum&amp;album_id=2364684582387892225&amp;scene=173&amp;from_msgid=2651767904&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect" target="_blank" rel="noopener noreferrer">基于代价的慢查询优化建议</a></p>
+<p>Disadvantages of MMAP:</p>
+<ul>
+<li>Not all operating systems support it (<em>ahem</em> Windows)</li>
+<li>Coarse locking. It&rsquo;s difficult to allow many clients to make concurrent access to the file.</li>
+<li>Relying on the OS to buffer I/O writes leads to increased risk of data loss if the RDBMS engine crashes. Need to use a journaling filesystem, which may not be supported on all operating systems.</li>
+<li>Can only map a file size up to the size of the virtual memory address space, so on 32-bit OS, the database files are limited to 4GB (per comment from Roger Lipscombe above).</li>
+</ul>
+<p>Early versions of MongoDB tried to use MMAP in the primary storage engine (the only storage engine in the earliest MongoDB). Since then, they have introduced other storage engines, notably WiredTiger. This has greater support for tuning, better performance on multicore systems, support for encryption and compression, multi-document transactions, and so on.</p>
+<h1 id="十一sql题目" class="headerLink">
+    <a href="#%e5%8d%81%e4%b8%80sql%e9%a2%98%e7%9b%ae" class="header-mark"></a>十一、SQL题目</h1><p><code>group by class having count(student) &gt;= 5</code></p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-07-21</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="https://sad-man-shang.github.io/mysql/" data-title="Mysql" data-via="Sadman_sq" data-hashtags="面试"><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer="facebook" data-url="https://sad-man-shang.github.io/mysql/" data-hashtag="面试"><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Linkedin" data-sharer="linkedin" data-url="https://sad-man-shang.github.io/mysql/"><span class="fab fa-linkedin fa-fw"></span></button><button title="分享到 Evernote" data-sharer="evernote" data-url="https://sad-man-shang.github.io/mysql/" data-title="Mysql"><span class="fab fa-evernote fa-fw"></span></button></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E9%9D%A2%E8%AF%95/">面试</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/inlong/" class="prev" rel="prev" title="Inlong"><i class="fas fa-angle-left fa-fw"></i>Inlong</a>
+            <a href="/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/" class="next" rel="next" title="笔试真题">笔试真题<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">Sad man</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":0,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":true,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.9,"type":"fuse","useExtendedSearch":false},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/tablesort/tablesort.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.js" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.js" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script></div>
+</body>
+
+</html>

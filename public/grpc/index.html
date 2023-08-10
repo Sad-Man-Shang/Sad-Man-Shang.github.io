@@ -1,0 +1,524 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>GRPC - Sad man</title><meta name="Description" content=""><meta property="og:title" content="GRPC" />
+<meta property="og:description" content="一、环境配置安装 brew install protobuf 二、 gRPC 核心的设计思路​ 1. 网络通信 &mdash;&gt; gRPC自己封装网络通信的部分 提供多种语言的 网络通信的封装 （C Java[Netty] GO) ​ 2. 协议 &mdash;&gt; HTTP2 传输数" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sad-man-shang.github.io/grpc/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-30T15:53:16+10:00" />
+<meta property="article:modified_time" content="2020-07-30T15:53:16+10:00" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="GRPC"/>
+<meta name="twitter:description" content="一、环境配置安装 brew install protobuf 二、 gRPC 核心的设计思路​ 1. 网络通信 &mdash;&gt; gRPC自己封装网络通信的部分 提供多种语言的 网络通信的封装 （C Java[Netty] GO) ​ 2. 协议 &mdash;&gt; HTTP2 传输数"/>
+<meta name="application-name" content="Sad man">
+<meta name="apple-mobile-web-app-title" content="Sad man">
+
+<meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://sad-man-shang.github.io/grpc/" /><link rel="prev" href="https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/" /><link rel="next" href="https://sad-man-shang.github.io/parkmate/" />
+<link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "GRPC",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/sad-man-shang.github.io\/grpc\/"
+        },"genre": "posts","keywords": "面试","wordcount":  1607 ,
+        "url": "https:\/\/sad-man-shang.github.io\/grpc\/","datePublished": "2023-07-30T15:53:16+10:00","dateModified": "2020-07-30T15:53:16+10:00","publisher": {
+            "@type": "Organization",
+            "name": "Sad man"},"authors": [{
+                        "@type": "Person",
+                        "name": "Sad_man"                    
+                    }],"description": ""
+    }
+    </script><script src="//instant.page/5.2.0" defer type="module" integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
+</head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark'); window.theme = theme;   window.isDark = window.theme !== 'light' }
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('auto' === 'light' || 'auto' === 'dark' || 'auto' === 'black') setTheme('auto'), saveTheme('auto'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+        window.switchThemeEventSet = new Set()
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Sad man">Sad man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/series/"> 系列 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-select" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                    <select class="color-theme-select" id="theme-select-desktop" title="切换主题">
+                        <option value="light">浅色</option>
+                        <option value="dark">深色</option>
+                        <option value="black">黑色</option>
+                        <option value="auto">跟随系统</option>
+                    </select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Sad man">Sad man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/series/" title="">系列</a><a href="javascript:void(0);" class="menu-item theme-select" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+                <select class="color-theme-select" id="theme-select-mobile" title="切换主题">
+                    <option value="light">浅色</option>
+                    <option value="dark">深色</option>
+                    <option value="black">黑色</option>
+                    <option value="auto">跟随系统</option>
+                </select>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">GRPC</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='https://sad-man-shang.github.io/authors/sad_man'>Sad_man</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/rpc/"><i class="far fa-folder fa-fw"></i>rpc</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/24%E5%B1%8A%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%88%B0%E6%89%BE%E5%88%B0%E5%B7%A5%E4%BD%9C/"><i class="far fa-list-alt fa-fw"></i>24届从零开始到找到工作</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-07-30">2023-07-30</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2020-07-30">2020-07-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1607 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - 24届从零开始到找到工作</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/parkmate/">Parkmate</a></li><li><span class="active">GRPC</span></li>
+                                                    <li><a href="/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/">笔试真题</a></li>
+                                                    <li><a href="/mysql/">Mysql</a></li>
+                                                    <li><a href="/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/">LeetCode 热题 HOT 100</a></li>
+                                                    <li><a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+                                                    <li><a href="/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="content" id="content"><div class="details admonition warning open">
+                <div class="details-summary admonition-title">
+                    <i class="icon fas fa-exclamation-triangle fa-fwwarning"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2020-07-30T15:53:16" title="July 30, 2020">2020-07-30</span>，文中内容可能已过时。</div>
+                </div>
+            </div><h1 id="一环境配置" class="headerLink">
+    <a href="#%e4%b8%80%e7%8e%af%e5%a2%83%e9%85%8d%e7%bd%ae" class="header-mark"></a>一、环境配置</h1><p>安装</p>
+<p><code>brew install protobuf</code></p>
+<h1 id="二" class="headerLink">
+    <a href="#%e4%ba%8c" class="header-mark"></a>二、</h1><h2 id="grpc-核心的设计思路" class="headerLink">
+    <a href="#grpc-%e6%a0%b8%e5%bf%83%e7%9a%84%e8%ae%be%e8%ae%a1%e6%80%9d%e8%b7%af" class="header-mark"></a>gRPC 核心的设计思路</h2><p>​         1. 网络通信 &mdash;&gt; gRPC自己封装网络通信的部分 提供多种语言的 网络通信的封装 （C Java[Netty] GO)
+​         2. 协议    &mdash;&gt; HTTP2 传输数据的时候 二进制数据内容。 支持双向流（双工）连接的多路复用。
+​         3. 序列化   &mdash;&gt; 基本文本 JSON  基于二进制 Java原生序列化方式 Thrift二进制的序列化 压缩二级制序列化。
+​                         protobuf (Protocol Buffers) google开源一种序列化方式  时间效率和空间效率是JSON的3&mdash;5倍。
+​                         IDL语言
+​         4. 代理的创建 &mdash;&gt;让调用者像调用本地方法那样 去调用远端的服务方法。
+​                          stub</p>
+<ol start="3">
+<li>
+<p>gRPC 与 ThriftRPC 区别
+共性：支持异构语言的RPC。
+区别：
+1. 网络通信 Thrift TCP   专属协议
+GRPC   HTTP2
+2. 性能角度 ThriftRPC 性能 高于 gRPC
+3. gRPC 大厂背书（Google),云原生时代 与其他组件合作的顺利。所以gRPC应用更广泛。</p>
+</li>
+<li>
+<p>gRPC的好处</p>
+<ol>
+<li>高效的进行进程间通信。</li>
+<li>支持多种语言 原生支持 C  Go Java实现。C语言版本上扩展 C++ C# NodeJS Python Ruby PHP..</li>
+<li>支持多平台运行 Linux Android IOS MacOS Windows。</li>
+<li>gPRC序列化方式采用protobuf，效率高。</li>
+<li>使用Http2协议</li>
+<li>大厂的背书</li>
+</ol>
+</li>
+</ol>
+<h2 id="http2" class="headerLink">
+    <a href="#http2" class="header-mark"></a>http2</h2><ol>
+<li>回顾 Http1.x协议
+Http1.0协议  请求响应的模式 短连接协议（无状态协议）  传输数据文本结构     单工 无法实现服务端推送 变相实现推动（客户端轮训的方式）
+Http1.1协议  请求响应的模式 有限的长连接            升级的方式WebSocket 双工 实现服务器向客户端推送。
+总结Http1.x协议 共性
+<ol>
+<li>传输数据文本格式 可读性好的但是效率差。</li>
+<li>本质上Http1.x协议无法实现双工通信。</li>
+<li>资源的请求。需要发送多次请求，建立多个连接才可以完成。</li>
+</ol>
+</li>
+<li>HTTP2.0协议
+<ol>
+<li>Http2.0协议是一个二进制协议，效率高于Http1.x协议，可读性差。</li>
+<li>可以实现双工通信。</li>
+<li>一个请求 一个连接 可以请求多个数据。【多路复用】</li>
+</ol>
+</li>
+<li>Http2.0协议的三个概念
+<ol>
+<li>数据流 stream</li>
+<li>消息   message</li>
+<li>帧    frame    参看图</li>
+</ol>
+</li>
+<li>其他的相关概念
+<ol>
+<li>数据流的优先级，可以通过为不同的stream设置权重，来限制不同流的传输顺序。</li>
+<li>流控 client发送的数据太快了，server处理不过来，通知client暂停数据的发送。</li>
+</ol>
+</li>
+</ol>
+<h2 id="protobuf" class="headerLink">
+    <a href="#protobuf" class="header-mark"></a>Protobuf</h2><ul>
+<li>
+<p>文件格式</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">.proto
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">UserService.proto
+</span></span><span class="line"><span class="cl">OrderService.proto
+</span></span></code></pre></div></li>
+<li>
+<p>版本设定</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">syntax = &#34;proto3&#34;;
+</span></span></code></pre></div></li>
+<li>
+<p>注释</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="k">1.</span> 单行注释   //
+</span></span><span class="line"><span class="cl"><span class="k">2.</span> 多行注释   /*    */
+</span></span></code></pre></div></li>
+<li>
+<p>与Java语言相关的语法</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh">#后续protobuf生成的java代码 一个源文件还是多个源文件  xx.java
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>option java_multiple_files = false; 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh">#指定protobuf生成的类 放置在哪个包中
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>option java_package = &#34;com.example&#34;;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh">#指定的protobuf生成的外部类的名字（管理内部类【内部类才是真正开发使用】）
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>option java_outer_classname = &#34;UserServce&#34;;
+</span></span></code></pre></div></li>
+<li>
+<p>逻辑包【了解】</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 对于protobuf对于文件内容的管理
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>package xxx;
+</span></span></code></pre></div></li>
+<li>
+<p>导入，复用其他proto文件中定义的Message</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">UserService.proto
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OrderService.proto
+</span></span><span class="line"><span class="cl">  import &#34;xxx/UserService.proto&#34;;
+</span></span></code></pre></div></li>
+<li>
+<p>基本类型</p>
+<table>
+<thead>
+<tr>
+<th>.proto Type</th>
+<th>Notes</th>
+<th>C++ Type</th>
+<th>Java Type</th>
+<th>Python Type[2]</th>
+<th>Go Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>double</td>
+<td></td>
+<td>double</td>
+<td>double</td>
+<td>float</td>
+<td>*float64</td>
+</tr>
+<tr>
+<td>float</td>
+<td></td>
+<td>float</td>
+<td>float</td>
+<td>float</td>
+<td>*float32</td>
+</tr>
+<tr>
+<td>int32</td>
+<td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>*int32</td>
+</tr>
+<tr>
+<td>int64</td>
+<td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long[3]</td>
+<td>*int64</td>
+</tr>
+<tr>
+<td>uint32</td>
+<td>Uses variable-length encoding.</td>
+<td>uint32</td>
+<td>int[1]</td>
+<td>int/long[3]</td>
+<td>*uint32</td>
+</tr>
+<tr>
+<td>uint64</td>
+<td>Uses variable-length encoding.</td>
+<td>uint64</td>
+<td>long[1]</td>
+<td>int/long[3]</td>
+<td>*uint64</td>
+</tr>
+<tr>
+<td>sint32</td>
+<td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>*int32</td>
+</tr>
+<tr>
+<td>sint64</td>
+<td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long[3]</td>
+<td>*int64</td>
+</tr>
+<tr>
+<td>fixed32</td>
+<td>Always four bytes. More efficient than uint32 if values are often greater than 228.</td>
+<td>uint32</td>
+<td>int[1]</td>
+<td>int/long[3]</td>
+<td>*uint32</td>
+</tr>
+<tr>
+<td>fixed64</td>
+<td>Always eight bytes. More efficient than uint64 if values are often greater than 256.</td>
+<td>uint64</td>
+<td>long[1]</td>
+<td>int/long[3]</td>
+<td>*uint64</td>
+</tr>
+<tr>
+<td>sfixed32</td>
+<td>Always four bytes.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>*int32</td>
+</tr>
+<tr>
+<td>sfixed64</td>
+<td>Always eight bytes.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long[3]</td>
+<td>*int64</td>
+</tr>
+<tr>
+<td>bool</td>
+<td></td>
+<td>bool</td>
+<td>boolean</td>
+<td>bool</td>
+<td>*bool</td>
+</tr>
+<tr>
+<td>string</td>
+<td>A string must always contain UTF-8 encoded text.</td>
+<td>string</td>
+<td>String</td>
+<td>unicode (Python 2) or str (Python 3)</td>
+<td>*string</td>
+</tr>
+<tr>
+<td>bytes</td>
+<td>May contain any arbitrary sequence of bytes.</td>
+<td>string</td>
+<td>ByteString</td>
+<td>bytes</td>
+<td>[]byte</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>枚举，枚举的值必须从0开始</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="kd">enum</span> <span class="n">SEASON</span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="n">SPRING</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="n">SUMMER</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span></code></pre></div></li>
+<li>
+<p>消息 Message</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="kd">message</span> <span class="nc">LoginRequest</span> <span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="kt">string</span> <span class="n">username</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="n">singular</span> <span class="kt">string</span> <span class="n">password</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="kt">int32</span>  <span class="n">age</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">编号</span> <span class="err">从</span><span class="mi">1</span><span class="err">开始</span> <span class="err">到</span><span class="mi">2</span><span class="err">^</span><span class="mi">29</span><span class="o">-</span><span class="mi">1</span>  <span class="err">注意：</span><span class="mi">19000</span> <span class="o">-</span> <span class="mi">19999</span> <span class="err">不能用这个区间内的编号，因为他是</span><span class="n">protobuf</span><span class="err">自己保留的。
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="o">-</span> <span class="n">singular</span> <span class="o">:</span> <span class="err">这个字段的值</span> <span class="err">只能是</span><span class="mi">0</span><span class="err">个或</span><span class="mi">1</span><span class="err">个</span> <span class="err">（默认关键字）</span>  <span class="n">null</span>   <span class="s">&#34;123456&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="o">-</span> <span class="k">repeated</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kd">message</span> <span class="nc">Result</span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="kt">string</span> <span class="n">content</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="k">repeated</span> <span class="kt">string</span> <span class="n">stutas</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">//这个字段 返回值 是多个 等价于 Java List Protobuf getStatusList()--&gt;List
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c1">// 可以定义多个消息 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">message</span> <span class="nc">LoginRequest</span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="o">....</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kd">message</span> <span class="nc">LoginResponse</span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="o">...</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">消息可以嵌套</span> <span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kd">message</span> <span class="nc">SearchResponse</span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="kd">message</span> <span class="nc">Result</span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>      <span class="kt">string</span> <span class="n">url</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>      <span class="kt">string</span> <span class="n">title</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="kt">string</span> <span class="n">xxx</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="kt">int32</span>  <span class="n">yyy</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="n">Result</span> <span class="n">ppp</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c1">// message外部使用SearchResponse.Result
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">message</span> <span class="nc">AAA</span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="kt">string</span> <span class="n">xxx</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>  <span class="n">SearchResponse.Result</span> <span class="n">yyy</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">oneof</span> <span class="p">[</span><span class="err">其中一个</span><span class="p">]</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="kd">message</span> <span class="nc">SimpleMessage</span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="k">oneof</span> <span class="n">test_oneof</span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>      <span class="kt">string</span> <span class="n">name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>      <span class="kt">int32</span>  <span class="n">age</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="n">test_oneof</span> <span class="n">xxx</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span></code></pre></div></li>
+<li>
+<p>服务</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-protobuf" data-lang="protobuf"><span class="line"><span class="cl"><span class="kd">service</span> <span class="n">HelloService</span><span class="p">{</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span>   <span class="k">rpc</span> <span class="n">hello</span><span class="p">(</span><span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span><span class="p">(</span><span class="n">HelloResponse</span><span class="p">){}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">}</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c1">// 里面是可以定义多个服务方法。
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 定义多个服务接口
+</span></span></span><span class="line"><span class="cl"><span class="c1">// gPRC 服务 4个服务方式 。
+</span></span></span></code></pre></div></li>
+</ul>
+<h1 id="实战开始" class="headerLink">
+    <a href="#%e5%ae%9e%e6%88%98%e5%bc%80%e5%a7%8b" class="header-mark"></a>实战开始</h1><p>自动编译proto文件称java文件</p>
+<p><a href="https://github.com/grpc/grpc-java" target="_blank" rel="noopener noreferrer">https://github.com/grpc/grpc-java</a></p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-07-30</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="https://sad-man-shang.github.io/grpc/" data-title="GRPC" data-via="Sadman_sq" data-hashtags="面试"><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer="facebook" data-url="https://sad-man-shang.github.io/grpc/" data-hashtag="面试"><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Linkedin" data-sharer="linkedin" data-url="https://sad-man-shang.github.io/grpc/"><span class="fab fa-linkedin fa-fw"></span></button><button title="分享到 Evernote" data-sharer="evernote" data-url="https://sad-man-shang.github.io/grpc/" data-title="GRPC"><span class="fab fa-evernote fa-fw"></span></button></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E9%9D%A2%E8%AF%95/">面试</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/" class="prev" rel="prev" title="笔试真题"><i class="fas fa-angle-left fa-fw"></i>笔试真题</a>
+            <a href="/parkmate/" class="next" rel="next" title="Parkmate">Parkmate<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">Sad man</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":0,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":true,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.9,"type":"fuse","useExtendedSearch":false},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/tablesort/tablesort.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.js" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.js" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script></div>
+</body>
+
+</html>

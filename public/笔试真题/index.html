@@ -1,0 +1,213 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>笔试真题 - Sad man</title><meta name="Description" content=""><meta property="og:title" content="笔试真题" />
+<meta property="og:description" content="科大讯飞非凡计划 最多的好串 0708笔试算法解析小红定义一个字符串是“好串”，当且仅当该字符串的长度不小于2，且首尾相同。例如“arcaea”" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-22T18:48:05+10:00" />
+<meta property="article:modified_time" content="2020-07-22T18:48:05+10:00" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="笔试真题"/>
+<meta name="twitter:description" content="科大讯飞非凡计划 最多的好串 0708笔试算法解析小红定义一个字符串是“好串”，当且仅当该字符串的长度不小于2，且首尾相同。例如“arcaea”"/>
+<meta name="application-name" content="Sad man">
+<meta name="apple-mobile-web-app-title" content="Sad man">
+
+<meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/" /><link rel="prev" href="https://sad-man-shang.github.io/mysql/" /><link rel="next" href="https://sad-man-shang.github.io/grpc/" />
+<link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "笔试真题",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/sad-man-shang.github.io\/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98\/"
+        },"genre": "posts","keywords": "数据结构与算法","wordcount":  209 ,
+        "url": "https:\/\/sad-man-shang.github.io\/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98\/","datePublished": "2023-07-22T18:48:05+10:00","dateModified": "2020-07-22T18:48:05+10:00","publisher": {
+            "@type": "Organization",
+            "name": "Sad man"},"authors": [{
+                        "@type": "Person",
+                        "name": "Sad_man"                    
+                    }],"description": ""
+    }
+    </script><script src="//instant.page/5.2.0" defer type="module" integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
+</head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark'); window.theme = theme;   window.isDark = window.theme !== 'light' }
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('auto' === 'light' || 'auto' === 'dark' || 'auto' === 'black') setTheme('auto'), saveTheme('auto'); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+        window.switchThemeEventSet = new Set()
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Sad man">Sad man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/series/"> 系列 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-select" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                    <select class="color-theme-select" id="theme-select-desktop" title="切换主题">
+                        <option value="light">浅色</option>
+                        <option value="dark">深色</option>
+                        <option value="black">黑色</option>
+                        <option value="auto">跟随系统</option>
+                    </select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Sad man">Sad man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/series/" title="">系列</a><a href="javascript:void(0);" class="menu-item theme-select" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+                <select class="color-theme-select" id="theme-select-mobile" title="切换主题">
+                    <option value="light">浅色</option>
+                    <option value="dark">深色</option>
+                    <option value="black">黑色</option>
+                    <option value="auto">跟随系统</option>
+                </select>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">笔试真题</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='https://sad-man-shang.github.io/authors/sad_man'>Sad_man</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><i class="far fa-folder fa-fw"></i>数据结构与算法</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/24%E5%B1%8A%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%88%B0%E6%89%BE%E5%88%B0%E5%B7%A5%E4%BD%9C/"><i class="far fa-list-alt fa-fw"></i>24届从零开始到找到工作</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-07-22">2023-07-22</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2020-07-22">2020-07-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 209 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
+        </div><div class="details series-nav open">
+                                <div class="details-summary series-title">
+                                    <span>系列 - 24届从零开始到找到工作</span>
+                                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                                </div>
+                                <div class="details-content series-content">
+                                    <nav>
+                                        <ul>
+                                                    <li><a href="/parkmate/">Parkmate</a></li>
+                                                    <li><a href="/grpc/">GRPC</a></li><li><span class="active">笔试真题</span></li>
+                                                    <li><a href="/mysql/">Mysql</a></li>
+                                                    <li><a href="/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/">LeetCode 热题 HOT 100</a></li>
+                                                    <li><a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
+                                                    <li><a href="/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li></ul>
+                                    </nav>
+                                </div>
+                            </div><div class="content" id="content"><div class="details admonition warning open">
+                <div class="details-summary admonition-title">
+                    <i class="icon fas fa-exclamation-triangle fa-fwwarning"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2020-07-22T18:48:05" title="July 22, 2020">2020-07-22</span>，文中内容可能已过时。</div>
+                </div>
+            </div><h1 id="科大讯飞非凡计划" class="headerLink">
+    <a href="#%e7%a7%91%e5%a4%a7%e8%ae%af%e9%a3%9e%e9%9d%9e%e5%87%a1%e8%ae%a1%e5%88%92" class="header-mark"></a>科大讯飞非凡计划</h1><h2 id="最多的好串-0708笔试算法解析" class="headerLink">
+    <a href="#%e6%9c%80%e5%a4%9a%e7%9a%84%e5%a5%bd%e4%b8%b2-0708%e7%ac%94%e8%af%95%e7%ae%97%e6%b3%95%e8%a7%a3%e6%9e%90" class="header-mark"></a>最多的好串 0708笔试算法解析</h2><p>小红定义一个字符串是“好串”，当且仅当该字符串的长度不小于2，且首尾相同。例如“arcaea”是好串。</p>
+<p>小红拿到了一个字符串（该字符串不一定是好串），她准备把这个字符串切割成若干个好串，你可以帮小红求出好串的最多数量吗？</p>
+<p><strong>输入描述</strong></p>
+<p>一个仅包含小写字母的字符串，长度不超过20w。</p>
+<p>思路1. 将26位状态保存在一个int类型的变量中</p>
+<p>int position  = x - &lsquo;a&rsquo;;</p>
+<p>record |= 1 &laquo; position;</p>
+<p>if (record &amp; 1 &laquo; position)  // 说明该位置有记录</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-07-22</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/" data-title="笔试真题" data-via="Sadman_sq" data-hashtags="数据结构与算法"><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer="facebook" data-url="https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/" data-hashtag="数据结构与算法"><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Linkedin" data-sharer="linkedin" data-url="https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/"><span class="fab fa-linkedin fa-fw"></span></button><button title="分享到 Evernote" data-sharer="evernote" data-url="https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/" data-title="笔试真题"><span class="fab fa-evernote fa-fw"></span></button></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/mysql/" class="prev" rel="prev" title="Mysql"><i class="fas fa-angle-left fa-fw"></i>Mysql</a>
+            <a href="/grpc/" class="next" rel="next" title="GRPC">GRPC<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer">Sad man</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":0,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":true,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.9,"type":"fuse","useExtendedSearch":false},"sharerjs":true,"table":{"sort":true}};</script><script type="text/javascript" src="/lib/tablesort/tablesort.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.js" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.js" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script></div>
+</body>
+
+</html>

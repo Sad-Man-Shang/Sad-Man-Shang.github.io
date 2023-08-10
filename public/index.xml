@@ -3,9 +3,37 @@
         <title>Sad man</title>
         <link>https://sad-man-shang.github.io/</link>
         <description>Sad man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 12 Jul 2023 23:00:26 &#43;1000</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 10 Aug 2023 17:39:54 &#43;0800</lastBuildDate>
             <atom:link href="https://sad-man-shang.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Parkmate</title>
+    <link>https://sad-man-shang.github.io/parkmate/</link>
+    <pubDate>Thu, 10 Aug 2023 17:39:54 &#43;0800</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/parkmate/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>GRPC</title>
+    <link>https://sad-man-shang.github.io/grpc/</link>
+    <pubDate>Sun, 30 Jul 2023 15:53:16 &#43;1000</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/grpc/</guid>
+    <description><![CDATA[一、环境配置安装 brew install protobuf 二、 gRPC 核心的设计思路​ 1. 网络通信 &mdash;&gt; gRPC自己封装网络通信的部分 提供多种语言的 网络通信的封装 （C Java[Netty] GO) ​ 2. 协议 &mdash;&gt; HTTP2 传输数]]></description>
+</item><item>
+    <title>笔试真题</title>
+    <link>https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/</link>
+    <pubDate>Sat, 22 Jul 2023 18:48:05 &#43;1000</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/</guid>
+    <description><![CDATA[科大讯飞非凡计划 最多的好串 0708笔试算法解析小红定义一个字符串是“好串”，当且仅当该字符串的长度不小于2，且首尾相同。例如“arcaea”]]></description>
+</item><item>
+    <title>Mysql</title>
+    <link>https://sad-man-shang.github.io/mysql/</link>
+    <pubDate>Fri, 21 Jul 2023 16:40:24 &#43;1000</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/mysql/</guid>
+    <description><![CDATA[关于innodb 存储引擎以及mysql45讲，CMU的笔记 零、基本用法判断等= 使用'' desc 降序（大的在前） Limit N offset M 第N-1开始M个即Limit]]></description>
+</item><item>
     <title>Inlong</title>
     <link>https://sad-man-shang.github.io/inlong/</link>
     <pubDate>Wed, 12 Jul 2023 23:00:26 &#43;1000</pubDate><author>

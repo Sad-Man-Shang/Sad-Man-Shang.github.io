@@ -3,7 +3,14 @@
         <title>数据结构与算法 - 分类 - Sad man</title>
         <link>https://sad-man-shang.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/</link>
         <description>数据结构与算法 - 分类 - Sad man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 11 Jul 2023 02:03:11 &#43;1000</lastBuildDate><atom:link href="https://sad-man-shang.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 22 Jul 2023 18:48:05 &#43;1000</lastBuildDate><atom:link href="https://sad-man-shang.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="self" type="application/rss+xml" /><item>
+    <title>笔试真题</title>
+    <link>https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/</link>
+    <pubDate>Sat, 22 Jul 2023 18:48:05 &#43;1000</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/</guid>
+    <description><![CDATA[科大讯飞非凡计划 最多的好串 0708笔试算法解析小红定义一个字符串是“好串”，当且仅当该字符串的长度不小于2，且首尾相同。例如“arcaea”]]></description>
+</item><item>
     <title>LeetCode 热题 HOT 100</title>
     <link>https://sad-man-shang.github.io/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/</link>
     <pubDate>Tue, 11 Jul 2023 02:03:11 &#43;1000</pubDate><author>
