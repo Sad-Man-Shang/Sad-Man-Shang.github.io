@@ -1,7 +1,6 @@
 ---
 title: "Mysql"
 date: 2023-07-21T16:40:24+10:00
-lastmod: 2020-07-21T16:40:24+10:00
 draft: false
 authors: [Sad_man]
 tags: [面试]
@@ -30,7 +29,7 @@ desc 降序（大的在前）
 
 
 
-# 一、数据库整体框架
+# 一、数据库整体框架（基本没写，别看）
 
 WALogging
 
@@ -44,7 +43,7 @@ h
 
 ##A. 数据库存储
 
-![image-20221123202452860](/Users/shengquan/Library/Application Support/typora-user-images/image-20221123202452860.png)
+![image-20221123202452860](./mysql/image-20221123202452860.png)
 
 Disk manage goals：
 
@@ -144,7 +143,7 @@ hash文件
 
 header 维护了# used slots以及最后一个slot的起始位置
 
-![image-20221124014353146](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124014353146.png)
+![image-20221124014353146](./mysql_2.png)
 
 
 
@@ -159,10 +158,6 @@ log-structured
 
 
 physically **denormalize**, 将tuple和相关的tuple（外键联系的）存在一个page上，可以减少IO，
-
-
-
-
 
 ### 4. disk- oriented 架构
 
@@ -243,7 +238,7 @@ IEEE-754 Standard / Fixed-point Decimals
 
 [MySQL源码](https://github.com/mysql/mysql-server/blob/8.0/strings/decimal.cc#L1828)
 
-![image-20221125005326870](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125005326870.png)
+![image-20221125005326870](./mysql/image-20221125005326870.png)
 
 
 
@@ -372,7 +367,7 @@ HTAP，混合OLTP和OLTP在一个数据库实例上
 
 连接池、管理服务和工具、SQL接口、解析器、优化器、执行器和缓冲池、可插拔引擎、文件系统、文件日志索引等
 
-![image-20221117171612627](/Users/shengquan/Library/Application Support/typora-user-images/image-20221117171612627.png)
+![image-20221117171612627](./mysql/image-20221117171612627.png)
 
 ## B. InnoDB体系架构
 
@@ -382,37 +377,46 @@ HTAP，混合OLTP和OLTP在一个数据库实例上
 
 有效使用内存（缓存）和CPU（多线程）
 
-![image-20221117172908449](/Users/shengquan/Library/Application Support/typora-user-images/image-20221117172908449.png)
+| 版本         | 功能                          |
+| ------------ | ----------------------------- |
+| 老版本InnoDB | 支持ACID、行锁设计、MVCC      |
+| InnoDB 1.0.x | 增加了compress和dynamic页格式 |
+| InnoDB 1.1.x | 增加了Linux AIO、多回滚段     |
+| InnoDB 1.2.x | 增加了全文索引、在线索引      |
 
 
 
+**内存结构**
 
+缓冲池、重做日志缓冲
 
- ![image-20221118004046432](/Users/shengquan/Library/Application Support/typora-user-images/image-20221118004046432.png)
+ ![image-20221118004046432](./mysql/image-20221118004046432.png)
 
 
 
 ### 内存-缓冲池
 
-innodb存储引擎是基于磁盘存储的，且按照页的方式进行管理。
+#### Why？
 
-那么就需要引入缓冲池，提高效率
+innoDB基于磁盘存储的，且按照页的方式进行管理。
 
+**磁盘IO慢**，为了提速，引入**缓冲池**，提高效率
 
+#### 如何保证数据不丢失？
 
 使用了checkpoint机制刷新回磁盘。	commit与checkpoint的关系
 
 设置参数：innodb_buffer_pool_size,默认128MB
 
-高并发访问下的性能问题。
+***高并发访问下的性能问题***
 
-可以缓存热点数据（不可控）也可以放在第三方介质（可控）
+***可以缓存热点数据（不可控）也可以放在第三方介质（可控）***
 
 
 
 **缓冲池**包括：数据页，undo页，索引页，插入缓冲，自适应哈斯索引，lock信息，数据字典信息，锁信息。
 
-redo页在缓冲池外面。
+redo页在缓冲池外面，***WHY？***。
 
 - 可以有多个缓冲池实例，每个page根据hash value平均分配到不同的缓冲池里，减少数据库内部的数据竞争。
 
@@ -426,7 +430,7 @@ pool size小于1G的时候，pool_instances不生效
 
 
 
-**缓冲池管理**
+#### 缓冲池管理
 
 **LRU算法**
 
@@ -532,7 +536,7 @@ Master Thread具有最高的线程优先级别。
 
 Master Thread会根据数据库运行的状态在loop、background loop、flush loop和suspendloop中进行切换。Loop被称为主循环，因为大多数的操作是在这个循环中，其中有两大部分的操作——每秒钟的操作和每10秒的操作。
 
-![image-20221120232524042](/Users/shengquan/Library/Application Support/typora-user-images/image-20221120232524042.png)
+![image-20221120232524042](./mysql/image-20221120232524042.png)
 
 #### 每秒操作
 
@@ -628,7 +632,7 @@ sharp checkpoint，发生在数据库关闭时；
 
 fuzzy checkpoint：上述中作用的三种情况，以及
 
-![image-20221118010424074](/Users/shengquan/Library/Application Support/typora-user-images/image-20221118010424074.png)
+![image-20221118010424074](./mysql/image-20221118010424074.png)
 
 **master thread checkpoint**：每秒或每10秒
 
@@ -684,7 +688,7 @@ innodb1.0.x开始引入change buffer，可以对插入，删除，修改都进�
 
 insert buffer 是b+树，
 
-**非叶子结点：**![image-20221123150933088](/Users/shengquan/Library/Application Support/typora-user-images/image-20221123150933088.png)
+**非叶子结点：**![image-20221123150933088](./mysql/image-20221123150933088.png)
 
 space 表空间ID 4byte
 
@@ -696,7 +700,7 @@ offset 偏移量 4byte
 
 **叶子结点：**
 
-![image-20221123151141201](/Users/shengquan/Library/Application Support/typora-user-images/image-20221123151141201.png)
+![image-20221123151141201](./mysql/image-20221123151141201.png)
 
 metadata：4 bytes
 
@@ -710,7 +714,7 @@ IBUF_REC_OFFSET_FLAGS：
 
 为了保证每次Merge Insert Buffer页必须成功，还需要有一个特殊的页用来标记每个辅助索引页（space，page_no）的可用空间。这个页的类型为Insert Buffer Bitmap。
 
-![image-20221123151803075](/Users/shengquan/Library/Application Support/typora-user-images/image-20221123151803075.png)
+![image-20221123151803075](./mysql/image-20221123151803075.png)
 
 
 
@@ -898,7 +902,7 @@ UNIX系统下，用UNIX域套接字方式。需要一个套接字文件，一般
 
 每个表都会有与之对应的表结构文件。frm为后缀。不需要修改，了解即可
 
-![image-20221124144520427](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124144520427.png)
+![image-20221124144520427](./mysql/image-20221124144520427.png)
 
 
 
@@ -936,7 +940,7 @@ innodb_log_group_home_dir
 
 写入时间不同，二进制文件只在commit前写一次，重做日志不断写入。
 
-![image-20221124150740852](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124150740852.png)
+![image-20221124150740852](./mysql/image-20221124150740852.png)
 
 先写入redo log  buffer，再写入redo log文件。写入磁盘时，512bytes一组，一个扇区，原子性，因此不需要有double write
 
@@ -948,7 +952,7 @@ innodb_log_group_home_dir
 
 ### 表空间结构
 
-![image-20221124152721303](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124152721303.png)
+![image-20221124152721303](./mysql/image-20221124152721303.png)
 
 
 
@@ -1008,7 +1012,7 @@ innodb按照行存储，与列存储区别？
 
 每页最多存放16KB/2 - 200，即2～7992行
 
-![image-20221124155147215](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124155147215.png)
+![image-20221124155147215](./mysql/image-20221124155147215.png)
 
 
 
@@ -1022,7 +1026,7 @@ NULL标志位，行中有NULL值，则1。
 
 记录头信息（record header），固定占用5字节（40位），每位的含义见表
 
-![image-20221124160026756](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124160026756.png)
+![image-20221124160026756](./mysql/image-20221124160026756.png)
 
 
 
@@ -1042,9 +1046,9 @@ NULL标志位，行中有NULL值，则1。
 
 
 
-![image-20221124161235388](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124161235388.png)
+![image-20221124161235388](./mysql/image-20221124161235388.png)
 
-![image-20221124161346603](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124161346603.png)
+![image-20221124161346603](./mysql/image-20221124161346603.png)
 
 
 
@@ -1054,7 +1058,7 @@ NULL标志位，行中有NULL值，则1。
 
 
 
-![image-20221124162257772](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124162257772.png)
+![image-20221124162257772](./mysql/image-20221124162257772.png)
 
 InnoDB数据页由以下7个部分组成，如图：
 
@@ -1076,23 +1080,23 @@ File Trailer（文件结尾信息）
 
 **File Header**用来记录页的一些头信息，由表中8个部分组成，共占用38字节。
 
-![image-20221124162530496](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124162530496.png)
+![image-20221124162530496](./mysql/image-20221124162530496.png)
 
 
 
-![image-20221124162507691](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124162507691.png)
+![image-20221124162507691](./mysql/image-20221124162507691.png)
 
 
 
 **Page Header**，该部分用来记录数据页的状态信息，由14个部分组成，共占用56字节，
 
-![image-20221124162553841](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124162553841.png)
+![image-20221124162553841](./mysql/image-20221124162553841.png)
 
 **Infimum和Supremum Record**
 
 在InnoDB存储引擎中，每个数据页中有两个虚拟的行记录，用来限定记录的边界。Infimum记录是比该页中任何主键值都要小的值，Supremum指比任何可能大的值还要大的值。这两个值在页创建时被建立，并且在任何情况下不会被删除。
 
-![image-20221124162709352](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124162709352.png)
+![image-20221124162709352](./mysql/image-20221124162709352.png)
 
 
 
@@ -1116,7 +1120,7 @@ InnoDB存储引擎将1.0.x版本之前的文件格式（file format）定义为A
 
 compressed可以使用zlib算法压缩，对于BLOB，text，varchar进行有效存储
 
-![image-20221124164830330](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124164830330.png)
+![image-20221124164830330](./mysql/image-20221124164830330.png)
 
 
 
@@ -1182,13 +1186,30 @@ key分区，不用自己指定表达式
 
 常见：
 
-![image-20221124172126458](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124172126458.png)
-
-
+```sql
+CREATE TABLE t columns_range(
+a INT,
+b DATETIME
+)ENGINE=INNODB
+PARTITION BY RANGE COLUMNS(B)
+PARTITION p0 VALUES LESS THAN('2009-01-01'),
+PARTITION p1 VALUES LESS THAN('2010-01-01');
+```
 
 子分区维护成本很大。复合分区。可以使用拆分+分区。
 
-![image-20221124172243405](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124172243405.png)
+```sql
+mysql> CREATE TABLE ts(a INT,b DATE)engine=innodb
+-> PARTITION BY RANGE(YEAR(b))
+-> SUBPARTITION BY HASHTO DAYS(b))
+-> SUBPARTITIONS 2(
+-> PARTITION PO VALUES LESS THAN(1990)
+-> PARTITION P1 VALUES LESS THAN(2000)
+-> PARTITION P2 VALUES LESS THAN MAXVALUE
+-> );
+```
+
+
 
 
 
@@ -1230,7 +1251,7 @@ ENUM 和 SET 字段的约束。
 
 **Oracle**：
 
-![image-20221124182518552](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124182518552.png)
+![image-20221124182518552](./mysql/image-20221124182518552.png)
 
 
 
@@ -1276,7 +1297,7 @@ ENUM 和 SET 字段的约束。
 
 
 
-![image-20221124175051715](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124175051715.png)
+![image-20221124175051715](./mysql/image-20221124175051715.png)
 
 
 
@@ -1300,7 +1321,7 @@ key index_name(cloum_name)
 
 通过SHOW INDEX FROM table_name
 
-![image-20221124191018694](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124191018694.png)
+![image-20221124191018694](./mysql/image-20221124191018694.png)
 
 ❑Table：索引所在的表名。
 
@@ -1412,7 +1433,7 @@ InnoDB存储引擎实现Online DDL的原理是在执行创建或者删除操作�
 
 用户可以选择索引的创建方式：
 
-![image-20221124203803356](/Users/shengquan/Library/Application Support/typora-user-images/image-20221124203803356.png)
+![image-20221124203803356](./mysql/image-20221124203803356.png)
 
 算法:
 
@@ -1478,7 +1499,7 @@ Cardnality～P*A/8
 
 
 
-![image-20221125135429402](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125135429402.png)
+![image-20221125135429402](./mysql/image-20221125135429402.png)
 
 
 
@@ -1552,7 +1573,7 @@ mrr_cost_based标记表示是否通过cost based的方式来选择是否启用mr
 
 **example**
 
-![image-20221125142936791](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125142936791.png)
+![image-20221125142936791](./mysql/image-20221125142936791.png)
 
 
 
@@ -1592,7 +1613,7 @@ k%m
 
 ❑full inverted index，**MySQL**，其表现形式为{单词，(单词所在文档的ID，在具体文档中的位置)}
 
-![image-20221125144602913](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125144602913.png)
+![image-20221125144602913](./mysql/image-20221125144602913.png)
 
 
 
@@ -1615,7 +1636,7 @@ OPTIMIZE TABLE 会优化很多，比如cardinality统计
 
 mysql＞OPTIMIZE TABLEfts_a;”
 
-![IMG_1002](/Users/shengquan/Downloads/IMG_1002.jpg)
+![WX20230811-195546](./mysql/WX20230811-195546.png)
 
 
 
@@ -1633,7 +1654,7 @@ lock，对表，行，数据，有死锁检测
 
 
 
-![image-20221125153623406](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125153623406.png)
+![image-20221125153623406](./mysql/image-20221125153623406.png)
 
 
 
@@ -1711,7 +1732,7 @@ Next-Key Lock->record lock,索引value唯一的时候进行降级
 
 **example**
 
-![image-20221125163928225](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125163928225.png)
+![image-20221125163928225](./mysql/image-20221125163928225.png)
 
 
 
@@ -1851,7 +1872,7 @@ log block tailer 	 8bytes
 
 log buffer管理log block，
 
-![image-20221125175912175](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125175912175.png)
+![image-20221125175912175](./mysql/image-20221125175912175.png)
 
 
 
@@ -1863,7 +1884,7 @@ InnoDB 1.2版本开始重做日志文件总大小的限制提高为了512GB。
 
 重做日志格式
 
-![image-20221125180431518](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125180431518.png)
+![image-20221125180431518](./mysql/image-20221125180431518.png)
 
 **LSN**
 
@@ -1929,7 +1950,7 @@ undo log结构在InnoDB存储引擎中，undo log分为：
 
 InnoDB存储引擎有一个history列表，它根据事务提交的顺序，将undo log进行链接
 
-![image-20221125183622836](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125183622836.png)
+![image-20221125183622836](./mysql/image-20221125183622836.png)
 
 
 
@@ -1973,7 +1994,7 @@ MySQL数据库内部使用了prepare_commit_mutex这个锁。但是在启用这�
 
 5.6 BLGC（bin log GC）
 
-![image-20221125184808846](/Users/shengquan/Library/Application Support/typora-user-images/image-20221125184808846.png)
+![image-20221125184808846](./mysql/image-20221125184808846.png)
 
 
 
@@ -2188,7 +2209,7 @@ shell＞mysqldump[arguments]＞fle_name如果想要备份所有的数据库，�
 
 复制的工作原理并不复杂，其实就是一个完全备份加上二进制日志备份的还原。从服务器有2个线程，一个是I/O线程，负责读取主服务器的二进制日志，并将其保存为中继日志；另一个是SQL线程，复制执行中继日志。
 
-![image-20221128153639534](/Users/shengquan/Library/Application Support/typora-user-images/image-20221128153639534.png)
+![image-20221128153639534](./mysql/image-20221128153639534.png)
 
 
 
@@ -2314,41 +2335,17 @@ show processlist
 
 
 
+如何保证事务结束后，对数据的修改永久的保存？
+
+方案1.事务提交前页面写盘
+
+方案2. wal
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-![image-20221201161209569](/Users/shengquan/Library/Application Support/typora-user-images/image-20221201161209569.png)
-
-
-
-
-
-
-
-![image-20221201160736312](/Users/shengquan/Library/Application Support/typora-user-images/image-20221201160736312.png)
+![IMG_A57C25321366](./mysql/IMG_A57C25321366.jpeg)
 
 
 

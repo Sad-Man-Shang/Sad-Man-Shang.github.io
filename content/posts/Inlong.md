@@ -1,7 +1,6 @@
 ---
 title: "Inlong"
 date: 2023-07-12T23:00:26+10:00
-lastmod: 2020-07-011T02:03:11+10:00
 draft: false
 authors: [Sad_man]
 tags: [开源, 大数据, 数据集成]

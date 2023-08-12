@@ -1,7 +1,6 @@
 ---
 title: "GRPC"
 date: 2023-07-30T15:53:16+10:00
-lastmod: 2020-07-30T15:53:16+10:00
 draft: false
 authors: [Sad_man]
 tags: [面试]
