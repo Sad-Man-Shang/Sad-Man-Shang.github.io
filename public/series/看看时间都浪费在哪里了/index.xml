@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>看看时间都浪费在哪里了 - 系列 - Sad man</title>
+        <link>https://sad-man-shang.github.io/series/%E7%9C%8B%E7%9C%8B%E6%97%B6%E9%97%B4%E9%83%BD%E6%B5%AA%E8%B4%B9%E5%9C%A8%E5%93%AA%E9%87%8C%E4%BA%86/</link>
+        <description>看看时间都浪费在哪里了 - 系列 - Sad man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 04 Sep 2023 16:42:56 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/series/%E7%9C%8B%E7%9C%8B%E6%97%B6%E9%97%B4%E9%83%BD%E6%B5%AA%E8%B4%B9%E5%9C%A8%E5%93%AA%E9%87%8C%E4%BA%86/" rel="self" type="application/rss+xml" /><item>
+    <title>Markword如何存储32位hashcode</title>
+    <link>https://sad-man-shang.github.io/markword%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A832%E4%BD%8Dhashcode/</link>
+    <pubDate>Mon, 04 Sep 2023 16:42:56 &#43;0800</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/markword%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A832%E4%BD%8Dhashcode/</guid>
+    <description><![CDATA[说问题先说版本，jdk8u 众所周知，java中hashcode是32位的int类型。 在学习synchronized关键字的实现的时候，接触到]]></description>
+</item></channel>
+</rss>
