@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>mysql - 标签 - Sad man</title>
+        <link>https://sad-man-shang.github.io/tags/mysql/</link>
+        <description>mysql - 标签 - Sad man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 04 Sep 2023 20:16:33 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/tags/mysql/" rel="self" type="application/rss+xml" /><item>
+    <title>为什么缓冲池中只有undolog</title>
+    <link>https://sad-man-shang.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BC%93%E5%86%B2%E6%B1%A0%E4%B8%AD%E5%8F%AA%E6%9C%89undolog/</link>
+    <pubDate>Mon, 04 Sep 2023 20:16:33 &#43;0800</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BC%93%E5%86%B2%E6%B1%A0%E4%B8%AD%E5%8F%AA%E6%9C%89undolog/</guid>
+    <description><![CDATA[为什么mysql的innodb存储引擎中，只有undo log，redo log缓冲却不在缓冲池中呢？ 个人理解，undolog可以在mvcc的时]]></description>
+</item></channel>
+</rss>
