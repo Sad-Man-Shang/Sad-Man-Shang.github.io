@@ -9,6 +9,6 @@
     <pubDate>Sat, 12 Aug 2023 20:39:43 &#43;0800</pubDate><author>
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/interview/</guid>
-    <description><![CDATA[操作系统进程同步的临界区 操作系统的内存管理机制 进程线程的区别，线程调度机制，进程的状态 死锁：是什么、发生条件、如何避免 linux上一个程序运]]></description>
+    <description><![CDATA[操作系统进程同步的临界区 进程同步是多个进程在执行时为了协调他们的行为或确保共享资源的一致性而进行的相互制约。其中，临界区是进程同步的核心概念]]></description>
 </item></channel>
 </rss>

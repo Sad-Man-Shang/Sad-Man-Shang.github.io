@@ -9,6 +9,6 @@
     <pubDate>Sun, 30 Jul 2023 15:53:16 &#43;1000</pubDate><author>
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/grpc/</guid>
-    <description><![CDATA[一、环境配置安装 brew install protobuf 二、 gRPC 核心的设计思路​ 1. 网络通信 &mdash;&gt; gRPC自己封装网络通信的部分 提供多种语言的 网络通信的封装 （C Java[Netty] GO) ​ 2. 协议 &mdash;&gt; HTTP2 传输数]]></description>
+    <description><![CDATA[一、环境配置安装 brew install protobuf protoc --proto_path=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/proto/ --java_out=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/java/ --grpc-java_out=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/java/ raft.proto 二、 gRPC 核心的设计思路 1. gRPC 与 ThriftRPC 区别 共性：支持异构语言的RPC。 区别： 1. 网络通信 Thrift TCP 专属协议 GRPC HTTP2 2. 性能角度 ThriftRPC 性能]]></description>
 </item></channel>
 </rss>

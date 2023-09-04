@@ -9,7 +9,7 @@
     <pubDate>Sat, 12 Aug 2023 20:39:43 &#43;0800</pubDate><author>
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/interview/</guid>
-    <description><![CDATA[操作系统进程同步的临界区 操作系统的内存管理机制 进程线程的区别，线程调度机制，进程的状态 死锁：是什么、发生条件、如何避免 linux上一个程序运]]></description>
+    <description><![CDATA[操作系统进程同步的临界区 进程同步是多个进程在执行时为了协调他们的行为或确保共享资源的一致性而进行的相互制约。其中，临界区是进程同步的核心概念]]></description>
 </item><item>
     <title>Parkmate</title>
     <link>https://sad-man-shang.github.io/parkmate/</link>
@@ -23,27 +23,13 @@
     <pubDate>Sun, 30 Jul 2023 15:53:16 &#43;1000</pubDate><author>
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/grpc/</guid>
-    <description><![CDATA[一、环境配置安装 brew install protobuf 二、 gRPC 核心的设计思路​ 1. 网络通信 &mdash;&gt; gRPC自己封装网络通信的部分 提供多种语言的 网络通信的封装 （C Java[Netty] GO) ​ 2. 协议 &mdash;&gt; HTTP2 传输数]]></description>
+    <description><![CDATA[一、环境配置安装 brew install protobuf protoc --proto_path=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/proto/ --java_out=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/java/ --grpc-java_out=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/java/ raft.proto 二、 gRPC 核心的设计思路 1. gRPC 与 ThriftRPC 区别 共性：支持异构语言的RPC。 区别： 1. 网络通信 Thrift TCP 专属协议 GRPC HTTP2 2. 性能角度 ThriftRPC 性能]]></description>
 </item><item>
     <title>Mysql</title>
     <link>https://sad-man-shang.github.io/mysql/</link>
     <pubDate>Fri, 21 Jul 2023 16:40:24 &#43;1000</pubDate><author>
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/mysql/</guid>
-    <description><![CDATA[关于innodb 存储引擎以及mysql45讲，CMU的笔记 零、基本用法判断等= 使用'' desc 降序（大的在前） Limit N offset M 第N-1开始M个即Limit]]></description>
-</item><item>
-    <title>计算机网络</title>
-    <link>https://sad-man-shang.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
-    <pubDate>Tue, 11 Jul 2023 01:26:49 &#43;1000</pubDate><author>
-                    <name>Sad_man</name>
-                </author><guid>https://sad-man-shang.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>操作系统</title>
-    <link>https://sad-man-shang.github.io/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
-    <pubDate>Mon, 10 Jul 2023 05:57:57 &#43;1000</pubDate><author>
-                    <name>Sad_man</name>
-                </author><guid>https://sad-man-shang.github.io/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
-    <description><![CDATA[haha ha abcdefg haha]]></description>
+    <description><![CDATA[关于innodb 存储引擎以及mysql45讲，CMU的笔记 让然，还有相当硬核的阿里月报 零、基本用法判断等= 使用'' desc 降序（大的在前） Limit N offset M]]></description>
 </item></channel>
 </rss>

@@ -9,6 +9,6 @@
     <pubDate>Fri, 21 Jul 2023 16:40:24 &#43;1000</pubDate><author>
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/mysql/</guid>
-    <description><![CDATA[关于innodb 存储引擎以及mysql45讲，CMU的笔记 零、基本用法判断等= 使用'' desc 降序（大的在前） Limit N offset M 第N-1开始M个即Limit]]></description>
+    <description><![CDATA[关于innodb 存储引擎以及mysql45讲，CMU的笔记 让然，还有相当硬核的阿里月报 零、基本用法判断等= 使用'' desc 降序（大的在前） Limit N offset M]]></description>
 </item></channel>
 </rss>

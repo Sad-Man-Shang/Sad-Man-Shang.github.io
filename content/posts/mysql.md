@@ -5,11 +5,13 @@ draft: false
 authors: [Sad_man]
 tags: [面试]
 categories: [数据库]
-series: [24届从零开始到找到工作]
+series: [学习笔记]
 series_weight: 1
 ---
 
 关于**innodb 存储引擎**以及**mysql45讲**，[CMU](https://15445.courses.cs.cmu.edu/fall2022/schedule.html)的笔记
+
+让然，还有相当硬核的[阿里月报](http://mysql.taobao.org/monthly/)
 
 # 零、基本用法
 

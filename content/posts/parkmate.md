@@ -6,7 +6,7 @@ draft: false
 authors: [Sad_man]
 tags: [面试]
 categories: [项目]
-series: [24届从零开始到找到工作]
+series: [学习笔记]
 series_weight: 1
 ---
 

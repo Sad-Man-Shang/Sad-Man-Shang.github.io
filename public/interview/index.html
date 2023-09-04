@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
     <title>Interview - Sad man</title><meta name="Description" content=""><meta property="og:title" content="Interview" />
-<meta property="og:description" content="操作系统进程同步的临界区 操作系统的内存管理机制 进程线程的区别，线程调度机制，进程的状态 死锁：是什么、发生条件、如何避免 linux上一个程序运" />
+<meta property="og:description" content="操作系统进程同步的临界区 进程同步是多个进程在执行时为了协调他们的行为或确保共享资源的一致性而进行的相互制约。其中，临界区是进程同步的核心概念" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://sad-man-shang.github.io/interview/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-08-12T20:39:43+08:00" />
@@ -17,13 +17,13 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Interview"/>
-<meta name="twitter:description" content="操作系统进程同步的临界区 操作系统的内存管理机制 进程线程的区别，线程调度机制，进程的状态 死锁：是什么、发生条件、如何避免 linux上一个程序运"/>
+<meta name="twitter:description" content="操作系统进程同步的临界区 进程同步是多个进程在执行时为了协调他们的行为或确保共享资源的一致性而进行的相互制约。其中，临界区是进程同步的核心概念"/>
 <meta name="application-name" content="Sad man">
 <meta name="apple-mobile-web-app-title" content="Sad man">
 
 <meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://sad-man-shang.github.io/interview/" /><link rel="prev" href="https://sad-man-shang.github.io/parkmate/" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://sad-man-shang.github.io/interview/" /><link rel="prev" href="https://sad-man-shang.github.io/parkmate/" /><link rel="next" href="https://sad-man-shang.github.io/ios/" />
 <link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
@@ -35,7 +35,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/sad-man-shang.github.io\/interview\/"
-        },"genre": "posts","keywords": "面试","wordcount":  66536 ,
+        },"genre": "posts","keywords": "面试","wordcount":  68439 ,
         "url": "https:\/\/sad-man-shang.github.io\/interview\/","datePublished": "2023-08-12T20:39:43+08:00","dateModified": "2023-08-12T20:39:43+08:00","publisher": {
             "@type": "Organization",
             "name": "Sad man"},"authors": [{
@@ -131,11 +131,11 @@
             <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Interview</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='https://sad-man-shang.github.io/authors/sad_man'>Sad_man</a></span>
-                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/interview/"><i class="far fa-folder fa-fw"></i>interview</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/24%E5%B1%8A%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%88%B0%E6%89%BE%E5%88%B0%E5%B7%A5%E4%BD%9C/"><i class="far fa-list-alt fa-fw"></i>24届从零开始到找到工作</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-08-12">2023-08-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-08-12">2023-08-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 66536 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 133 分钟&nbsp;</div>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/interview/"><i class="far fa-folder fa-fw"></i>interview</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>学习笔记</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-08-12">2023-08-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-08-12">2023-08-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 68439 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 137 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
-                                    <span>系列 - 24届从零开始到找到工作</span>
+                                    <span>系列 - 学习笔记</span>
                                     <span><i class="details-icon fas fa-angle-right"></i></span>
                                 </div>
                                 <div class="details-content series-content">
@@ -145,18 +145,96 @@
                                                     <li><a href="/grpc/">GRPC</a></li>
                                                     <li><a href="/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/">笔试真题</a></li>
                                                     <li><a href="/mysql/">Mysql</a></li>
-                                                    <li><a href="/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/">LeetCode 热题 HOT 100</a></li>
-                                                    <li><a href="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li>
-                                                    <li><a href="/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li></ul>
+                                                    <li><a href="/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/">LeetCode 热题 HOT 100</a></li></ul>
                                     </nav>
                                 </div>
                             </div><div class="content" id="content"><h1 id="操作系统" class="headerLink">
     <a href="#%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f" class="header-mark"></a>操作系统</h1><p>进程同步的临界区</p>
-<p>操作系统的内存管理机制</p>
+<pre tabindex="0"><code>进程同步是多个进程在执行时为了协调他们的行为或确保共享资源的一致性而进行的相互制约。其中，临界区是进程同步的核心概念。
+
+### 临界区：
+
+**临界区（Critical Section）** 是一个访问共享资源或数据的代码段，而这些资源在同一时刻只能被一个进程（或线程）访问。在临界区内的代码，同一时刻只能被一个执行单元（如进程或线程）执行。如果不遵循这一规则，那么可能会出现数据不一致或其他不可预见的结果。
+
+例如，假设有两个进程都要修改一个共享的变量。如果这两个进程同时修改该变量，那么最终的结果将是不确定的。为了确保正确性，修改这个共享变量的代码必须被当作临界区，并确保任何时刻只有一个进程能执行这段代码。
+
+### 临界区的属性：
+
+1. **互斥性**：同一时刻只能有一个进程执行临界区代码。
+
+2. **不可剥夺**：进入临界区的进程只有在退出时才释放其对临界区的控制。
+
+3. **等待限制**：请求进入临界区的进程不应无限期地被延迟。
+
+4. **循环等待**：有一个约定的顺序或方法，以避免进程之间的循环等待情况。
+
+### 实现临界区的方法：
+
+1. **禁止中断**：这是一个简单但粗糙的方法，适用于单处理器系统。进入临界区前禁止所有中断，退出时再恢复。
+
+2. **特殊的机器指令**：使用测试和设置锁（Test and Set Lock）或者交换（Swap）等特殊的原子操作。
+
+3. **Peterson&#39;s Solution**：这是一个基于软件的方法，用于两个进程的同步。
+
+4. **信号量（Semaphores）**：信号量是一个经典的同步原语，可以用来实现多个进程之间的同步。
+
+5. **互斥体（Mutex）**：通常用于线程同步。
+
+6. **管程（Monitors）**：这是一个更高级的同步原语，它包含了共享数据以及可以操作这些数据的一组过程。
+
+为了保证共享资源的一致性和数据的完整性，在多任务环境中实现临界区保护是至关重要的。
+</code></pre><p>操作系统的内存管理机制</p>
 <p>进程线程的区别，线程调度机制，进程的状态</p>
 <p>死锁：是什么、发生条件、如何避免</p>
-<p>linux上一个程序运行起来是一个进程对吧？不对</p>
-<p>32位地址空间，高地址到地址放的什么内容？（只回答了内核空间和用户空间，具体也不了解&hellip;.）</p>
+<pre tabindex="0"><code>死锁 是计算机科学中的一个概念，尤其在操作系统和并发控制中，指的是两个或多个进程或线程在等待某个资源而永远无法进行下去的情况。
+
+死锁的发生条件：
+死锁发生时，通常满足以下四个条件（这四个条件是并发出现的，不是顺序出现的）：
+
+1. 互斥条件（Mutual Exclusion）：资源不能被多个进程同时占用，即一次只有一个进程可以使用资源。
+
+2. 持有并等待（Hold and Wait）：一个进程持有至少一个资源，但又提出了新的资源请求，而该资源已经被其他进程持有，所以它必须等待。
+
+3. 非抢占条件（No Preemption）：资源不能被强制从一个进程中撤回，只能由占有它的进程自愿释放。
+
+4. 循环等待（Circular Wait）：存在一个进程资源的等待循环，即：P0 等待 P1 持有的资源，P1 等待 P2 持有的资源，...，Pn 等待 P0 持有的资源。
+
+只要其中一个条件不满足，死锁就可以被防止。
+
+如何避免死锁：
+
+1. 打破互斥条件：这个策略并不总是可行，因为有些资源（例如打印机）在其性质上是互斥的。
+
+2. 打破持有并等待条件：要求进程在请求资源前释放其所有资源，这样它就不能持有资源并等待其他资源了。
+
+3. 打破非抢占条件：操作系统可以介入并抢占资源，将其分配给其他进程。当原始进程准备运行时，如果需要的资源不可用，它就必须等待。
+
+4. 打破循环等待条件：为系统中的所有资源分配一个线性顺序，并要求每个进程按照这种顺序递增（或递减）的方式请求资源。
+
+除了上述的死锁避免策略，还有其他处理死锁的方法，如死锁检测和恢复（系统周期性地检查死锁，并取消或回滚某些操作以恢复正常状态）
+
+
+—————————
+检测：资源分配图，node是process和资源，边是分配和请求；timeout机制
+避免：银行家算法
+恢复：回滚process
+</code></pre><p>linux上一个程序运行起来是一个进程对吗？什么是僵尸进程？</p>
+<pre tabindex="0"><code>1. 进程的定义：
+在 Linux 和其他 UNIX-like 系统中，当一个程序运行起来时，它确实是一个进程。进程是一个执行中的程序实例。它有自己的地址空间、内存、数据栈以及与其他进程隔离的资源。一个程序可以有多个运行中的进程实例。
+
+2. 僵尸进程（Zombie Process）：
+僵尸进程是已经完成执行但仍在进程表中的进程。简而言之，它是一个已经死去但其父进程尚未回收其状态信息的进程。以下是僵尸进程的特点：
+
+    - 僵尸进程不消耗任何实际资源。尽管如此，它们仍会占用进程表中的位置，这可能会导致系统在达到最大进程数时无法启动新的进程。
+    
+    - 一个进程在调用 `exit` 系统调用或执行完毕后会变成僵尸进程，直到其父进程调用 `wait` 系统调用来读取子进程的退出状态。
+    
+    - 如果一个子进程变成僵尸，而其父进程没有正确地调用 `wait` 或 `waitpid` 来回收它，那么这个子进程就会一直保持僵尸状态。
+    
+    - 如果父进程先于子进程退出，`init` 进程（进程ID为1）将成为子进程的新父进程，并负责清理这些子进程，从而防止它们成为僵尸进程。
+
+如果你在系统上看到大量的僵尸进程，这可能意味着有些程序没有正确地管理它们的子进程。大多数情况下，僵尸进程是无害的，但它们占据的进程表条目可能会成为问题。如果进程表满了，系统可能无法启动新的进程。
+</code></pre><p>32位地址空间，高地址到地址放的什么内容？（只回答了内核空间和用户空间，具体也不了解&hellip;.）</p>
 <p>用户空间又分为哪些部分？</p>
 <p>os中用户态和内核态详细的交互过程</p>
 <p>内核线程与用户线程怎么切换以及交互的，两个映射关系是什么</p>
@@ -391,7 +469,6 @@ DNS的作用</p>
 <p>select、poll、epoll优缺点、区别、使用场景、如何使用</p>
 <p>多路复用原理（为什么1 1.1不行呢）</p>
 <p>流 帧的概念</p>
-<p>Linux什么是僵尸进程</p>
 <p>vim编辑模式，常用快捷键</p>
 <h1 id="mysql数据库" class="headerLink">
     <a href="#mysql%e6%95%b0%e6%8d%ae%e5%ba%93" class="header-mark"></a>MySQL数据库</h1><p>MySQL集群中主库宕机，从库如何立即感知到并接管?</p>
@@ -934,16 +1011,13 @@ volatile</p>
 <p>和LevelDB的区别</p>
 <p>如何确保数据库一致性？（删缓存、延时双删）</p>
 <p>数据结构种类、底层数据结构实现？</p>
-<p>什么是缓存穿透？如何解决？</p>
-<p>什么是缓存击穿？如何解决？</p>
-<p>什么是缓存雪崩？如何解决？</p>
-<p>什么是缓存预热？如何解决？</p>
+<p>什么是缓存穿透、击穿、雪崩、预热？如何解决？</p>
 <p>Redis如何实现分布式锁？</p>
 <p>如何搭集群</p>
-<p>\1. 单线程的Redis的QPS是多少？</p>
-<p>\2. 单线程的Redis为什么这么快？</p>
+<p>单线程的Redis的QPS是多少？</p>
+<p>单线程的Redis为什么这么快？</p>
 <p>项目中说用 Redis 维持了用户登录状态，怎么实现的，还有其他实现方式吗</p>
-<p>Redis 的主从原理-</p>
+<p>Redis 的主从原理</p>
 <p>什么是增量复制</p>
 <p>什么时候进行全量复制</p>
 <p>Redis 有哪些持久化方式</p>
@@ -951,41 +1025,40 @@ volatile</p>
 <p>RDB 的原理呢</p>
 <p>Redis 有哪些具体的数据结构，你都用过吗</p>
 <p>Set 和 Zset 你会在什么时候用呢</p>
-<p>\3. Redis的持久化机制？</p>
-<p>\4. Redis切片集群？数据和实例之间的如何进行映射？</p>
-<p>\5. Redis扩容之后，哈希槽的位置是否发生变化？</p>
-<p>\6. Redis缓存和数据库不一致解决方法？</p>
-<p>Redis的<a href="" rel="">数据</a>类型及应用、缓存击穿、穿透、雪崩</p>
-<p>8、<a href="" rel="">redis</a>是否支持事务</p>
-<p>9、<a href="" rel="">redis</a>如何做持久化</p>
+<p>Redis的持久化机制？</p>
+<p>Redis切片集群？数据和实例之间的如何进行映射？</p>
+<p>Redis扩容之后，哈希槽的位置是否发生变化？</p>
+<p>Redis缓存和数据库不一致解决方法？</p>
+<p>Redis的数据类型及应用、缓存击穿、穿透、雪崩</p>
+<p>redis是否支持事务</p>
+<p>redis如何做持久化</p>
 <p>redis为啥支持高并发，为啥性能优越</p>
-<p><a href="" rel="">redis</a>6.0新特性</p>
-<p><a href="" rel="">redis</a>内存淘汰策略</p>
-<p>\7. 问问redis（底层压缩列表和对应结构忘了）</p>
-<p>\8. redis底层5大类型</p>
-<p>\9. redis类型对应的底层实现</p>
-<p>\10. 为什么用跳表，跳表和链表区别</p>
-<p>\11. 为什么数据小用链表、大的用跳表（节省空间，优化性能，性能和空间折中）</p>
-<p>\12. redis为什么是单线程</p>
+<p>redis6.0新特性</p>
+<p>redis内存淘汰策略</p>
+<p>问问redis（底层压缩列表和对应结构忘了）</p>
+<p>redis底层5大类型</p>
+<p>redis类型对应的底层实现</p>
+<p>为什么用跳表，跳表和链表区别</p>
+<p>为什么数据小用链表、大的用跳表（节省空间，优化性能，性能和空间折中）</p>
+<p>redis为什么是单线程</p>
 <p>redis数据结构</p>
 <p>MySQL 和 Redis 数据一致性问题</p>
-<p>\4. Redis 中 ZSet 的底层（压缩链表，哈希表，跳跃表）</p>
-<p>\5. Redis 内存淘汰策略</p>
-<p>2.Redis在项目中的使用？做了什么功能？用了什么数据结构？（答map。面试官说没有这个）</p>
-<p>3.Redis有哪些数据结构，底层实现了解过吗？（有看过博客，没有系统学习，时间久远已忘却。）</p>
+<p>Redis 中 ZSet 的底层（压缩链表，哈希表，跳跃表）</p>
+<p>Redis 内存淘汰策略</p>
+<p>Redis在项目中的使用？做了什么功能？用了什么数据结构？（答map。面试官说没有这个）</p>
+<p>Redis有哪些数据结构，底层实现了解过吗？（有看过博客，没有系统学习，时间久远已忘却。）</p>
 <p>redis解决写热key的问题（热key读，热key写）</p>
-<p>\16. 我看你项目用到了 redis 具体用到了哪些数据结构？（string，hash，zset）</p>
-<p>\17. zset 实现，跳表是怎么回事？高度？时间复杂度？为什么不用 b+ 树？</p>
-<p>\18. redis 是单进程还是多进程？</p>
-<p>\4. 项目用到了 redis 哪些结构（zset，hash），说一说底层实现</p>
-<p>\5. zset 除了跳表+hash表外还有其他实现吗？</p>
-<p>\6. 才想起来数据量较小时会用压缩列表实现</p>
-<p>\7. 又问压缩列表实现的主要目的，答节省内存</p>
+<p>我看你项目用到了 redis 具体用到了哪些数据结构？（string，hash，zset）</p>
+<p>zset 实现，跳表是怎么回事？高度？时间复杂度？为什么不用 b+ 树？</p>
+<p>redis 是单进程还是多进程？</p>
+<p>项目用到了 redis 哪些结构（zset，hash），说一说底层实现</p>
+<p>zset 除了跳表+hash表外还有其他实现吗？</p>
+<p>才想起来数据量较小时会用压缩列表实现</p>
+<p>压缩列表实现的主要目的，答节省内存</p>
 <p>key的过期机制</p>
-<p>8.<a href="" rel="">redis</a>的io多路复用模型</p>
-<p><a href="" rel="">redis</a>和mysql的一致性怎么保证（先删后更新、双删，面试官后来指出用个mq异步删除更好，这块确实接触不多</p>
-<p>Redis缓存和<a href="" rel="">数据</a>库的一致性，延迟双删</p>
-<p>etcd的watch机制</p>
+<p>redis的io多路复用模型</p>
+<p>redis和mysql的一致性怎么保证（先删后更新、双删，面试官后来指出用个mq异步删除更好，这块确实接触不多</p>
+<p>Redis缓存和数据库的一致性，延迟双删</p>
 <p>redis里内存淘汰是LRU对吧？（还可以是其他机制，一般是LRU）</p>
 <p>假如让你去实现LRU cache的话，你会怎么实现？（链表基本实现，扯了下MySQL的LRU策略优化——冷热数据分离）</p>
 <p>LRU cache不适用于什么场景？（想了一会儿，因为没碰到具体啥业务场景，所以开始一堆假设，反推，自言自语。然后说——数据量很大，一个周期取数据，取完数据就马上被淘汰了）</p>
@@ -3374,7 +3447,8 @@ RocketMQ 支持，RabbitMQ 和 Kafka 都不支持，一次发送消息和一次�
         </section>
     </div>
 
-    <div class="post-nav"><a href="/parkmate/" class="prev" rel="prev" title="Parkmate"><i class="fas fa-angle-left fa-fw"></i>Parkmate</a></div>
+    <div class="post-nav"><a href="/parkmate/" class="prev" rel="prev" title="Parkmate"><i class="fas fa-angle-left fa-fw"></i>Parkmate</a>
+            <a href="/ios/" class="next" rel="next" title="IOS">IOS<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
         </main><footer class="footer">

@@ -1,0 +1,49 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>学习笔记 - 系列 - Sad man</title>
+        <link>https://sad-man-shang.github.io/series/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <description>学习笔记 - 系列 - Sad man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 12 Aug 2023 20:39:43 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/series/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+    <title>Interview</title>
+    <link>https://sad-man-shang.github.io/interview/</link>
+    <pubDate>Sat, 12 Aug 2023 20:39:43 &#43;0800</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/interview/</guid>
+    <description><![CDATA[操作系统进程同步的临界区 进程同步是多个进程在执行时为了协调他们的行为或确保共享资源的一致性而进行的相互制约。其中，临界区是进程同步的核心概念]]></description>
+</item><item>
+    <title>Parkmate</title>
+    <link>https://sad-man-shang.github.io/parkmate/</link>
+    <pubDate>Thu, 10 Aug 2023 17:39:54 &#43;0800</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/parkmate/</guid>
+    <description><![CDATA[零、Reading list OAuth2.0http://www.ruanyifeng.com/blog/2019/04/github-oauth.html http://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html http://www.ruanyifeng.com/blog/2019/04/github-oauth.html 一、OAuth2.0OAuth 2.0 在终端用户、第三方应用、授权方（通常是资源服务器的所有者）之间建立了一种安全的授权]]></description>
+</item><item>
+    <title>GRPC</title>
+    <link>https://sad-man-shang.github.io/grpc/</link>
+    <pubDate>Sun, 30 Jul 2023 15:53:16 &#43;1000</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/grpc/</guid>
+    <description><![CDATA[一、环境配置安装 brew install protobuf protoc --proto_path=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/proto/ --java_out=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/java/ --grpc-java_out=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/java/ raft.proto 二、 gRPC 核心的设计思路 1. gRPC 与 ThriftRPC 区别 共性：支持异构语言的RPC。 区别： 1. 网络通信 Thrift TCP 专属协议 GRPC HTTP2 2. 性能角度 ThriftRPC 性能]]></description>
+</item><item>
+    <title>笔试真题</title>
+    <link>https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/</link>
+    <pubDate>Sat, 22 Jul 2023 18:48:05 &#43;1000</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/</guid>
+    <description><![CDATA[科大讯飞非凡计划 最多的好串 0708笔试算法解析小红定义一个字符串是“好串”，当且仅当该字符串的长度不小于2，且首尾相同。例如“arcaea”]]></description>
+</item><item>
+    <title>Mysql</title>
+    <link>https://sad-man-shang.github.io/mysql/</link>
+    <pubDate>Fri, 21 Jul 2023 16:40:24 &#43;1000</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/mysql/</guid>
+    <description><![CDATA[关于innodb 存储引擎以及mysql45讲，CMU的笔记 让然，还有相当硬核的阿里月报 零、基本用法判断等= 使用'' desc 降序（大的在前） Limit N offset M]]></description>
+</item><item>
+    <title>LeetCode 热题 HOT 100</title>
+    <link>https://sad-man-shang.github.io/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/</link>
+    <pubDate>Tue, 11 Jul 2023 02:03:11 &#43;1000</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/</guid>
+    <description><![CDATA[本系列题库链接 1. 两数之和思路1. 先排序，然后双指针，时间复杂度为O(nlogn), 空间复杂度O(1). 思路2. 使用HashMap保存访问过的]]></description>
+</item></channel>
+</rss>
