@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Spring - 标签 - Sad man</title>
+        <link>https://sad-man-shang.github.io/tags/spring/</link>
+        <description>Spring - 标签 - Sad man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 06 Sep 2023 15:08:28 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/tags/spring/" rel="self" type="application/rss+xml" /><item>
+    <title>Spring关键源码阅读</title>
+    <link>https://sad-man-shang.github.io/springsourcecode/</link>
+    <pubDate>Wed, 06 Sep 2023 15:08:28 &#43;0800</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/springsourcecode/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
+</rss>

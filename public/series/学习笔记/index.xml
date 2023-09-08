@@ -3,7 +3,14 @@
         <title>学习笔记 - 系列 - Sad man</title>
         <link>https://sad-man-shang.github.io/series/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
         <description>学习笔记 - 系列 - Sad man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 12 Aug 2023 20:39:43 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/series/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 06 Sep 2023 15:08:28 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/series/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="self" type="application/rss+xml" /><item>
+    <title>Spring关键源码阅读</title>
+    <link>https://sad-man-shang.github.io/springsourcecode/</link>
+    <pubDate>Wed, 06 Sep 2023 15:08:28 &#43;0800</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/springsourcecode/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
     <title>Interview</title>
     <link>https://sad-man-shang.github.io/interview/</link>
     <pubDate>Sat, 12 Aug 2023 20:39:43 &#43;0800</pubDate><author>

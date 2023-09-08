@@ -1,0 +1,14 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>面试复盘 - 系列 - Sad man</title>
+        <link>https://sad-man-shang.github.io/series/%E9%9D%A2%E8%AF%95%E5%A4%8D%E7%9B%98/</link>
+        <description>面试复盘 - 系列 - Sad man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 05 Sep 2023 17:52:27 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/series/%E9%9D%A2%E8%AF%95%E5%A4%8D%E7%9B%98/" rel="self" type="application/rss+xml" /><item>
+    <title>面试复盘</title>
+    <link>https://sad-man-shang.github.io/%E9%98%BF%E9%87%8C1%E9%9D%A2/</link>
+    <pubDate>Tue, 05 Sep 2023 17:52:27 &#43;0800</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/%E9%98%BF%E9%87%8C1%E9%9D%A2/</guid>
+    <description><![CDATA[AK1关于如何学习java JUC中的两个类：ThreadLocal、AQS 源码讲解：Spring bean初始化流程、AOP JVM的gc red]]></description>
+</item></channel>
+</rss>
