@@ -3,7 +3,14 @@
         <title>Sad_man - 作者 - Sad man</title>
         <link>https://sad-man-shang.github.io/authors/sad_man/</link>
         <description>Sad_man - 作者 - Sad man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 06 Sep 2023 15:08:28 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/authors/sad_man/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 14 Sep 2023 21:13:14 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/authors/sad_man/" rel="self" type="application/rss+xml" /><item>
+    <title>一些不恰当比喻</title>
+    <link>https://sad-man-shang.github.io/%E4%B8%80%E4%BA%9B%E4%B8%8D%E6%81%B0%E5%BD%93%E6%AF%94%E5%96%BB/</link>
+    <pubDate>Thu, 14 Sep 2023 21:13:14 &#43;0800</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/%E4%B8%80%E4%BA%9B%E4%B8%8D%E6%81%B0%E5%BD%93%E6%AF%94%E5%96%BB/</guid>
+    <description><![CDATA[tcp的三次握手：我爱你，我爱你，我们在一起吧，我们在一起吧。 tcp四次挥手：我们分手吧，我同意分手，但是我还有点想说的话XXXXXX，好的]]></description>
+</item><item>
     <title>Spring关键源码阅读</title>
     <link>https://sad-man-shang.github.io/springsourcecode/</link>
     <pubDate>Wed, 06 Sep 2023 15:08:28 &#43;0800</pubDate><author>
@@ -44,7 +51,7 @@
     <pubDate>Thu, 10 Aug 2023 17:39:54 &#43;0800</pubDate><author>
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/parkmate/</guid>
-    <description><![CDATA[零、Reading list OAuth2.0http://www.ruanyifeng.com/blog/2019/04/github-oauth.html http://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html http://www.ruanyifeng.com/blog/2019/04/github-oauth.html 一、OAuth2.0OAuth 2.0 在终端用户、第三方应用、授权方（通常是资源服务器的所有者）之间建立了一种安全的授权]]></description>
+    <description><![CDATA[零、Reading list OAuth2.0http://www.ruanyifeng.com/blog/2019/04/github-oauth.html http://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html http://www.ruanyifeng.com/blog/2019/04/github-oauth.html 一、OAuth2.0 A. 具体实现流程（授权码模式 1. 前端将用户引导到gitee认证页面上https://gitee.c]]></description>
 </item><item>
     <title>GRPC</title>
     <link>https://sad-man-shang.github.io/grpc/</link>
@@ -66,12 +73,5 @@
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/mysql/</guid>
     <description><![CDATA[关于innodb 存储引擎以及mysql45讲，CMU的笔记 让然，还有相当硬核的阿里月报 零、基本用法判断等= 使用'' desc 降序（大的在前） Limit N offset M]]></description>
-</item><item>
-    <title>Inlong</title>
-    <link>https://sad-man-shang.github.io/inlong/</link>
-    <pubDate>Wed, 12 Jul 2023 23:00:26 &#43;1000</pubDate><author>
-                    <name>Sad_man</name>
-                </author><guid>https://sad-man-shang.github.io/inlong/</guid>
-    <description><![CDATA[模版项目申请书分为三个部分，技术方案、时间规划、项目经历 技术方案 1.请记住，技术方案越详细越有利于项目导师的理解和认可 ; 2.在技术方案中，学]]></description>
 </item></channel>
 </rss>

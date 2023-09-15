@@ -9,6 +9,6 @@
     <pubDate>Thu, 10 Aug 2023 17:39:54 &#43;0800</pubDate><author>
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/parkmate/</guid>
-    <description><![CDATA[零、Reading list OAuth2.0http://www.ruanyifeng.com/blog/2019/04/github-oauth.html http://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html http://www.ruanyifeng.com/blog/2019/04/github-oauth.html 一、OAuth2.0OAuth 2.0 在终端用户、第三方应用、授权方（通常是资源服务器的所有者）之间建立了一种安全的授权]]></description>
+    <description><![CDATA[零、Reading list OAuth2.0http://www.ruanyifeng.com/blog/2019/04/github-oauth.html http://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html http://www.ruanyifeng.com/blog/2019/04/github-oauth.html 一、OAuth2.0 A. 具体实现流程（授权码模式 1. 前端将用户引导到gitee认证页面上https://gitee.c]]></description>
 </item></channel>
 </rss>

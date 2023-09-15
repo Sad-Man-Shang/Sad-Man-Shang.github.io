@@ -3,7 +3,14 @@
         <title>Categories - 分类 - Sad man</title>
         <link>https://sad-man-shang.github.io/categories/</link>
         <description>Categories - 分类 - Sad man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 06 Sep 2023 15:08:28 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/categories/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 14 Sep 2023 21:13:14 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/categories/" rel="self" type="application/rss+xml" /><item>
+    <title>乱语</title>
+    <link>https://sad-man-shang.github.io/categories/%E4%B9%B1%E8%AF%AD/</link>
+    <pubDate>Thu, 14 Sep 2023 21:13:14 &#43;0800</pubDate><author>
+        <name>Sad man</name>
+    </author><guid>https://sad-man-shang.github.io/categories/%E4%B9%B1%E8%AF%AD/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
     <title>源码阅读</title>
     <link>https://sad-man-shang.github.io/categories/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</link>
     <pubDate>Wed, 06 Sep 2023 15:08:28 &#43;0800</pubDate><author>
@@ -65,13 +72,6 @@
     <pubDate>Fri, 21 Jul 2023 16:40:24 &#43;1000</pubDate><author>
         <name>Sad man</name>
     </author><guid>https://sad-man-shang.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
-    <description><![CDATA[]]></description>
-</item><item>
-    <title>开源工作</title>
-    <link>https://sad-man-shang.github.io/categories/%E5%BC%80%E6%BA%90%E5%B7%A5%E4%BD%9C/</link>
-    <pubDate>Wed, 12 Jul 2023 23:00:26 &#43;1000</pubDate><author>
-        <name>Sad man</name>
-    </author><guid>https://sad-man-shang.github.io/categories/%E5%BC%80%E6%BA%90%E5%B7%A5%E4%BD%9C/</guid>
     <description><![CDATA[]]></description>
 </item></channel>
 </rss>

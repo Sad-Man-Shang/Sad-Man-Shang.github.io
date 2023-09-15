@@ -3,7 +3,14 @@
         <title>所有文章 - Sad man</title>
         <link>https://sad-man-shang.github.io/posts/</link>
         <description>所有文章 | Sad man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 06 Sep 2023 15:08:28 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 14 Sep 2023 21:13:14 &#43;0800</lastBuildDate><atom:link href="https://sad-man-shang.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>一些不恰当比喻</title>
+    <link>https://sad-man-shang.github.io/%E4%B8%80%E4%BA%9B%E4%B8%8D%E6%81%B0%E5%BD%93%E6%AF%94%E5%96%BB/</link>
+    <pubDate>Thu, 14 Sep 2023 21:13:14 &#43;0800</pubDate><author>
+                    <name>Sad_man</name>
+                </author><guid>https://sad-man-shang.github.io/%E4%B8%80%E4%BA%9B%E4%B8%8D%E6%81%B0%E5%BD%93%E6%AF%94%E5%96%BB/</guid>
+    <description><![CDATA[tcp的三次握手：我爱你，我爱你，我们在一起吧，我们在一起吧。 tcp四次挥手：我们分手吧，我同意分手，但是我还有点想说的话XXXXXX，好的]]></description>
+</item><item>
     <title>Spring关键源码阅读</title>
     <link>https://sad-man-shang.github.io/springsourcecode/</link>
     <pubDate>Wed, 06 Sep 2023 15:08:28 &#43;0800</pubDate><author>
@@ -23,7 +30,7 @@
     <pubDate>Tue, 05 Sep 2023 02:08:03 &#43;0800</pubDate><author>
         <name>Sad man</name>
     </author><guid>https://sad-man-shang.github.io/kafka/</guid>
-    <description><![CDATA[三张图了解kafka 整体架构 主题、分区、备份 两个线程 关键点： 拦截器如何创建、使用？（在生产者，继承一个接口，Producerintercep]]></description>
+    <description><![CDATA[三张图了解kafka 整体架构 主题、分区、备份 两个线程 集群模式下，多个一个broker中可能有某个leader也可能有某个broker 关键点：]]></description>
 </item><item>
     <title>为什么缓冲池中只有undolog</title>
     <link>https://sad-man-shang.github.io/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BC%93%E5%86%B2%E6%B1%A0%E4%B8%AD%E5%8F%AA%E6%9C%89undolog/</link>
@@ -58,7 +65,7 @@
     <pubDate>Thu, 10 Aug 2023 17:39:54 &#43;0800</pubDate><author>
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/parkmate/</guid>
-    <description><![CDATA[零、Reading list OAuth2.0http://www.ruanyifeng.com/blog/2019/04/github-oauth.html http://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html http://www.ruanyifeng.com/blog/2019/04/github-oauth.html 一、OAuth2.0OAuth 2.0 在终端用户、第三方应用、授权方（通常是资源服务器的所有者）之间建立了一种安全的授权]]></description>
+    <description><![CDATA[零、Reading list OAuth2.0http://www.ruanyifeng.com/blog/2019/04/github-oauth.html http://www.ruanyifeng.com/blog/2019/04/oauth-grant-types.html http://www.ruanyifeng.com/blog/2019/04/github-oauth.html 一、OAuth2.0 A. 具体实现流程（授权码模式 1. 前端将用户引导到gitee认证页面上https://gitee.c]]></description>
 </item><item>
     <title>GRPC</title>
     <link>https://sad-man-shang.github.io/grpc/</link>
@@ -66,12 +73,5 @@
                     <name>Sad_man</name>
                 </author><guid>https://sad-man-shang.github.io/grpc/</guid>
     <description><![CDATA[一、环境配置安装 brew install protobuf protoc --proto_path=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/proto/ --java_out=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/java/ --grpc-java_out=/Users/shengquan/Downloads/CS/Program/Java/Raft_KV_Platform/src/main/java/ raft.proto 二、 gRPC 核心的设计思路 1. gRPC 与 ThriftRPC 区别 共性：支持异构语言的RPC。 区别： 1. 网络通信 Thrift TCP 专属协议 GRPC HTTP2 2. 性能角度 ThriftRPC 性能]]></description>
-</item><item>
-    <title>笔试真题</title>
-    <link>https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/</link>
-    <pubDate>Sat, 22 Jul 2023 18:48:05 &#43;1000</pubDate><author>
-                    <name>Sad_man</name>
-                </author><guid>https://sad-man-shang.github.io/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/</guid>
-    <description><![CDATA[科大讯飞非凡计划 最多的好串 0708笔试算法解析小红定义一个字符串是“好串”，当且仅当该字符串的长度不小于2，且首尾相同。例如“arcaea”]]></description>
 </item></channel>
 </rss>
