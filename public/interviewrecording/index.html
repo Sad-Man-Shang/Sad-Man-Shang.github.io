@@ -7,36 +7,36 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>Spring关键源码阅读 - Sad man</title><meta name="Description" content=""><meta property="og:title" content="Spring关键源码阅读" />
-<meta property="og:description" content="" />
+    <title>Interview Recording - Sad man</title><meta name="Description" content=""><meta property="og:title" content="Interview Recording" />
+<meta property="og:description" content="AK1关于如何学习java JUC中的两个类：ThreadLocal、AQS 源码讲解：Spring bean初始化流程、AOP JVM的gc red" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://sad-man-shang.github.io/springsourcecode/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-09-06T15:08:28+08:00" />
-<meta property="article:modified_time" content="2023-09-06T15:08:28+08:00" />
+<meta property="og:url" content="https://sad-man-shang.github.io/interviewrecording/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-09-05T17:52:27+08:00" />
+<meta property="article:modified_time" content="2023-09-05T17:52:27+08:00" />
 
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Spring关键源码阅读"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="Interview Recording"/>
+<meta name="twitter:description" content="AK1关于如何学习java JUC中的两个类：ThreadLocal、AQS 源码讲解：Spring bean初始化流程、AOP JVM的gc red"/>
 <meta name="application-name" content="Sad man">
 <meta name="apple-mobile-web-app-title" content="Sad man">
 
 <meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://sad-man-shang.github.io/springsourcecode/" /><link rel="prev" href="https://sad-man-shang.github.io/interviewrecording/" /><link rel="next" href="https://sad-man-shang.github.io/%E4%B8%80%E4%BA%9B%E4%B8%8D%E6%81%B0%E5%BD%93%E6%AF%94%E5%96%BB/" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://sad-man-shang.github.io/interviewrecording/" /><link rel="prev" href="https://sad-man-shang.github.io/kafka/" /><link rel="next" href="https://sad-man-shang.github.io/springsourcecode/" />
 <link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Spring关键源码阅读",
+        "headline": "Interview Recording",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https:\/\/sad-man-shang.github.io\/springsourcecode\/"
-        },"genre": "posts","keywords": "Spring, 源码","wordcount":  0 ,
-        "url": "https:\/\/sad-man-shang.github.io\/springsourcecode\/","datePublished": "2023-09-06T15:08:28+08:00","dateModified": "2023-09-06T15:08:28+08:00","publisher": {
+            "@id": "https:\/\/sad-man-shang.github.io\/interviewrecording\/"
+        },"genre": "posts","wordcount":  2038 ,
+        "url": "https:\/\/sad-man-shang.github.io\/interviewrecording\/","datePublished": "2023-09-05T17:52:27+08:00","dateModified": "2023-09-05T17:52:27+08:00","publisher": {
             "@type": "Organization",
             "name": "Sad man"},"authors": [{
                         "@type": "Person",
@@ -128,52 +128,165 @@
     <div id="search-dropdown-mobile"></div>
 </div>
 <main class="main">
-            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring关键源码阅读</h1><div class="post-meta">
+            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Interview Recording</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='https://sad-man-shang.github.io/authors/sad_man'>Sad_man</a></span>
-                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"><i class="far fa-folder fa-fw"></i>源码阅读</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-09-06">2023-09-06</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-09-06">2023-09-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 0 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 0 分钟&nbsp;</div>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-series">系列 <a href="/series/%E9%9D%A2%E8%AF%95%E5%A4%8D%E7%9B%98/"><i class="far fa-list-alt fa-fw"></i>面试复盘</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-09-05">2023-09-05</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-09-05">2023-09-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2038 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
-                                    <span>系列 - 学习笔记</span>
+                                    <span>系列 - 面试复盘</span>
                                     <span><i class="details-icon fas fa-angle-right"></i></span>
                                 </div>
                                 <div class="details-content series-content">
                                     <nav>
-                                        <ul><li><span class="active">Spring关键源码阅读</span></li>
-                                                    <li><a href="/interview/">Interview</a></li>
-                                                    <li><a href="/parkmate/">Parkmate</a></li>
-                                                    <li><a href="/grpc/">GRPC</a></li>
-                                                    <li><a href="/%E7%AC%94%E8%AF%95%E7%9C%9F%E9%A2%98/">笔试真题</a></li>
-                                                    <li><a href="/mysql/">Mysql</a></li>
-                                                    <li><a href="/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/">LeetCode 热题 HOT 100</a></li></ul>
+                                        <ul><li><span class="active">Interview Recording</span></li></ul>
                                     </nav>
                                 </div>
-                            </div><div class="content" id="content"></div>
+                            </div><div class="content" id="content"><h1 id="ak1" class="headerLink">
+    <a href="#ak1" class="header-mark"></a>AK1</h1><p>关于如何学习java</p>
+<p>JUC中的两个类：ThreadLocal、AQS</p>
+<p>源码讲解：Spring bean初始化流程、AOP</p>
+<p>JVM的gc</p>
+<p>redis的数据结构？为什么支持高并发？zset的底层是什么？如何判断热key？项目中哪里用到了redis？</p>
+<p>如何保证rabbitMQ的顺序消费？rabbitmq就是一个queue啊！？只需要只有一个消费者就可以了。模型是什么？所有消息队列都是生产消费模型，不过面试官真正想问的是rabbitmq有哪些部分组成，生产者、消费者、交换机、队列、broker。</p>
+<p>OAuth2.0的授权流程？</p>
+<p>MySQL的索引有哪些？为什么不用B+树？</p>
+<p>Canal的原理是什么？</p>
+<p>场景题：一个部门有子部门，子部门还有子部门，如何实现快速查询一个部门有哪些子部门？可以优化的思路有：java代码优化、sql优化、缓存优化、表设计优化</p>
+<p>点赞相关的表如何设计？</p>
+<h1 id="ak2" class="headerLink">
+    <a href="#ak2" class="header-mark"></a>AK2</h1><p>项目询问</p>
+<p>mysql索引结构</p>
+<p>sql语句执行流程</p>
+<p>如何进行分页</p>
+<p>缓存雪崩是什么？如何解决？</p>
+<p>rabbitmq的原理</p>
+<p>消息积压如何解决？</p>
+<h1 id="mt1" class="headerLink">
+    <a href="#mt1" class="header-mark"></a>MT1</h1><p>美团一面</p>
+<p>raft角色有哪些，职责是什么？</p>
+<p>raft日志同步的流程</p>
+<p>redis支持的数据类型</p>
+<p>zset的使用场景</p>
+<p>redis如何加锁？</p>
+<p>缓存雪崩解决方式</p>
+<p>StringBuilder和String的区别</p>
+<p>重写hashcode、equals的使用场景</p>
+<p>LinkedHashMap如何保证有序性？</p>
+<p>ConcurrentHashMap如何保证线程安全？</p>
+<p>volatile关键字解决了什么问题？可以保证原子性吗？</p>
+<p>synchronized和lock的区别</p>
+<p>synchronized可以被中断吗？</p>
+<p>乐观锁的实现方式</p>
+<p>CAS</p>
+<p>类加载流程、委派双亲机制、能不能加载java.long.Object类？</p>
+<p>堆内存和栈内存存了什么？</p>
+<p>堆内存溢出以及栈溢出的常见原因</p>
+<p>覆盖索引使用举例、为什么效率高？</p>
+<p>MySQL主从同步机制</p>
+<p>索引失效的场景</p>
+<p>手撕归并排序</p>
+<h1 id="mt2" class="headerLink">
+    <a href="#mt2" class="header-mark"></a>MT2</h1><p>经历拷问</p>
+<p>项目难点</p>
+<p>手撕循环打印</p>
+<h1 id="tx-qqios1" class="headerLink">
+    <a href="#tx-qqios1" class="header-mark"></a>TX qqIOS1</h1><p>个人介绍</p>
+<p>spring源码看了多少？</p>
+<p>mybatis从编码到查询数据库到返回结果的全过程</p>
+<p>如果查询时间较长是什么原因？如何解决？</p>
+<p>mysql和redis数据不一致如何处理？</p>
+<p>tcp四次挥手</p>
+<p>http几个版本</p>
+<p>https的加密过程</p>
+<p>手撕：2题，一个回文判断，一个反转整数</p>
+<p>最近看过什么开源项目？具体看的哪一部分？</p>
+<p>消息队列的使用场景？了解哪个消息队列？具体说说？</p>
+<p>项目中为什么要使用gRPC？</p>
+<p>了解其他的语言吗？</p>
+<p>linux如何查看cpu使用情况？</p>
+<p>进程间通信方式</p>
+<p>1亿个无序数字找出最大的1000个</p>
+<h1 id="tx-qqios2" class="headerLink">
+    <a href="#tx-qqios2" class="header-mark"></a>TX qqIOS2</h1><p>gc、
+什么是内存泄漏、
+synchronized底层原理
+闲聊一会接一个手撕目标和为k的子数组个数</p>
+<h1 id="tx-wd1" class="headerLink">
+    <a href="#tx-wd1" class="header-mark"></a>TX wd1</h1><p>个人介绍</p>
+<p>spring源码看了多少？</p>
+<p>mybatis从编码到查询数据库到返回结果的全过程</p>
+<p>如果查询时间较长是什么原因？如何解决？</p>
+<p>mysql和redis数据不一致如何处理？</p>
+<p>tcp四次挥手</p>
+<p>http几个版本</p>
+<p>https的加密过程</p>
+<p>手撕：2题，一个回文判断，一个反转整数</p>
+<p>最近看过什么开源项目？具体看的哪一部分？</p>
+<p>消息队列的使用场景？了解哪个消息队列？具体说说？</p>
+<p>项目中为什么要使用gRPC？</p>
+<p>了解其他的语言吗？</p>
+<p>linux如何查看cpu使用情况？</p>
+<p>进程间通信方式</p>
+<p>1亿个无序数字找出最大的1000个</p>
+<h1 id="tx-wxg1" class="headerLink">
+    <a href="#tx-wxg1" class="header-mark"></a>TX wxg1</h1><p>大数相加</p>
+<p>前k大</p>
+<p>tcp三次握手</p>
+<p>HashMap、ConcurrentHashMap</p>
+<p>项目中难点</p>
+<p>智力题：1000杯水一瓶毒药，喝了一小时会死，可以无限稀释。有十只小老鼠一小时找到毒药</p>
+<h1 id="tx-wxg2" class="headerLink">
+    <a href="#tx-wxg2" class="header-mark"></a>TX wxg2</h1><p>锁</p>
+<p>java内存共享</p>
+<p>项目中难点</p>
+<p>手撕</p>
+<h1 id="tx-wxg3" class="headerLink">
+    <a href="#tx-wxg3" class="header-mark"></a>TX wxg3</h1><p>一个点是否在一个图形内？算法思路，如何优化？</p>
+<p>手撕：3结点最小公公祖先</p>
+<h1 id="dw-1" class="headerLink">
+    <a href="#dw-1" class="header-mark"></a>DW 1</h1><p>springcloud的服务发现，nacos的作用？</p>
+<p>如何判断服务掉线？</p>
+<p>心跳信号的实现方式？定时任务（线程池 or 阻塞队列</p>
+<p>负载均衡有哪些类型？</p>
+<p>讲讲一致性哈希使用场景？数据风暴就是啊，怎么没想起来啊可恶</p>
+<p>用户表、商品表，保存用户对商品的关注关系，如何处理？为什么不是加一个fk？</p>
+<p>有一个读用户关注的品牌列表接口，如何提高接口性能？索引+多级缓存</p>
+<p>如何处理用户取关？包括表和缓存，以及java中如何实现？表，加一列是否关注，缓存，根据具体情况双删或者canal+rabbitmq同步</p>
+<p>如果表需要频繁的修改，如何提高写性能？</p>
+<p>首先要充分使用mysql的innodb存储引擎的特性，比如合并io，比如刷新邻接页</p>
+<p>考虑水平拆分表？但是这个操作太重了，并且表拆分之后想合并</p>
+<p>读写分离，降低数据库要处理的读请求，为写请求让出资源</p>
+<p>在这之后，我在犹豫之中说了一个自认为离谱的操作，异步操作，比如写入消息队列，没想到面试官说这种思想才是最常见的。</p>
+<p>我说起线程，面试官说起线程耗资源，我说用线程池。使用java自带的<strong>CompletableFuture</strong></p>
+<p>讲讲线程池参数，来的线程会被拒绝还是进入队列</p>
+<p>在主线程中起一个线程，让它去执行任务，2秒内要得到结果，两秒后，无论结果怎么样，这个线程都要结束如何实现？使用Feature的get(long timeout, TimeUnit unit)</p>
+</div>
 
         <div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 2023-09-06</span>
+                <span>更新于 2023-09-05</span>
             </div>
             <div class="post-info-license"></div>
         </div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
-            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="https://sad-man-shang.github.io/springsourcecode/" data-title="Spring关键源码阅读" data-via="Sadman_sq" data-hashtags="Spring,源码"><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer="facebook" data-url="https://sad-man-shang.github.io/springsourcecode/" data-hashtag="Spring"><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Linkedin" data-sharer="linkedin" data-url="https://sad-man-shang.github.io/springsourcecode/"><span class="fab fa-linkedin fa-fw"></span></button><button title="分享到 Evernote" data-sharer="evernote" data-url="https://sad-man-shang.github.io/springsourcecode/" data-title="Spring关键源码阅读"><span class="fab fa-evernote fa-fw"></span></button></div>
+            <div class="post-info-share"><button title="分享到 Twitter" data-sharer="twitter" data-url="https://sad-man-shang.github.io/interviewrecording/" data-title="Interview Recording" data-via="Sadman_sq"><span class="fab fa-twitter fa-fw"></span></button><button title="分享到 Facebook" data-sharer="facebook" data-url="https://sad-man-shang.github.io/interviewrecording/"><span class="fab fa-facebook-square fa-fw"></span></button><button title="分享到 Linkedin" data-sharer="linkedin" data-url="https://sad-man-shang.github.io/interviewrecording/"><span class="fab fa-linkedin fa-fw"></span></button><button title="分享到 Evernote" data-sharer="evernote" data-url="https://sad-man-shang.github.io/interviewrecording/" data-title="Interview Recording"><span class="fab fa-evernote fa-fw"></span></button></div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/spring/">Spring</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81/">源码</a></section>
+        <section class="post-tags"></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/interviewrecording/" class="prev" rel="prev" title="Interview Recording"><i class="fas fa-angle-left fa-fw"></i>Interview Recording</a>
-            <a href="/%E4%B8%80%E4%BA%9B%E4%B8%8D%E6%81%B0%E5%BD%93%E6%AF%94%E5%96%BB/" class="next" rel="next" title="一些不恰当比喻">一些不恰当比喻<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/kafka/" class="prev" rel="prev" title="Kafka"><i class="fas fa-angle-left fa-fw"></i>Kafka</a>
+            <a href="/springsourcecode/" class="next" rel="next" title="Spring关键源码阅读">Spring关键源码阅读<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
         </main><footer class="footer">
