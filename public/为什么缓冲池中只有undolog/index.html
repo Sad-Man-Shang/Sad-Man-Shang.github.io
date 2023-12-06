@@ -145,7 +145,15 @@
                                                     <li><a href="/markword%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A832%E4%BD%8Dhashcode/">Markword如何存储32位hashcode</a></li></ul>
                                     </nav>
                                 </div>
-                            </div><div class="content" id="content"><p>为什么mysql的innodb存储引擎中，只有undo log，redo log缓冲却不在缓冲池中呢？</p>
+                            </div><div class="content" id="content"><div class="details admonition note open">
+                <div class="details-summary admonition-title">
+                    <i class="icon fas fa-pencil-alt fa-fwnote"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2023-09-04T20:16:33" title="September 4, 2023">2023-09-04</span>，文中内容可能已过时。</div>
+                </div>
+            </div><p>为什么mysql的innodb存储引擎中，只有undo log，redo log缓冲却不在缓冲池中呢？</p>
 <p>个人理解，undolog可以在mvcc的时候可以通过缓存快速读取之前的版本，再出现脏页后可以刷回磁盘与数据页的使用方式类似，所以放在缓冲池中；而redo log 缓冲则是负责保存redo log，正常情况下是不需要从redo log缓冲中读取数据的，而且为了保证数据的持久性，<strong>或许</strong>更高频率的保存到磁盘才是更安全的方法，不太可能使用和缓冲池一样的落盘策略，比如redo log缓冲的写盘使用了两次写的策略。</p>
 <ol>
 <li>

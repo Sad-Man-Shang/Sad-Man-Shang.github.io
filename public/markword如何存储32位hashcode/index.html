@@ -145,7 +145,15 @@
                                                     <li><a href="/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BC%93%E5%86%B2%E6%B1%A0%E4%B8%AD%E5%8F%AA%E6%9C%89undolog/">为什么缓冲池中只有undolog</a></li><li><span class="active">Markword如何存储32位hashcode</span></li></ul>
                                     </nav>
                                 </div>
-                            </div><div class="content" id="content"><p>说问题先说版本，<strong>jdk8u</strong></p>
+                            </div><div class="content" id="content"><div class="details admonition note open">
+                <div class="details-summary admonition-title">
+                    <i class="icon fas fa-pencil-alt fa-fwnote"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2023-09-04T16:42:56" title="September 4, 2023">2023-09-04</span>，文中内容可能已过时。</div>
+                </div>
+            </div><p>说问题先说版本，<strong>jdk8u</strong></p>
 <p>众所周知，java中hashcode是32位的int类型。</p>
 <p>在学习synchronized关键字的实现的时候，接触到了markword，在32位jvm中只有25位来存储hashcode。</p>
 <p>机智的我立刻发现了异常</p>

@@ -35,7 +35,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/sad-man-shang.github.io\/interview\/"
-        },"genre": "posts","keywords": "面试","wordcount":  68434 ,
+        },"genre": "posts","keywords": "面试","wordcount":  68315 ,
         "url": "https:\/\/sad-man-shang.github.io\/interview\/","datePublished": "2023-08-12T20:39:43+08:00","dateModified": "2023-08-12T20:39:43+08:00","publisher": {
             "@type": "Organization",
             "name": "Sad man"},"authors": [{
@@ -132,7 +132,7 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='https://sad-man-shang.github.io/authors/sad_man'>Sad_man</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/interview/"><i class="far fa-folder fa-fw"></i>interview</a></span>&nbsp;<span class="post-category">和</span>&nbsp;<span class="post-series">系列 <a href="/series/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="far fa-list-alt fa-fw"></i>学习笔记</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-08-12">2023-08-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-08-12">2023-08-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 68434 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 137 分钟&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-08-12">2023-08-12</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime="2023-08-12">2023-08-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 68315 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 137 分钟&nbsp;</div>
         </div><div class="details series-nav open">
                                 <div class="details-summary series-title">
                                     <span>系列 - 学习笔记</span>
@@ -149,7 +149,15 @@
                                                     <li><a href="/%E6%AF%8F%E6%97%A5%E5%88%B7%E9%A2%98/">LeetCode 热题 HOT 100</a></li></ul>
                                     </nav>
                                 </div>
-                            </div><div class="content" id="content"><h1 id="操作系统" class="headerLink">
+                            </div><div class="content" id="content"><div class="details admonition note open">
+                <div class="details-summary admonition-title">
+                    <i class="icon fas fa-pencil-alt fa-fwnote"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
+                </div>
+                <div class="details-content">
+                    <div class="admonition-content">
+                        本文最后更新于 <span class="timeago" datetime="2023-08-12T20:39:43" title="August 12, 2023">2023-08-12</span>，文中内容可能已过时。</div>
+                </div>
+            </div><h1 id="操作系统" class="headerLink">
     <a href="#%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f" class="header-mark"></a>操作系统</h1><p>进程同步的临界区</p>
 <pre tabindex="0"><code>进程同步是多个进程在执行时为了协调他们的行为或确保共享资源的一致性而进行的相互制约。其中，临界区是进程同步的核心概念。
 
@@ -239,6 +247,7 @@
 <p>用户空间又分为哪些部分？</p>
 <p>os中用户态和内核态详细的交互过程</p>
 <p>内核线程与用户线程怎么切换以及交互的，两个映射关系是什么</p>
+<p>讲讲请求分段，请求分页，请求段页的实现方式及使用场景。请求分页的具体工作流程能不能讲讲呢？页面置换算法有哪些？（其中我说了LRU，结果后面算法题出的就是LRU😂）</p>
 <h2 id="select-epoll-poll" class="headerLink">
     <a href="#select-epoll-poll" class="header-mark"></a>select epoll poll</h2><p>多路复用中select和epoll区别，epoll的水平触发和边沿触发</p>
 <p><a href="https://mp.weixin.qq.com/s/OmRdUgO1guMX76EdZn11UQ" target="_blank" rel="noopener noreferrer">图解 | 深入揭秘 epoll 是如何实现 IO 多路复用的！</a></p>
@@ -471,27 +480,13 @@ DNS的作用</p>
 <p>多路复用原理（为什么1 1.1不行呢）</p>
 <p>流 帧的概念</p>
 <p>vim编辑模式，常用快捷键</p>
-<h1 id="mysql数据库" class="headerLink">
-    <a href="#mysql%e6%95%b0%e6%8d%ae%e5%ba%93" class="header-mark"></a>MySQL数据库</h1><p>MySQL集群中主库宕机，从库如何立即感知到并接管?</p>
-<p>行锁最大并发数</p>
-<p>mysql优化、索引、执行过程、缓存</p>
-<p>Oracle数据库的索引结构</p>
+<h1 id="数据库mysql为主" class="headerLink">
+    <a href="#%e6%95%b0%e6%8d%ae%e5%ba%93mysql%e4%b8%ba%e4%b8%bb" class="header-mark"></a>数据库（MySQL为主）</h1><p>MySQL集群中主库宕机，从库如何立即感知到并接管?</p>
 <p>数据库分库分表</p>
 <p>如何实现串行化？</p>
 <p>changeBuffer、页分裂合页合并</p>
 <p>mvcc</p>
-<p>MysQL主键索引，唯一索引的区别，两种索引的存储结构是怎样的，在内存方面是怎么存的，查询时是怎么走的？</p>
-<p>为什么有最左前缀原则，为什么要设计最左前缀原则？（即B+树中为什么要排序）？（从磁盘存储，磁盘寻道过程上答，推荐宝宝睡前故事这本书）</p>
-<p>对mysql比较熟悉对吧？有实际使用过吗？用的是InnoDB对吧？（啊对对对）</p>
-<p>InnoDB里聚簇索引和普通索引区别是什么？（扯了B+树模型本身以及两个索引的区别）</p>
-<p>为什么普通索引里存储的是主键的值，为什么不是像文件偏移量这种数据呢？（因为地址在变）</p>
-<p>索引为什么用B+树实现呢？（围绕减少磁盘IO开扯）</p>
-<p>除了提升磁盘效率以外还有什么原因呢？（围绕范围查询开扯）</p>
-<p>除了这两点以外还有什么原因吗？有一个非常基础的原因（有利于顺序写吗，因为数据是有序的&hellip;）</p>
-<p>mysql推荐自增主键的原因，我能不能用字符串和随机数取做一个主键？（扯到B+树结构，追加写，防止页分裂&hellip;）</p>
-<p>那使用自增主键也有一些坏处，有哪些？（分布式场景中自增主键的比较难获取&hellip;）</p>
 <p>假设我们是单机数据库，不考虑分布式的情况，自增主键的缺点是什么？（想了一会，不了解）</p>
-<p>有接触类似于想XXDB（听都没听过，不知道它在说什么）的数据库吗？（没接触过，我接触过其他数据库就比如说TDengine这种时序数据库，因为项目要用）</p>
 <p>有接触过分布式系统RAFT协议吗？（没有）</p>
 <p>timezone</p>
 <p>当我们输入一个SQL查询语句时，mysql数据库引擎是如何执行并得到最终结果的？（答：先查询缓存-&gt;解析器-&gt;优化器）</p>
@@ -501,7 +496,6 @@ DNS的作用</p>
 <p>数据库的锁，共享锁互斥锁和共享锁悲观锁的区别和关系是什么</p>
 <p>对范式有哪些了解呢，范式的作用是什么，后端的业务系统是否适合范式理论，了解过数据库除范式之外的其他理论吗</p>
 <p>串行化如何实现 ，可重复读的特性，如何解决幻读</p>
-<p>讲讲请求分段，请求分页，请求段页的实现方式及使用场景。请求分页的具体工作流程能不能讲讲呢？页面置换算法有哪些？（其中我说了LRU，结果后面算法题出的就是LRU😂）</p>
 <p>性别字段要建立索引吗？为什么？什么是区分度？MySQL查看字段区分度的命令？</p>
 <p>MySQL主从复制流程和原理？</p>
 <h4 id="mysql如何查看查询是否用到了索引如何查看sql执行时间" class="headerLink">
@@ -650,7 +644,17 @@ mysql和mongo的区别，为什么选mysql</p>
 <p>什么时候会用到Serializable？</p>
 <p>默认RR</p>
 <h3 id="索引" class="headerLink">
-    <a href="#%e7%b4%a2%e5%bc%95" class="header-mark"></a>索引</h3><p>设计联合索引的时候，如何考虑字段的顺序？查询频率、数据独特、字段长度</p>
+    <a href="#%e7%b4%a2%e5%bc%95" class="header-mark"></a>索引</h3><p>MysQL主键索引，唯一索引的区别，两种索引的存储结构是怎样的，在内存方面是怎么存的，查询时是怎么走的？</p>
+<p>mysql优化、索引、执行过程、缓存</p>
+<p>InnoDB里聚簇索引和普通索引区别是什么？（扯了B+树模型本身以及两个索引的区别）</p>
+<p>为什么有最左前缀原则，为什么要设计最左前缀原则？（即B+树中为什么要排序）？（从磁盘存储，磁盘寻道过程上答，推荐宝宝睡前故事这本书）</p>
+<p>为什么普通索引里存储的是主键的值，为什么不是像文件偏移量这种数据呢？（因为地址在变）</p>
+<p>索引为什么用B+树实现呢？（围绕减少磁盘IO开扯）</p>
+<p>除了提升磁盘效率以外还有什么原因呢？（围绕范围查询开扯）</p>
+<p>除了这两点以外还有什么原因吗？有一个非常基础的原因（有利于顺序写吗，因为数据是有序的&hellip;）</p>
+<p>mysql推荐自增主键的原因，我能不能用字符串和随机数取做一个主键？（扯到B+树结构，追加写，防止页分裂&hellip;）</p>
+<p>那使用自增主键也有一些坏处，有哪些？（分布式场景中自增主键的比较难获取&hellip;）</p>
+<p>设计联合索引的时候，如何考虑字段的顺序？查询频率、数据独特、字段长度</p>
 <p>不同引擎的索引种类，数据结构，优缺点</p>
 <p>innodb的索引种类：数据结构划分，btree，hash，倒排索引，r，各种索引实现的数据结构？</p>
 <p>主键索引需要将索引全部加载到内存里面吗</p>
@@ -830,8 +834,10 @@ PG里面的页，插入<a href="" rel="">数据</a>的时候是从后面插入�
     <a href="#%e9%94%81" class="header-mark"></a>锁</h3><p>数据库的锁介绍一下</p>
 <p>你提到的共享锁互斥锁和共享锁悲观锁的区别和关系是什么</p>
 <p>select for update 是加表锁还是行锁</p>
+<p>行锁最大并发数</p>
 <h2 id="分布式事务" class="headerLink">
-    <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e4%ba%8b%e5%8a%a1" class="header-mark"></a>分布式事务</h2><p>分布式事务</p>
+    <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e4%ba%8b%e5%8a%a1" class="header-mark"></a>分布式事务</h2><p>seata</p>
+<p>分布式事务</p>
 <p>数据库之间的主从同步</p>
 <p>MySQL实现分布式锁</p>
 <p>分布式事务的中间件和解决方案</p>
